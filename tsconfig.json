@@ -1,0 +1,20 @@
+{
+  "extends": "@tsconfig/react-native/tsconfig.json",
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
+  "exclude": ["node_modules"],
+  "compilerOptions": {
+    "moduleResolution": "node",
+    "baseUrl": "./",
+    "paths": {
+      "@/*": ["src/*"],
+      "@components/*": ["./components/*"],
+      "@assets": ["src/assets"],
+      "@assets/*": ["src/assets/*"],
+      "@screens": ["src/screens"],
+      "@screens/*": ["src/screens/*"],
+      "@constant/*": ["./constant/*"],
+      "@navigation/*": ["src/navigation/*"],
+      "@api/*": ["./api/*"]
+    }
+  }
+}
