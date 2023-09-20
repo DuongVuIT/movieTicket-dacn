@@ -1,10 +1,10 @@
 import {StyleSheet, Text, View} from 'react-native';
 import React from 'react';
 
-export default function HomeScreen() {
+export default function Register() {
   return (
     <View>
-      <Text>HomeScreen</Text>
+      <Text>Register</Text>
     </View>
   );
 }
