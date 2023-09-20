@@ -6,4 +6,5 @@ export type MainStackParamList = {
     phone: number;
   };
   Welcome: undefined;
+  Register: undefined;
 };

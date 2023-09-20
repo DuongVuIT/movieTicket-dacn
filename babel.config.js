@@ -12,9 +12,7 @@ module.exports = {
           '@constant/*': './constant/*',
           '@navigation': './src/navigation',
           '@types': './src/types',
-          '@slider': './src/slider',
-
-          // "@api/*": ["./api/*"]
+          '@api/*': ['./src/api'],
         },
         extensions: ['.js', '.jsx', '.ts', '.tsx'],
       },
