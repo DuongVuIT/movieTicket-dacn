@@ -1,7 +1,8 @@
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {MainStackParamList} from '@types';
-import React, {useEffect, useRef} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {
+  Alert,
   Animated,
   Dimensions,
   FlatList,
@@ -13,6 +14,8 @@ import {
 } from 'react-native';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import LinearGradient from 'react-native-linear-gradient';
+import firebase from 'firebase/compat/app';
+import 'firebase/compat/auth';
 const images: string[] = [
   'https://www.themoviedb.org/t/p/w1280/cswPVyXwQ13dFHU1KFS8dpFxIyY.jpg',
   'https://www.themoviedb.org/t/p/w1280/kdAOhC8IIS5jqzruRk7To3AEsHH.jpg',
@@ -21,6 +24,12 @@ const images: string[] = [
 ];
 const {width, height} = Dimensions.get('screen');
 const Login = ({navigation}: NativeStackScreenProps<MainStackParamList>) => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [name, setName] = useState<any>();
+  const [emailError, setEmailError] = useState('');
+  const [passwordError, setPasswordError] = useState('');
+  const [loginStatus, setLoginStatus] = useState('');
   const flatlistRef = useRef<FlatList>(null);
   const currentIndex = useRef(0);
   const xScroll = useRef(new Animated.Value(0)).current;
@@ -33,6 +42,68 @@ const Login = ({navigation}: NativeStackScreenProps<MainStackParamList>) => {
       });
     }
   };
+
+  const ForgotPassword = () => {
+    firebase
+      .auth()
+      .sendPasswordResetEmail(email)
+      .then(() => {
+        alert('Password reset email sent');
+      })
+      .catch(error => {
+        Alert.alert('Message', `Failed to connect to server`, error);
+      });
+  };
+  const LoginHandler = () => {
+    firebase
+      .auth()
+      .signInWithEmailAndPassword(email, password)
+      .then(() => {
+        firebase.auth().onAuthStateChanged(user => {
+          if (user) {
+            setName(user.displayName);
+            navigation.navigate('Home');
+          }
+        });
+      })
+      .catch(error => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        if (!email || !password) {
+          setLoginStatus('Please enter your email and password');
+          setTimeout(() => {
+            setLoginStatus('');
+          }, 3000);
+          return;
+        }
+        let hasError = false;
+        if (
+          errorCode === 'auth/invalid-email' ||
+          errorCode === 'auth/user not found'
+        ) {
+          setEmailError('Email is not valid or not found');
+          setTimeout(() => {
+            setEmailError('');
+            hasError = true;
+          }, 3000);
+          hasError = false;
+        } else if (errorCode === 'auth/wrong-password') {
+          setPasswordError('Incorrect password');
+          setTimeout(() => {
+            setPasswordError('');
+            hasError = true;
+          }, 3000);
+          hasError = false;
+        } else {
+          setLoginStatus('Login failed: ' + errorMessage);
+          setTimeout(() => {
+            setLoginStatus('');
+            hasError = true;
+          }, 3000);
+        }
+        hasError = false;
+      });
+  };
   useEffect(() => {
     const intervalid = setInterval(autoScroll, 5000);
     return () => clearInterval(intervalid);
@@ -41,13 +112,13 @@ const Login = ({navigation}: NativeStackScreenProps<MainStackParamList>) => {
     <KeyboardAwareScrollView style={{flex: 1}}>
       <LinearGradient
         colors={[
-          '#FF0000', // Đỏ
-          '#FF7F00', // Cam
-          '#FFFF00', // Vàng
-          '#00FF00', // Xanh lá cây
-          '#0000FF', // Xanh dương
-          '#4B0082', // Xanh dương da trời
-          '#9400D3', // Tím
+          '#FF0000',
+          '#FF7F00',
+          '#FFFF00',
+          '#00FF00',
+          '#0000FF',
+          '#4B0082',
+          '#9400D3',
         ]}
         style={styles.container}>
         <View>
@@ -81,59 +152,42 @@ const Login = ({navigation}: NativeStackScreenProps<MainStackParamList>) => {
 
         <View style={{flex: 1, marginTop: 30}}>
           <View style={{flexDirection: 'row'}}>
-            <Text style={{color: 'white', marginTop: 30, marginLeft: 10}}>
-              Email
-            </Text>
+            <Text style={styles.text_input}>Email</Text>
             <TextInput
               placeholder="Enter your email"
               placeholderTextColor={'white'}
-              style={{
-                color: 'white',
-                borderWidth: 2,
-                marginTop: 10,
-                padding: 10,
-                borderRadius: 20,
-                borderColor: 'white',
-                marginLeft: 35,
-                width: '75%',
-              }}
+              style={styles.textInput_email}
+              onChangeText={text => setEmail(text)}
+              value={email}
             />
           </View>
+          <Text style={{color: 'red', fontSize: 16}}>{emailError}</Text>
+
           <View style={{flexDirection: 'row'}}>
-            <Text style={{color: 'white', marginTop: 30, marginLeft: 10}}>
-              Password
-            </Text>
+            <Text style={styles.text_input}>Password</Text>
             <TextInput
               placeholder="Enter your password"
               placeholderTextColor={'white'}
-              style={{
-                color: 'white',
-                borderWidth: 2,
-                marginTop: 10,
-                padding: 10,
-                borderRadius: 20,
-                borderColor: 'white',
-                marginLeft: 10,
-                width: '75%',
-              }}
+              style={styles.textInput_password}
+              onChangeText={text => setPassword(text)}
+              value={password}
             />
           </View>
+          <Text style={{color: 'red', fontSize: 20}}>{passwordError}</Text>
           <View
             style={{
               justifyContent: 'center',
               alignItems: 'center',
             }}>
+            <Text style={{color: 'red', fontSize: 16, marginTop: 10}}>
+              {loginStatus}
+            </Text>
             <TouchableOpacity
-              style={{
-                borderWidth: 2,
-                borderColor: 'white',
-                padding: 10,
-                width: 130,
-                marginTop: 20,
-                borderRadius: 10,
-              }}>
+              onPress={() => LoginHandler()}
+              style={styles.button_login}>
               <Text style={{color: 'white', textAlign: 'center'}}>Login</Text>
             </TouchableOpacity>
+
             <View style={{flexDirection: 'row'}}>
               <Text style={{color: 'white', marginTop: 10}}>
                 Don't have account ?
@@ -149,6 +203,15 @@ const Login = ({navigation}: NativeStackScreenProps<MainStackParamList>) => {
                 </Text>
               </TouchableOpacity>
             </View>
+            <TouchableOpacity onPress={ForgotPassword}>
+              <Text
+                style={{
+                  color: 'white',
+                  marginTop: 10,
+                }}>
+                Forgot password?
+              </Text>
+            </TouchableOpacity>
           </View>
         </View>
       </LinearGradient>
@@ -176,5 +239,37 @@ const styles = StyleSheet.create({
     resizeMode: 'cover',
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  text_input: {
+    color: 'white',
+    marginTop: 30,
+    marginLeft: 10,
+  },
+  button_login: {
+    borderWidth: 2,
+    borderColor: 'white',
+    padding: 10,
+    width: 130,
+    borderRadius: 10,
+  },
+  textInput_password: {
+    color: 'white',
+    borderWidth: 2,
+    marginTop: 15,
+    padding: 10,
+    borderRadius: 20,
+    borderColor: 'white',
+    marginLeft: 10,
+    width: '75%',
+  },
+  textInput_email: {
+    color: 'white',
+    borderWidth: 2,
+    marginTop: 15,
+    padding: 10,
+    borderRadius: 20,
+    borderColor: 'white',
+    marginLeft: 35,
+    width: '75%',
   },
 });

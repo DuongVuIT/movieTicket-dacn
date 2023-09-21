@@ -1,6 +1,10 @@
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {MainStackParamList} from '@types';
-import React, {useEffect, useRef} from 'react';
+import firebase from 'firebase/compat/app';
+import 'firebase/compat/auth';
+import 'firebase/compat/firestore';
+import {getDatabase, ref, set} from 'firebase/database';
+import React, {useEffect, useRef, useState} from 'react';
 import {
   Animated,
   Dimensions,
@@ -21,6 +25,13 @@ const images: string[] = [
 ];
 const {width, height} = Dimensions.get('screen');
 const Register = ({navigation}: NativeStackScreenProps<MainStackParamList>) => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [name, setName] = useState<any>();
+  const [passwordError, setPasswordError] = useState('');
+  const [registerError, setRegisterError] = useState('');
+  const [emailError, setEmailError] = useState('');
+  const [displaynameError, setDisplayNameError] = useState('');
   const flatlistRef = useRef<FlatList>(null);
   const currentIndex = useRef(0);
   const xScroll = useRef(new Animated.Value(0)).current;
@@ -33,21 +44,95 @@ const Register = ({navigation}: NativeStackScreenProps<MainStackParamList>) => {
       });
     }
   };
+
+  const RegisterHandler = async () => {
+    firebase
+      .auth()
+      .createUserWithEmailAndPassword(email, password)
+      .then(userCredential => {
+        const user = userCredential?.user;
+        setTimeout(() => {
+          navigation.navigate('Login');
+        }, 3000);
+        if (user) {
+          return user
+            .updateProfile({
+              displayName: name,
+            })
+            .then(() => {
+              const db = getDatabase();
+              const userRef = ref(db, 'users/' + user.uid);
+              return set(userRef, {
+                email: email,
+                name: name,
+                password: password,
+              });
+            })
+            .then(() => {
+              return user.sendEmailVerification({
+                handleCodeInApp: true,
+                url: 'https://movieticket-befc8.firebaseapp.com',
+              });
+            })
+            .then(() => {
+              alert('Verification email sent');
+            });
+        }
+      })
+      .catch(error => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        if (!email || !password) {
+          setRegisterError('Please enter complete information');
+          setTimeout(() => {
+            setRegisterError('');
+          }, 2000);
+          return;
+        }
+        let hasError = false;
+        if (errorCode === 'auth/weak-password') {
+          setPasswordError('Password too weak, try again');
+
+          setTimeout(() => {
+            setPasswordError('');
+            hasError = true;
+          }, 2000);
+        } else if (errorCode === 'auth/email-already-in-use') {
+          setEmailError('Email has been used, please select another email');
+          setTimeout(() => {
+            setEmailError('');
+            hasError = true;
+          }, 2000);
+        } else if (!email.includes('@')) {
+          setEmailError('The email must have the correct format');
+          setTimeout(() => {
+            setEmailError('');
+            hasError = true;
+          }, 2000);
+        } else {
+          setRegisterError('Failed register: ' + errorMessage);
+          setTimeout(() => {
+            setRegisterError('');
+            hasError = true;
+          }, 2000);
+        }
+      });
+  };
   useEffect(() => {
-    const intervalid = setInterval(autoScroll, 5000);
+    const intervalid = setInterval(autoScroll, 3000);
     return () => clearInterval(intervalid);
   }, []);
   return (
     <KeyboardAwareScrollView style={{flex: 1}}>
       <LinearGradient
         colors={[
-          '#FF0000', // Đỏ
-          '#FF7F00', // Cam
-          '#FFFF00', // Vàng
-          '#00FF00', // Xanh lá cây
-          '#0000FF', // Xanh dương
-          '#4B0082', // Xanh dương da trời
-          '#9400D3', // Tím
+          '#FF0000',
+          '#FF7F00',
+          '#FFFF00',
+          '#00FF00',
+          '#0000FF',
+          '#4B0082',
+          '#9400D3',
         ]}
         style={styles.container}>
         <View>
@@ -69,7 +154,6 @@ const Register = ({navigation}: NativeStackScreenProps<MainStackParamList>) => {
                 index * width,
                 (index + 1) * width,
               ];
-
               return (
                 <View style={styles.view_img}>
                   <Animated.Image style={[styles.image]} source={{uri: item}} />
@@ -90,39 +174,26 @@ const Register = ({navigation}: NativeStackScreenProps<MainStackParamList>) => {
               Name
             </Text>
             <TextInput
-              placeholder="Enter your email"
+              placeholder="Enter your name"
               placeholderTextColor={'white'}
-              style={{
-                color: 'white',
-                borderWidth: 2,
-                marginTop: 10,
-                padding: 10,
-                borderRadius: 20,
-                borderColor: 'white',
-                marginLeft: 35,
-                width: '75%',
-              }}
+              style={styles.text_name}
+              onChangeText={text => setName(text)}
+              value={name}
             />
           </View>
           <View style={{flexDirection: 'row'}}>
-            <Text style={{color: 'white', marginTop: 30, marginLeft: 10}}>
+            <Text style={{color: 'white', marginTop: 35, marginLeft: 10}}>
               Email
             </Text>
             <TextInput
-              placeholder="Enter your password"
+              placeholder="Enter your email"
               placeholderTextColor={'white'}
-              style={{
-                color: 'white',
-                borderWidth: 2,
-                marginTop: 10,
-                padding: 10,
-                borderRadius: 20,
-                borderColor: 'white',
-                marginLeft: 35,
-                width: '75%',
-              }}
+              style={styles.text_Email}
+              onChangeText={text => setEmail(text)}
+              value={email}
             />
           </View>
+          <Text style={styles.erroMessage}>{emailError}</Text>
           <View style={{flexDirection: 'row'}}>
             <Text style={{color: 'white', marginTop: 30, marginLeft: 10}}>
               Password
@@ -130,51 +201,21 @@ const Register = ({navigation}: NativeStackScreenProps<MainStackParamList>) => {
             <TextInput
               placeholder="Enter your password"
               placeholderTextColor={'white'}
-              style={{
-                color: 'white',
-                borderWidth: 2,
-                marginTop: 10,
-                padding: 10,
-                borderRadius: 20,
-                borderColor: 'white',
-                marginLeft: 10,
-                width: '75%',
-              }}
+              style={styles.text_password}
+              onChangeText={text => setPassword(text)}
+              value={password}
             />
           </View>
-          <View style={{flexDirection: 'row'}}>
-            <Text style={{color: 'white', marginTop: 30, marginLeft: 10}}>
-              Phone
-            </Text>
-            <TextInput
-              placeholder="Enter your password"
-              placeholderTextColor={'white'}
-              style={{
-                color: 'white',
-                borderWidth: 2,
-                marginTop: 10,
-                padding: 10,
-                borderRadius: 20,
-                borderColor: 'white',
-                marginLeft: 30,
-                width: '75%',
-              }}
-            />
-          </View>
+          <Text style={styles.erroMessage}>{passwordError}</Text>
+          <Text style={styles.erroMessage}>{registerError}</Text>
           <View
             style={{
               justifyContent: 'center',
               alignItems: 'center',
             }}>
             <TouchableOpacity
-              style={{
-                borderWidth: 2,
-                borderColor: 'white',
-                padding: 10,
-                width: 130,
-                marginTop: 20,
-                borderRadius: 10,
-              }}>
+              onPress={RegisterHandler}
+              style={styles.buttonRegister}>
               <Text style={{color: 'white', textAlign: 'center'}}>
                 Register
               </Text>
@@ -185,7 +226,6 @@ const Register = ({navigation}: NativeStackScreenProps<MainStackParamList>) => {
     </KeyboardAwareScrollView>
   );
 };
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -204,6 +244,48 @@ const styles = StyleSheet.create({
     resizeMode: 'cover',
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  buttonRegister: {
+    borderWidth: 2,
+    borderColor: 'white',
+    padding: 10,
+    width: 130,
+    borderRadius: 10,
+  },
+  erroMessage: {
+    color: 'red',
+    fontSize: 16,
+    textAlign: 'center',
+  },
+  text_Email: {
+    color: 'white',
+    borderWidth: 2,
+    marginTop: 20,
+    padding: 10,
+    borderRadius: 20,
+    borderColor: 'white',
+    marginLeft: 38,
+    width: '75%',
+  },
+  text_password: {
+    color: 'white',
+    borderWidth: 2,
+    marginTop: 15,
+    padding: 10,
+    borderRadius: 20,
+    borderColor: 'white',
+    marginLeft: 10,
+    width: '75%',
+  },
+  text_name: {
+    color: 'white',
+    borderWidth: 2,
+    marginTop: 13,
+    padding: 10,
+    borderRadius: 20,
+    borderColor: 'white',
+    marginLeft: 35,
+    width: '75%',
   },
 });
 export default Register;

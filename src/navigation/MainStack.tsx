@@ -23,7 +23,13 @@ const MainStack = () => {
           component={Login}
           options={{headerShown: false}}
         />
-        <RootStack.Screen name="Register" component={Register} />
+        <RootStack.Screen
+          name="Register"
+          component={Register}
+          options={{
+            headerShown: false,
+          }}
+        />
       </RootStack.Navigator>
     </NavigationContainer>
   );

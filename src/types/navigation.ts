@@ -1,10 +1,6 @@
 export type MainStackParamList = {
   Login: undefined;
-  Home: {
-    id: number;
-    name: string;
-    phone: number;
-  };
+  Home: undefined;
   Welcome: undefined;
   Register: undefined;
 };
