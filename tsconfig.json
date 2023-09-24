@@ -72,8 +72,15 @@
       "@navigation/*": ["./src/navigation/*"],
       "@navigation": ["./src/navigation"],
       "@types": ["./src/types"],
-      "@slider": ["./src/slider/"],
-      "@api": ["./src/api/"]
+      "@api": ["./src/api/"],
+      "@reducers": ["./src/reducers"],
+      "@reducers/*": ["./src/reducers/*"],
+
+      "@store": ["./src/store"],
+      "@store/*": ["./src/store/*"],
+
+      "@action": ["./src/actions"],
+      "@action/*": ["./src/actions//*"]
 
       // "@api/*": ["./api/*"]
     },
@@ -96,5 +103,5 @@
     // "experimentalDecorators": true,        /* Enables experimental support for ES7 decorators. */
     // "emitDecoratorMetadata": true,         /* Enables experimental support for emitting type metadata for decorators. */
   },
-  "include": ["./App.tsx", "src/**/*", "./src/types/index.d.ts"]
+  "include": ["./App.tsx", "src/**/*", "./src/types/index.d.ts", "custom.d.ts"]
 }

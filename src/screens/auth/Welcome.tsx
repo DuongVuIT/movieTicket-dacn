@@ -8,10 +8,10 @@ import {
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import * as Animatable from 'react-native-animatable';
-import {MainStackParamList} from '@types';
+import {RootParamList} from '@types';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import LinearGradient from 'react-native-linear-gradient';
-const Welcome = ({navigation}: NativeStackScreenProps<MainStackParamList>) => {
+const Welcome = ({navigation}: NativeStackScreenProps<RootParamList>) => {
   const [isAnimationCompleted, setIsAnimationCompleted] = useState(false);
 
   useEffect(() => {

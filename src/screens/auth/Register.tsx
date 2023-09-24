@@ -1,5 +1,5 @@
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import {MainStackParamList} from '@types';
+import {RootParamList} from '@types';
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
 import 'firebase/compat/firestore';
@@ -24,14 +24,13 @@ const images: string[] = [
   'https://www.themoviedb.org/t/p/w1280/bX547n5W9ZIKCeAE44Vf2nfw4w.jpg',
 ];
 const {width, height} = Dimensions.get('screen');
-const Register = ({navigation}: NativeStackScreenProps<MainStackParamList>) => {
+const Register = ({navigation}: NativeStackScreenProps<RootParamList>) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [name, setName] = useState<any>();
   const [passwordError, setPasswordError] = useState('');
   const [registerError, setRegisterError] = useState('');
   const [emailError, setEmailError] = useState('');
-  const [displaynameError, setDisplayNameError] = useState('');
   const flatlistRef = useRef<FlatList>(null);
   const currentIndex = useRef(0);
   const xScroll = useRef(new Animated.Value(0)).current;

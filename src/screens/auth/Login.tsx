@@ -1,5 +1,7 @@
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import {MainStackParamList} from '@types';
+import {RootParamList} from '@types';
+import firebase from 'firebase/compat/app';
+import 'firebase/compat/auth';
 import React, {useEffect, useRef, useState} from 'react';
 import {
   Alert,
@@ -14,8 +16,6 @@ import {
 } from 'react-native';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import LinearGradient from 'react-native-linear-gradient';
-import firebase from 'firebase/compat/app';
-import 'firebase/compat/auth';
 const images: string[] = [
   'https://www.themoviedb.org/t/p/w1280/cswPVyXwQ13dFHU1KFS8dpFxIyY.jpg',
   'https://www.themoviedb.org/t/p/w1280/kdAOhC8IIS5jqzruRk7To3AEsHH.jpg',
@@ -23,7 +23,7 @@ const images: string[] = [
   'https://www.themoviedb.org/t/p/w1280/bX547n5W9ZIKCeAE44Vf2nfw4w.jpg',
 ];
 const {width, height} = Dimensions.get('screen');
-const Login = ({navigation}: NativeStackScreenProps<MainStackParamList>) => {
+const Login = ({navigation}: NativeStackScreenProps<RootParamList>) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [name, setName] = useState<any>();
@@ -42,7 +42,6 @@ const Login = ({navigation}: NativeStackScreenProps<MainStackParamList>) => {
       });
     }
   };
-
   const ForgotPassword = () => {
     firebase
       .auth()
@@ -54,56 +53,48 @@ const Login = ({navigation}: NativeStackScreenProps<MainStackParamList>) => {
         Alert.alert('Message', `Failed to connect to server`, error);
       });
   };
-  const LoginHandler = () => {
-    firebase
-      .auth()
-      .signInWithEmailAndPassword(email, password)
-      .then(() => {
-        firebase.auth().onAuthStateChanged(user => {
-          if (user) {
-            setName(user.displayName);
-            navigation.navigate('Home');
-          }
-        });
-      })
-      .catch(error => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        if (!email || !password) {
-          setLoginStatus('Please enter your email and password');
-          setTimeout(() => {
-            setLoginStatus('');
-          }, 3000);
-          return;
-        }
-        let hasError = false;
+  const LoginHandler = async () => {
+    try {
+      await firebase.auth().signInWithEmailAndPassword(email, password);
+      const user = firebase.auth().currentUser;
+
+      if (user) {
+        setName(user.displayName);
+        navigation.navigate('MovieHome');
+      }
+    } catch (error) {
+      const errorCode = (error as firebase.auth.Error).code;
+      const errorMessage = (error as firebase.auth.Error).message;
+
+      if (!email || !password) {
+        setLoginStatus('Please enter your email and password');
+        setTimeout(() => {
+          setLoginStatus('');
+        }, 3000);
+      } else {
+        let errorText = '';
+
         if (
           errorCode === 'auth/invalid-email' ||
-          errorCode === 'auth/user not found'
+          errorCode === 'auth/user-not-found'
         ) {
-          setEmailError('Email is not valid or not found');
-          setTimeout(() => {
-            setEmailError('');
-            hasError = true;
-          }, 3000);
-          hasError = false;
+          errorText = 'Email is not valid or not found';
         } else if (errorCode === 'auth/wrong-password') {
-          setPasswordError('Incorrect password');
-          setTimeout(() => {
-            setPasswordError('');
-            hasError = true;
-          }, 3000);
-          hasError = false;
+          errorText = 'Incorrect password';
         } else {
-          setLoginStatus('Login failed: ' + errorMessage);
+          errorText = 'Login failed: ' + errorMessage;
+        }
+
+        if (errorText) {
+          setLoginStatus(errorText);
           setTimeout(() => {
             setLoginStatus('');
-            hasError = true;
           }, 3000);
         }
-        hasError = false;
-      });
+      }
+    }
   };
+
   useEffect(() => {
     const intervalid = setInterval(autoScroll, 5000);
     return () => clearInterval(intervalid);
