@@ -1,8 +1,15 @@
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import {RootParamList} from '@types';
+import {RootParamList} from '@types/navigation';
+import {
+  BORDERRADIUS,
+  COLORS,
+  FONTSIZE,
+  MARGIN,
+  PERCENT,
+  SPACING,
+} from '@types/theme';
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
-import 'firebase/compat/firestore';
 import {getDatabase, ref, set} from 'firebase/database';
 import React, {useEffect, useRef, useState} from 'react';
 import {
@@ -162,13 +169,13 @@ const Register = ({navigation}: NativeStackScreenProps<RootParamList>) => {
           />
         </View>
 
-        <View style={{flex: 1, marginTop: 30}}>
+        <View style={{flex: 1, marginTop: MARGIN.margin_30}}>
           <View style={{flexDirection: 'row'}}>
             <Text
               style={{
-                color: 'white',
-                marginTop: 30,
-                marginLeft: 10,
+                color: COLORS.White,
+                marginTop: MARGIN.margin_30,
+                marginLeft: MARGIN.margin_10,
               }}>
               Name
             </Text>
@@ -181,7 +188,12 @@ const Register = ({navigation}: NativeStackScreenProps<RootParamList>) => {
             />
           </View>
           <View style={{flexDirection: 'row'}}>
-            <Text style={{color: 'white', marginTop: 35, marginLeft: 10}}>
+            <Text
+              style={{
+                color: COLORS.White,
+                marginTop: MARGIN.margin_36,
+                marginLeft: MARGIN.margin_10,
+              }}>
               Email
             </Text>
             <TextInput
@@ -194,7 +206,12 @@ const Register = ({navigation}: NativeStackScreenProps<RootParamList>) => {
           </View>
           <Text style={styles.erroMessage}>{emailError}</Text>
           <View style={{flexDirection: 'row'}}>
-            <Text style={{color: 'white', marginTop: 30, marginLeft: 10}}>
+            <Text
+              style={{
+                color: COLORS.White,
+                marginTop: MARGIN.margin_30,
+                marginLeft: MARGIN.margin_10,
+              }}>
               Password
             </Text>
             <TextInput
@@ -215,7 +232,7 @@ const Register = ({navigation}: NativeStackScreenProps<RootParamList>) => {
             <TouchableOpacity
               onPress={RegisterHandler}
               style={styles.buttonRegister}>
-              <Text style={{color: 'white', textAlign: 'center'}}>
+              <Text style={{color: COLORS.White, textAlign: 'center'}}>
                 Register
               </Text>
             </TouchableOpacity>
@@ -238,53 +255,53 @@ const styles = StyleSheet.create({
   },
   image: {
     height: 650,
-    borderBottomLeftRadius: 20,
-    borderBottomRightRadius: 20,
+    borderBottomLeftRadius: BORDERRADIUS.radius_20,
+    borderBottomRightRadius: BORDERRADIUS.radius_20,
     resizeMode: 'cover',
     justifyContent: 'center',
     alignItems: 'center',
   },
   buttonRegister: {
     borderWidth: 2,
-    borderColor: 'white',
-    padding: 10,
+    borderColor: COLORS.White,
+    padding: SPACING.space_10,
     width: 130,
-    borderRadius: 10,
+    borderRadius: BORDERRADIUS.radius_10,
   },
   erroMessage: {
-    color: 'red',
-    fontSize: 16,
+    color: COLORS.Red,
+    fontSize: FONTSIZE.size_16,
     textAlign: 'center',
   },
   text_Email: {
-    color: 'white',
+    color: COLORS.White,
     borderWidth: 2,
-    marginTop: 20,
-    padding: 10,
-    borderRadius: 20,
-    borderColor: 'white',
-    marginLeft: 38,
-    width: '75%',
+    marginTop: MARGIN.margin_20,
+    padding: SPACING.space_10,
+    borderRadius: BORDERRADIUS.radius_20,
+    borderColor: COLORS.White,
+    marginLeft: MARGIN.margin_38,
+    width: PERCENT.percent_75,
   },
   text_password: {
-    color: 'white',
+    color: COLORS.White,
     borderWidth: 2,
-    marginTop: 15,
-    padding: 10,
-    borderRadius: 20,
-    borderColor: 'white',
+    marginTop: MARGIN.margin_16,
+    padding: SPACING.space_10,
+    borderRadius: BORDERRADIUS.radius_20,
+    borderColor: COLORS.White,
     marginLeft: 10,
-    width: '75%',
+    width: PERCENT.percent_75,
   },
   text_name: {
-    color: 'white',
+    color: COLORS.White,
     borderWidth: 2,
-    marginTop: 13,
-    padding: 10,
-    borderRadius: 20,
-    borderColor: 'white',
-    marginLeft: 35,
-    width: '75%',
+    marginTop: MARGIN.margin_14,
+    padding: SPACING.space_10,
+    borderRadius: BORDERRADIUS.radius_20,
+    borderColor: COLORS.White,
+    marginLeft: MARGIN.margin_36,
+    width: PERCENT.percent_75,
   },
 });
 export default Register;

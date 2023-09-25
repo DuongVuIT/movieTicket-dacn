@@ -12,9 +12,10 @@ const MainBottomTab = () => {
   return (
     <Tab.Navigator
       screenOptions={({route}) => ({
-        tabBarIcon: ({focused, color, size}) => {
+        tabBarIcon: ({focused}) => {
           let filePath;
           let iconName;
+
           switch (route.name) {
             case 'Home':
               filePath = require('@assets/lotties/home.json');
@@ -26,7 +27,6 @@ const MainBottomTab = () => {
               break;
             case 'Ticket':
               filePath = require('@assets/lotties/ticket.json');
-
               break;
             case 'Account':
               filePath = require('@assets/lotties/profile.json');

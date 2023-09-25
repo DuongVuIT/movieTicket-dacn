@@ -1,15 +1,9 @@
-import {
-  Animated,
-  StyleSheet,
-  Text,
-  View,
-  Image,
-  TouchableOpacity,
-} from 'react-native';
-import React, {useEffect, useState} from 'react';
-import * as Animatable from 'react-native-animatable';
-import {RootParamList} from '@types';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import {RootParamList} from '@types/navigation';
+import {PERCENT} from '@types/theme';
+import React, {useEffect, useState} from 'react';
+import {Image, StyleSheet, View} from 'react-native';
+import * as Animatable from 'react-native-animatable';
 import LinearGradient from 'react-native-linear-gradient';
 const Welcome = ({navigation}: NativeStackScreenProps<RootParamList>) => {
   const [isAnimationCompleted, setIsAnimationCompleted] = useState(false);
@@ -24,13 +18,13 @@ const Welcome = ({navigation}: NativeStackScreenProps<RootParamList>) => {
   return (
     <LinearGradient
       colors={[
-        '#FF0000', // Đỏ
-        '#FF7F00', // Cam
-        '#FFFF00', // Vàng
-        '#00FF00', // Xanh lá cây
-        '#0000FF', // Xanh dương
-        '#4B0082', // Xanh dương da trời
-        '#9400D3', // Tím
+        '#FF0000',
+        '#FF7F00',
+        '#FFFF00',
+        '#00FF00',
+        '#0000FF',
+        '#4B0082',
+        '#9400D3',
       ]}
       style={styles.container}>
       <View>
@@ -40,7 +34,7 @@ const Welcome = ({navigation}: NativeStackScreenProps<RootParamList>) => {
           delay={500}
           onAnimationEnd={() => setIsAnimationCompleted(true)}>
           <Image
-            style={{height: '100%', width: '100%'}}
+            style={{height: PERCENT.percent_100, width: PERCENT.percent_100}}
             source={require('@assets/image/welcome.jpg')}
           />
         </Animatable.View>

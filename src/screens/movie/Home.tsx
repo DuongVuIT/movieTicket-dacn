@@ -3,7 +3,7 @@ import 'firebase/compat/auth';
 import React, {useEffect, useState} from 'react';
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import {RootParamList} from '@types';
+import {RootParamList} from '@types/navigation';
 export default function Home({
   navigation,
 }: NativeStackScreenProps<RootParamList>) {

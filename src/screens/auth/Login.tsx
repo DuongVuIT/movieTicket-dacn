@@ -1,5 +1,13 @@
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import {RootParamList} from '@types';
+import {RootParamList} from '@types/navigation';
+import {
+  BORDERRADIUS,
+  COLORS,
+  FONTSIZE,
+  MARGIN,
+  PERCENT,
+  SPACING,
+} from '@types/theme';
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
 import React, {useEffect, useRef, useState} from 'react';
@@ -141,7 +149,7 @@ const Login = ({navigation}: NativeStackScreenProps<RootParamList>) => {
           />
         </View>
 
-        <View style={{flex: 1, marginTop: 30}}>
+        <View style={{flex: 1, marginTop: MARGIN.margin_30}}>
           <View style={{flexDirection: 'row'}}>
             <Text style={styles.text_input}>Email</Text>
             <TextInput
@@ -152,7 +160,9 @@ const Login = ({navigation}: NativeStackScreenProps<RootParamList>) => {
               value={email}
             />
           </View>
-          <Text style={{color: 'red', fontSize: 16}}>{emailError}</Text>
+          <Text style={{color: COLORS.Red, fontSize: FONTSIZE.size_16}}>
+            {emailError}
+          </Text>
 
           <View style={{flexDirection: 'row'}}>
             <Text style={styles.text_input}>Password</Text>
@@ -164,31 +174,40 @@ const Login = ({navigation}: NativeStackScreenProps<RootParamList>) => {
               value={password}
             />
           </View>
-          <Text style={{color: 'red', fontSize: 20}}>{passwordError}</Text>
+          <Text style={{color: COLORS.Red, fontSize: FONTSIZE.size_20}}>
+            {passwordError}
+          </Text>
           <View
             style={{
               justifyContent: 'center',
               alignItems: 'center',
             }}>
-            <Text style={{color: 'red', fontSize: 16, marginTop: 10}}>
+            <Text
+              style={{
+                color: COLORS.Red,
+                fontSize: FONTSIZE.size_16,
+                marginTop: MARGIN.margin_16,
+              }}>
               {loginStatus}
             </Text>
             <TouchableOpacity
               onPress={() => LoginHandler()}
               style={styles.button_login}>
-              <Text style={{color: 'white', textAlign: 'center'}}>Login</Text>
+              <Text style={{color: COLORS.White, textAlign: 'center'}}>
+                Login
+              </Text>
             </TouchableOpacity>
 
             <View style={{flexDirection: 'row'}}>
-              <Text style={{color: 'white', marginTop: 10}}>
+              <Text style={{color: COLORS.White, marginTop: MARGIN.margin_10}}>
                 Don't have account ?
               </Text>
               <TouchableOpacity onPress={() => navigation.navigate('Register')}>
                 <Text
                   style={{
                     color: 'white',
-                    marginTop: 10,
-                    marginLeft: 10,
+                    marginTop: MARGIN.margin_10,
+                    marginLeft: MARGIN.margin_10,
                   }}>
                   Register
                 </Text>
@@ -198,7 +217,7 @@ const Login = ({navigation}: NativeStackScreenProps<RootParamList>) => {
               <Text
                 style={{
                   color: 'white',
-                  marginTop: 10,
+                  marginTop: MARGIN.margin_10,
                 }}>
                 Forgot password?
               </Text>
@@ -215,7 +234,6 @@ export default Login;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'black',
     height: height + 120,
   },
   view_img: {
@@ -225,42 +243,42 @@ const styles = StyleSheet.create({
   },
   image: {
     height: 650,
-    borderBottomLeftRadius: 20,
-    borderBottomRightRadius: 20,
+    borderBottomLeftRadius: BORDERRADIUS.radius_20,
+    borderBottomRightRadius: BORDERRADIUS.radius_20,
     resizeMode: 'cover',
     justifyContent: 'center',
     alignItems: 'center',
   },
   text_input: {
-    color: 'white',
-    marginTop: 30,
-    marginLeft: 10,
+    color: COLORS.White,
+    marginTop: MARGIN.margin_30,
+    marginLeft: MARGIN.margin_10,
   },
   button_login: {
     borderWidth: 2,
-    borderColor: 'white',
-    padding: 10,
+    borderColor: COLORS.White,
+    padding: SPACING.space_10,
     width: 130,
-    borderRadius: 10,
+    borderRadius: BORDERRADIUS.radius_10,
   },
   textInput_password: {
-    color: 'white',
+    color: COLORS.White,
     borderWidth: 2,
     marginTop: 15,
-    padding: 10,
+    padding: SPACING.space_10,
     borderRadius: 20,
-    borderColor: 'white',
-    marginLeft: 10,
-    width: '75%',
+    borderColor: COLORS.White,
+    marginLeft: MARGIN.margin_10,
+    width: PERCENT.percent_75,
   },
   textInput_email: {
-    color: 'white',
+    color: COLORS.White,
     borderWidth: 2,
-    marginTop: 15,
-    padding: 10,
-    borderRadius: 20,
-    borderColor: 'white',
-    marginLeft: 35,
-    width: '75%',
+    marginTop: MARGIN.margin_14,
+    padding: SPACING.space_10,
+    borderRadius: BORDERRADIUS.radius_20,
+    borderColor: COLORS.White,
+    marginLeft: MARGIN.margin_36,
+    width: PERCENT.percent_75,
   },
 });

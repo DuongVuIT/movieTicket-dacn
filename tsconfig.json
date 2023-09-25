@@ -72,6 +72,8 @@
       "@navigation/*": ["./src/navigation/*"],
       "@navigation": ["./src/navigation"],
       "@types": ["./src/types"],
+      "@types/*": ["./src/types/*"],
+
       "@api": ["./src/api/"],
       "@reducers": ["./src/reducers"],
       "@reducers/*": ["./src/reducers/*"],
