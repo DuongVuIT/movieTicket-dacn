@@ -4,15 +4,19 @@ import Home from '@screens/movie/Home';
 import Login from '@screens/auth/Login';
 import Register from '@screens/auth/Register';
 import Welcome from '@screens/auth/Welcome';
-import {RootParamList} from '@types';
 import MainBottomTab from './MainBottomTab';
 import React from 'react';
 import {StyleSheet} from 'react-native';
+import {RootParamList} from '@type/navigation';
+import MovieDetails from '@screens/movie/MovieDetails';
+
 const RootStack = createNativeStackNavigator<RootParamList>();
 const MainStack = () => {
   return (
     <NavigationContainer>
-      <RootStack.Navigator screenOptions={{header: () => null}}>
+      <RootStack.Navigator
+        initialRouteName="MovieHome"
+        screenOptions={{header: () => null}}>
         <RootStack.Screen
           name="Welcome"
           component={Welcome}
@@ -34,6 +38,11 @@ const MainStack = () => {
         <RootStack.Screen
           name="MovieHome"
           component={MainBottomTab}
+          options={{headerShown: false}}
+        />
+        <RootStack.Screen
+          name="MovieDetail"
+          component={MovieDetails}
           options={{headerShown: false}}
         />
       </RootStack.Navigator>

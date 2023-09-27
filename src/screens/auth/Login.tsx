@@ -1,13 +1,5 @@
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import {RootParamList} from '@types/navigation';
-import {
-  BORDERRADIUS,
-  COLORS,
-  FONTSIZE,
-  MARGIN,
-  PERCENT,
-  SPACING,
-} from '@types/theme';
+
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
 import React, {useEffect, useRef, useState} from 'react';
@@ -24,6 +16,15 @@ import {
 } from 'react-native';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import LinearGradient from 'react-native-linear-gradient';
+import {
+  BORDERRADIUS,
+  COLORS,
+  FONTSIZE,
+  MARGIN,
+  PERCENT,
+  SPACING,
+} from '@type/theme';
+import {RootParamList} from '@type/navigation';
 const images: string[] = [
   'https://www.themoviedb.org/t/p/w1280/cswPVyXwQ13dFHU1KFS8dpFxIyY.jpg',
   'https://www.themoviedb.org/t/p/w1280/kdAOhC8IIS5jqzruRk7To3AEsHH.jpg',

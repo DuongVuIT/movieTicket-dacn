@@ -1,10 +1,11 @@
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import {RootParamList} from '@types/navigation';
-import {PERCENT} from '@types/theme';
+
 import React, {useEffect, useState} from 'react';
 import {Image, StyleSheet, View} from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import LinearGradient from 'react-native-linear-gradient';
+import {RootParamList} from '@type/navigation';
+import {PERCENT} from '@type/theme';
 const Welcome = ({navigation}: NativeStackScreenProps<RootParamList>) => {
   const [isAnimationCompleted, setIsAnimationCompleted] = useState(false);
 

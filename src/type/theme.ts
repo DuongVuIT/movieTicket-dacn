@@ -61,6 +61,11 @@ interface Color {
   WhiteRGBA15: string;
   OrangeRGBA0: string;
   DarkGrey: string;
+  Grey: string;
+  LightGrey: string;
+  DarkBlue: string;
+  DarkGreen: string;
+  Grenade: string;
 }
 export const COLORS: Color = {
   Black: '#000000',
@@ -72,7 +77,7 @@ export const COLORS: Color = {
   Yellow: '#FFFF00',
   Purple: '#800080',
   Pink: '#FFC0CB',
-  Orange: '#FFA500',
+  Orange: '#e6780a',
   Cyan: '#00FFFF',
   BlackRGB10: 'rgba(0, 0, 0, 0.1)',
   WhiteRGBA75: 'rgba(255, 255, 255, 0.75)',
@@ -81,6 +86,11 @@ export const COLORS: Color = {
   WhiteRGBA15: 'rgba(255, 255, 255, 0.15)',
   OrangeRGBA0: 'rgba(255, 165, 0, 0)',
   DarkGrey: '#333333',
+  Grey: '#666666',
+  LightGrey: '#CCCCCC',
+  DarkBlue: '#00008B',
+  DarkGreen: '#006400',
+  Grenade: '#FF0000',
 };
 interface Fontsize {
   size_8: number;

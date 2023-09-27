@@ -8,4 +8,5 @@ export type RootParamList = {
   Search: undefined;
   Movie: undefined;
   MovieHome: undefined;
+  MovieDetail: undefined;
 };

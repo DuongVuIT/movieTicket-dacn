@@ -1,5 +1,6 @@
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import {RootParamList} from '@types/navigation';
+import {RootParamList} from '@type/navigation';
+
 import {
   BORDERRADIUS,
   COLORS,
@@ -7,7 +8,7 @@ import {
   MARGIN,
   PERCENT,
   SPACING,
-} from '@types/theme';
+} from '@type/theme';
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
 import {getDatabase, ref, set} from 'firebase/database';
