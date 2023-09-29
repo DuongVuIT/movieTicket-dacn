@@ -4,7 +4,7 @@ import React, {useEffect, useState} from 'react';
 import {Image, StyleSheet, View} from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import LinearGradient from 'react-native-linear-gradient';
-import {RootParamList} from '@type/navigation';
+import {APP_SCREEN, RootParamList} from '@type/navigation';
 import {PERCENT} from '@type/theme';
 const Welcome = ({navigation}: NativeStackScreenProps<RootParamList>) => {
   const [isAnimationCompleted, setIsAnimationCompleted] = useState(false);
@@ -12,7 +12,7 @@ const Welcome = ({navigation}: NativeStackScreenProps<RootParamList>) => {
   useEffect(() => {
     if (isAnimationCompleted) {
       setTimeout(() => {
-        navigation.navigate('Login');
+        navigation.navigate(APP_SCREEN.LOGIN);
       }, 1000);
     }
   }, [isAnimationCompleted, navigation]);

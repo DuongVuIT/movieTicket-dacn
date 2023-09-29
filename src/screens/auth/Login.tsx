@@ -24,7 +24,7 @@ import {
   PERCENT,
   SPACING,
 } from '@type/theme';
-import {RootParamList} from '@type/navigation';
+import {APP_SCREEN, RootParamList} from '@type/navigation';
 const images: string[] = [
   'https://www.themoviedb.org/t/p/w1280/cswPVyXwQ13dFHU1KFS8dpFxIyY.jpg',
   'https://www.themoviedb.org/t/p/w1280/kdAOhC8IIS5jqzruRk7To3AEsHH.jpg',
@@ -69,7 +69,8 @@ const Login = ({navigation}: NativeStackScreenProps<RootParamList>) => {
 
       if (user) {
         setName(user.displayName);
-        navigation.navigate('MovieHome');
+        navigation.navigate(APP_SCREEN.MOVIE_HOME, {uid: user.uid});
+        console.log(user.uid);
       }
     } catch (error) {
       const errorCode = (error as firebase.auth.Error).code;
@@ -203,7 +204,8 @@ const Login = ({navigation}: NativeStackScreenProps<RootParamList>) => {
               <Text style={{color: COLORS.White, marginTop: MARGIN.margin_10}}>
                 Don't have account ?
               </Text>
-              <TouchableOpacity onPress={() => navigation.navigate('Register')}>
+              <TouchableOpacity
+                onPress={() => navigation.navigate(APP_SCREEN.REGISTER)}>
                 <Text
                   style={{
                     color: 'white',

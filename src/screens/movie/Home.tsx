@@ -1,26 +1,37 @@
-import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import {RootParamList} from '@type/navigation';
-import {COLORS, SPACING} from '@type/theme';
-import {ActivityIndicator, Dimensions, ScrollView} from 'react-native';
-import 'firebase/compat/auth';
-import React, {useEffect, useState} from 'react';
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {
-  upComming,
+  baseImagePath,
+  nowPlaying,
   popular,
   topRated,
-  nowPlaying,
-  baseImagePath,
+  upComming,
 } from '@api/apiCall';
-import InputHeader from '@components/InputHeader';
-import {StatusBar} from 'react-native';
+import CardMovie from '@components/CardMovie';
 import CustomTitle from '@components/CustomTitle';
+import InputHeader from '@components/InputHeader';
+import SubCardMovie from '@components/SubCardMovie';
+import {useRoute} from '@react-navigation/native';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import {APP_SCREEN, RootParamList} from '@type/navigation';
+import {COLORS, SPACING} from '@type/theme';
+import 'firebase/compat/auth';
+import React, {useEffect, useState} from 'react';
+import {
+  ActivityIndicator,
+  Dimensions,
+  FlatList,
+  ScrollView,
+  StatusBar,
+  StyleSheet,
+  View,
+} from 'react-native';
 
-const {width, height} = Dimensions.get('window');
+const {width} = Dimensions.get('window');
 
 export default function Home({
   navigation,
 }: NativeStackScreenProps<RootParamList>) {
+  const route = useRoute<any>();
+  const {uid} = route.params;
   const [nowPlayingMovieList, setNowPlayingMovieList] = useState<any>();
   const [popularMovieList, setPopularMovieList] = useState<any>();
   const [topRatedMovieList, setTopRatedMovieList] = useState<any>();
@@ -34,6 +45,7 @@ export default function Home({
       console.log(error);
     }
   };
+  console.log('home', uid);
   const getPopularMovieList = async () => {
     try {
       let response = await fetch(popular);
@@ -75,12 +87,9 @@ export default function Home({
       setUpCommingMovieList(upCommingMovie.results);
     })();
   }, []);
-  console.log('nowplaying :', nowPlayingMovieList);
-  console.log('popular :', popularMovieList);
-  console.log('topRated :', topRatedMovieList);
-  console.log('upComming :', upCommingMovieList);
+
   const searchMovieFunction = () => {
-    navigation.navigate('Search');
+    navigation.navigate(APP_SCREEN.SEARCH);
   };
   if (
     nowPlayingMovieList == undefined &&
@@ -109,17 +118,96 @@ export default function Home({
   }
   return (
     <ScrollView
+      scrollEnabled
       style={styles.container}
-      bounces={false}
       contentContainerStyle={styles.scollContainer}>
       <StatusBar hidden />
       <View style={styles.inputHeaderContainer}>
         <InputHeader searchMovie={searchMovieFunction} />
       </View>
       <CustomTitle title={'Now Playing'} />
+      <FlatList
+        data={popularMovieList}
+        keyExtractor={(item: any) => item.id}
+        contentContainerStyle={styles.contentContainer}
+        horizontal
+        renderItem={({item, index}) => (
+          <CardMovie
+            shouldMarginatedAtEnd={true}
+            cardMovieFunction={() => {
+              navigation.navigate(APP_SCREEN.MOVIE_DETAIL, {movieId: item.id});
+            }}
+            cardWidth={width * 0.7}
+            firstCard={index == 0 ? true : false}
+            lastCard={index == upCommingMovieList?.length ? true : false}
+            title={item.original_title}
+            imagaPath={baseImagePath('w780', item.poster_path)}
+            genre={item.genre_ids.slice(1, 4)}
+            vote_average={item.vote_average}
+            vote_count={item.vote_count}
+          />
+        )}
+      />
       <CustomTitle title={'Popular'} />
+      <FlatList
+        data={popularMovieList}
+        keyExtractor={(item: any) => item.id}
+        contentContainerStyle={styles.contentContainer}
+        horizontal
+        renderItem={({item, index}) => (
+          <SubCardMovie
+            shouldMarginatedAtEnd={true}
+            cardMovieFunction={() => {
+              navigation.navigate(APP_SCREEN.MOVIE_DETAIL, {movieId: item.id});
+            }}
+            cardWidth={width / 3}
+            firstCard={index == 0 ? true : false}
+            lastCard={index == upCommingMovieList?.length ? true : false}
+            title={item.original_title}
+            imagaPath={baseImagePath('w342', item.poster_path)}
+          />
+        )}
+      />
       <CustomTitle title={'Up comming'} />
+      <FlatList
+        data={upCommingMovieList}
+        keyExtractor={(item: any) => item.id}
+        contentContainerStyle={styles.contentContainer}
+        horizontal
+        renderItem={({item, index}) => (
+          <SubCardMovie
+            shouldMarginatedAtEnd={true}
+            cardMovieFunction={() => {
+              navigation.navigate(APP_SCREEN.MOVIE_DETAIL, {movieId: item.id});
+            }}
+            cardWidth={width / 3}
+            firstCard={index == 0 ? true : false}
+            lastCard={index == upCommingMovieList?.length ? true : false}
+            title={item.original_title}
+            imagaPath={baseImagePath('w342', item.poster_path)}
+          />
+        )}
+      />
       <CustomTitle title={'Top Rated'} />
+      <FlatList
+        data={topRatedMovieList}
+        keyExtractor={(item: any) => item.id}
+        contentContainerStyle={styles.contentContainer}
+        horizontal
+        renderItem={({item, index}) => (
+          <SubCardMovie
+            shouldMarginatedAtEnd={true}
+            cardMovieFunction={() => {
+              navigation.navigate(APP_SCREEN.MOVIE_DETAIL, {movieId: item.id});
+            }}
+            cardWidth={width / 3}
+            firstCard={index == 0 ? true : false}
+            lastCard={index == upCommingMovieList?.length ? true : false}
+            title={item.original_title}
+            imagaPath={baseImagePath('w342', item.poster_path)}
+          />
+        )}
+      />
     </ScrollView>
   );
 }
@@ -129,7 +217,6 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.Black,
   },
   scollContainer: {
-    flex: 1,
     backgroundColor: COLORS.Black,
   },
   loadingIcon: {
@@ -140,5 +227,8 @@ const styles = StyleSheet.create({
   inputHeaderContainer: {
     marginHorizontal: SPACING.space_36,
     marginTop: SPACING.space_28,
+  },
+  contentContainer: {
+    gap: SPACING.space_36,
   },
 });
