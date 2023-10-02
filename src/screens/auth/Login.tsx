@@ -83,11 +83,8 @@ const Login = ({navigation}: NativeStackScreenProps<RootParamList>) => {
         dispatch(setToken(token));
         console.log(token);
         const userInfo = dataUser.displayName;
-        console.log(userInfo, 22222);
-        // setName(user().displayName);
         setName(dataUser.displayName);
         navigation.navigate(APP_SCREEN.MOVIE_HOME, {uid: dataUser.uid});
-        // console.log(user.uid);
       }
     } catch (error) {
       const errorCode = (error as firebase.auth.Error).code;

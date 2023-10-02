@@ -19,9 +19,9 @@ export type RootParamList = {
   [APP_SCREEN.TICKET]: undefined;
   [APP_SCREEN.SEARCH]: undefined;
   [APP_SCREEN.LOGIN]: undefined;
-  [APP_SCREEN.ACCOUNT]: undefined;
+  [APP_SCREEN.ACCOUNT]: {uid: string | undefined};
   [APP_SCREEN.MOVIE_HOME]: {
-    uid: any;
+    uid: any | string | undefined;
   };
   [APP_SCREEN.MOVIE_DETAIL]: {
     movieId: string;

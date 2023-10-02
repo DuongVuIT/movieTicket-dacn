@@ -85,7 +85,11 @@ const MainBottomTab = () => {
       />
       <Tab.Screen name={APP_SCREEN.SEARCH} component={Search} />
       <Tab.Screen name={APP_SCREEN.TICKET} component={Ticket} />
-      <Tab.Screen name={APP_SCREEN.ACCOUNT} component={Account} />
+      <Tab.Screen
+        name={APP_SCREEN.ACCOUNT}
+        component={Account}
+        initialParams={{uid}}
+      />
     </Tab.Navigator>
   );
 };

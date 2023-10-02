@@ -78,7 +78,11 @@ export default function Home({
   useEffect(() => {
     (async () => {
       let nowPlayIng = await getNowPlayingMovieList();
-      setNowPlayingMovieList(nowPlayIng.results);
+      setNowPlayingMovieList([
+        {id: 'zun01'},
+        ...nowPlayIng.results,
+        {id: 'zun02'},
+      ]);
       let popularMovie = await getPopularMovieList();
       setPopularMovieList(popularMovie.results);
       let topRatedMovie = await getTopRatedMovieList();
@@ -127,26 +131,40 @@ export default function Home({
       </View>
       <CustomTitle title={'Now Playing'} />
       <FlatList
-        data={popularMovieList}
+        data={nowPlayingMovieList}
         keyExtractor={(item: any) => item.id}
         contentContainerStyle={styles.contentContainer}
+        decelerationRate={0}
+        snapToInterval={width * 0.7 + SPACING.space_36}
         horizontal
-        renderItem={({item, index}) => (
-          <CardMovie
-            shouldMarginatedAtEnd={true}
-            cardMovieFunction={() => {
-              navigation.navigate(APP_SCREEN.MOVIE_DETAIL, {movieId: item.id});
-            }}
-            cardWidth={width * 0.7}
-            firstCard={index == 0 ? true : false}
-            lastCard={index == upCommingMovieList?.length ? true : false}
-            title={item.original_title}
-            imagaPath={baseImagePath('w780', item.poster_path)}
-            genre={item.genre_ids.slice(1, 4)}
-            vote_average={item.vote_average}
-            vote_count={item.vote_count}
-          />
-        )}
+        renderItem={({item, index}) => {
+          if (!item.original_title) {
+            return (
+              <View
+                style={{
+                  width: (width - (width * 0.7 + SPACING.space_36 * 2)) / 2,
+                }}></View>
+            );
+          }
+          return (
+            <CardMovie
+              shouldMarginatedAtEnd={true}
+              cardMovieFunction={() => {
+                navigation.navigate(APP_SCREEN.MOVIE_DETAIL, {
+                  movieId: item.id,
+                });
+              }}
+              cardWidth={width * 0.7}
+              firstCard={index == 0 ? true : false}
+              lastCard={index == upCommingMovieList?.length ? true : false}
+              title={item.original_title}
+              imagaPath={baseImagePath('w780', item.poster_path)}
+              genre={item.genre_ids.slice(1, 4)}
+              vote_average={item.vote_average}
+              vote_count={item.vote_count}
+            />
+          );
+        }}
       />
       <CustomTitle title={'Popular'} />
       <FlatList
@@ -165,6 +183,9 @@ export default function Home({
             lastCard={index == upCommingMovieList?.length ? true : false}
             title={item.original_title}
             imagaPath={baseImagePath('w342', item.poster_path)}
+            genre={item.genre_ids.slice(1, 4)}
+            vote_average={item.vote_average}
+            vote_count={item.vote_count}
           />
         )}
       />
@@ -185,6 +206,8 @@ export default function Home({
             lastCard={index == upCommingMovieList?.length ? true : false}
             title={item.original_title}
             imagaPath={baseImagePath('w342', item.poster_path)}
+            vote_average={item.vote_average}
+            vote_count={item.vote_count}
           />
         )}
       />
@@ -205,6 +228,8 @@ export default function Home({
             lastCard={index == upCommingMovieList?.length ? true : false}
             title={item.original_title}
             imagaPath={baseImagePath('w342', item.poster_path)}
+            vote_average={item.vote_average}
+            vote_count={item.vote_count}
           />
         )}
       />

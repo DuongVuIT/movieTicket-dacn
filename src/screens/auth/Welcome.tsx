@@ -1,16 +1,13 @@
-import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import firebase from 'firebase/compat';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {APP_SCREEN, RootParamList} from '@type/navigation';
 import {PERCENT} from '@type/theme';
 import React, {useEffect, useState} from 'react';
 import {Image, StyleSheet, View} from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import LinearGradient from 'react-native-linear-gradient';
-import {useRoute} from '@react-navigation/native';
 const Welcome = ({navigation}: NativeStackScreenProps<RootParamList>) => {
   const [isAnimationCompleted, setIsAnimationCompleted] = useState(false);
-  const [hasToken, setHasToken] = useState(false);
 
   useEffect(() => {
     const checkToken = async () => {
@@ -39,7 +36,7 @@ const Welcome = ({navigation}: NativeStackScreenProps<RootParamList>) => {
     if (isAnimationCompleted) {
       setTimeout(() => {}, 3000);
     }
-  }, [isAnimationCompleted, hasToken, navigation]);
+  }, [isAnimationCompleted, navigation]);
 
   return (
     <LinearGradient

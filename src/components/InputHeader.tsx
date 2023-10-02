@@ -28,7 +28,7 @@ const InputHeader = ({props}: any) => {
         value={searchText}
       />
       <TouchableOpacity onPress={() => props.searchMovie(searchText)}>
-        <CustomIcon name="search" size={18} color={COLORS.Orange} />
+        <CustomIcon name="search" size={18} color={COLORS.White} />
       </TouchableOpacity>
       <Text style={{color: COLORS.White}}>{searchText}</Text>
     </View>

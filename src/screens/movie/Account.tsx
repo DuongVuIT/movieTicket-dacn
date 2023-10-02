@@ -1,10 +1,32 @@
 import {removeToken} from '@actions/authActions';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {APP_SCREEN} from '@type/navigation';
-import React from 'react';
+import {useRoute} from '@react-navigation/native';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import {APP_SCREEN, RootParamList} from '@type/navigation';
+import React, {useEffect} from 'react';
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {useDispatch} from 'react-redux';
-export default function Account({navigation}: any) {
+export default function Account({
+  navigation,
+}: NativeStackScreenProps<RootParamList>) {
+  useEffect(() => {
+    const getData = async () => {
+      try {
+        const value = await AsyncStorage.getItem('uid');
+        console.log('userid', value);
+        if (value !== null) {
+          console.log('Dữ liệu đã được lấy thành công:', value);
+          return value;
+        } else {
+          console.log('Không có dữ liệu với khóa đã cho.');
+          return null;
+        }
+      } catch (error) {
+        console.error('Lỗi khi lấy dữ liệu:', error);
+      }
+    };
+    getData();
+  }, []);
   const dispacth = useDispatch();
   const handleLogout = async () => {
     try {
