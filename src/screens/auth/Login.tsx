@@ -1,5 +1,16 @@
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 
+import {loginSuccess, setToken} from '@actions/authActions';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {APP_SCREEN, RootParamList} from '@type/navigation';
+import {
+  BORDERRADIUS,
+  COLORS,
+  FONTSIZE,
+  MARGIN,
+  PERCENT,
+  SPACING,
+} from '@type/theme';
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
 import React, {useEffect, useRef, useState} from 'react';
@@ -16,19 +27,7 @@ import {
 } from 'react-native';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import LinearGradient from 'react-native-linear-gradient';
-import {
-  BORDERRADIUS,
-  COLORS,
-  FONTSIZE,
-  MARGIN,
-  PERCENT,
-  SPACING,
-} from '@type/theme';
-import {APP_SCREEN, RootParamList} from '@type/navigation';
-import {useDispatch, useSelector} from 'react-redux';
-import {SET_TOKEN, setToken} from '@actions/authActions';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import {getAuth, signInWithEmailAndPassword} from '@firebase/auth';
+import {useDispatch} from 'react-redux';
 const images: string[] = [
   'https://www.themoviedb.org/t/p/w1280/cswPVyXwQ13dFHU1KFS8dpFxIyY.jpg',
   'https://www.themoviedb.org/t/p/w1280/kdAOhC8IIS5jqzruRk7To3AEsHH.jpg',
@@ -37,7 +36,7 @@ const images: string[] = [
 ];
 const {width, height} = Dimensions.get('screen');
 const Login = ({navigation}: NativeStackScreenProps<RootParamList>) => {
-  const disPatch = useDispatch();
+  const dispatch = useDispatch();
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -77,8 +76,11 @@ const Login = ({navigation}: NativeStackScreenProps<RootParamList>) => {
       const dataUser = await dataFirebase.user;
       if (dataUser) {
         const token = await dataUser.getIdToken();
+        const uid = dataUser.uid;
+        dispatch(loginSuccess(uid));
+        await AsyncStorage.setItem('uid', uid);
         await AsyncStorage.setItem('userToken', token);
-        disPatch(setToken(token));
+        dispatch(setToken(token));
         console.log(token);
         const userInfo = dataUser.displayName;
         console.log(userInfo, 22222);

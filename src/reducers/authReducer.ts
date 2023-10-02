@@ -1,9 +1,15 @@
-import {REGISTER_SUCCESS, REMOVE_TOKEN, SET_TOKEN} from '@actions/authActions';
+import {
+  LOGIN_SUCCESS,
+  REGISTER_SUCCESS,
+  REMOVE_TOKEN,
+  SET_TOKEN,
+} from '@actions/authActions';
 
 const initialState = {
   user: null,
   isLogin: false,
   token: null,
+  uid: null,
 };
 
 export default function authReducer(state = initialState, action: any) {
@@ -13,6 +19,11 @@ export default function authReducer(state = initialState, action: any) {
         ...state,
         token: action.payload.token,
         isLogin: true,
+      };
+    case LOGIN_SUCCESS:
+      return {
+        ...state,
+        uid: action.payload.uid,
       };
     case REGISTER_SUCCESS:
       return {

@@ -19,7 +19,6 @@ function App() {
   if (firebase.apps.length === 0) {
     firebase.initializeApp(firebaseConfig);
   }
-
   return (
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>

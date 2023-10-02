@@ -21,7 +21,7 @@ export type RootParamList = {
   [APP_SCREEN.LOGIN]: undefined;
   [APP_SCREEN.ACCOUNT]: undefined;
   [APP_SCREEN.MOVIE_HOME]: {
-    uid: string;
+    uid: any;
   };
   [APP_SCREEN.MOVIE_DETAIL]: {
     movieId: string;
