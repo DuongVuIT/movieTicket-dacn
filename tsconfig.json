@@ -53,15 +53,15 @@
       "@type": ["./src/type"],
       "@type/*": ["./src/type/*"],
       "@api/*": ["./src/api/*"],
-      "@api": ["./src/api"]
-      // "@reducers": ["./src/reducers"],
-      // "@reducers/*": ["./src/reducers/*"],
+      "@api": ["./src/api"],
+      "@reducers": ["./src/reducers"],
+      "@reducers/*": ["./src/reducers/*"],
 
-      // "@store": ["./src/store"],
-      // "@store/*": ["./src/store/*"],
+      "@store": ["./src/store"],
+      "@store/*": ["./src/store/*"],
 
-      // "@action": ["./src/actions"],
-      // "@action/*": ["./src/actions//*"],
+      "@actions": ["./src/actions"],
+      "@actions/*": ["./src/actions//*"]
     },
     /* A series of entries which re-map imports to lookup locations relative to the 'baseUrl'. */ // "rootDirs": [],                        /* List of root folders whose combined content represents the structure of the project at runtime. */
     // "typeRoots": [],                       /* List of folders to include type definitions from. */

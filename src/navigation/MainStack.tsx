@@ -1,14 +1,18 @@
 import {NavigationContainer} from '@react-navigation/native';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import {
+  NativeStackScreenProps,
+  createNativeStackNavigator,
+} from '@react-navigation/native-stack';
 import Home from '@screens/movie/Home';
 import Login from '@screens/auth/Login';
 import Register from '@screens/auth/Register';
 import Welcome from '@screens/auth/Welcome';
 import MainBottomTab from './MainBottomTab';
-import React from 'react';
+import React, {useEffect} from 'react';
 import {StyleSheet} from 'react-native';
 import {APP_SCREEN, RootParamList} from '@type/navigation';
 import MovieDetails from '@screens/movie/MovieDetails';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const RootStack = createNativeStackNavigator<RootParamList>();
 const MainStack = () => {

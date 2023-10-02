@@ -1,8 +1,11 @@
 // In App.js in a new project
-import * as React from 'react';
-import MainStack from './src/navigation/MainStack';
+import {persistor, store} from '@store/store';
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
+import * as React from 'react';
+import {Provider} from 'react-redux';
+import {PersistGate} from 'redux-persist/integration/react';
+import MainStack from './src/navigation/MainStack';
 function App() {
   const firebaseConfig = {
     apiKey: 'AIzaSyB89X3sWgSJCNnSU-o-bo-KiXUYUaZJO8k',
@@ -16,10 +19,13 @@ function App() {
   if (firebase.apps.length === 0) {
     firebase.initializeApp(firebaseConfig);
   }
+
   return (
-    <>
-      <MainStack />
-    </>
+    <Provider store={store}>
+      <PersistGate loading={null} persistor={persistor}>
+        <MainStack />
+      </PersistGate>
+    </Provider>
   );
 }
 

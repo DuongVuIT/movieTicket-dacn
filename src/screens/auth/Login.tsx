@@ -25,6 +25,10 @@ import {
   SPACING,
 } from '@type/theme';
 import {APP_SCREEN, RootParamList} from '@type/navigation';
+import {useDispatch, useSelector} from 'react-redux';
+import {SET_TOKEN, setToken} from '@actions/authActions';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {getAuth, signInWithEmailAndPassword} from '@firebase/auth';
 const images: string[] = [
   'https://www.themoviedb.org/t/p/w1280/cswPVyXwQ13dFHU1KFS8dpFxIyY.jpg',
   'https://www.themoviedb.org/t/p/w1280/kdAOhC8IIS5jqzruRk7To3AEsHH.jpg',
@@ -33,6 +37,8 @@ const images: string[] = [
 ];
 const {width, height} = Dimensions.get('screen');
 const Login = ({navigation}: NativeStackScreenProps<RootParamList>) => {
+  const disPatch = useDispatch();
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [name, setName] = useState<any>();
@@ -64,13 +70,22 @@ const Login = ({navigation}: NativeStackScreenProps<RootParamList>) => {
   };
   const LoginHandler = async () => {
     try {
-      await firebase.auth().signInWithEmailAndPassword(email, password);
-      const user = firebase.auth().currentUser;
-
-      if (user) {
-        setName(user.displayName);
-        navigation.navigate(APP_SCREEN.MOVIE_HOME, {uid: user.uid});
-        console.log(user.uid);
+      console.log(email, password);
+      const dataFirebase = await firebase
+        .auth()
+        .signInWithEmailAndPassword(email, password);
+      const dataUser = await dataFirebase.user;
+      if (dataUser) {
+        const token = await dataUser.getIdToken();
+        await AsyncStorage.setItem('userToken', token);
+        disPatch(setToken(token));
+        console.log(token);
+        const userInfo = dataUser.displayName;
+        console.log(userInfo, 22222);
+        // setName(user().displayName);
+        setName(dataUser.displayName);
+        navigation.navigate(APP_SCREEN.MOVIE_HOME, {uid: dataUser.uid});
+        // console.log(user.uid);
       }
     } catch (error) {
       const errorCode = (error as firebase.auth.Error).code;

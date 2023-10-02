@@ -14,7 +14,7 @@ module.exports = {
           '@api': './src/api',
           '@reducers': './src/reducers',
           '@store': './src/store',
-          '@action': './src/actions',
+          '@actions': './src/actions',
         },
         extensions: ['.js', '.jsx', '.ts', '.tsx'],
       },

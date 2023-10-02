@@ -1,6 +1,6 @@
+import {registerSuccess} from '@actions/authActions';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import {RootParamList} from '@type/navigation';
-
+import {APP_SCREEN, RootParamList} from '@type/navigation';
 import {
   BORDERRADIUS,
   COLORS,
@@ -25,6 +25,7 @@ import {
 } from 'react-native';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import LinearGradient from 'react-native-linear-gradient';
+import {useDispatch} from 'react-redux';
 const images: string[] = [
   'https://www.themoviedb.org/t/p/w1280/cswPVyXwQ13dFHU1KFS8dpFxIyY.jpg',
   'https://www.themoviedb.org/t/p/w1280/kdAOhC8IIS5jqzruRk7To3AEsHH.jpg',
@@ -34,6 +35,7 @@ const images: string[] = [
 const {width, height} = Dimensions.get('screen');
 const Register = ({navigation}: NativeStackScreenProps<RootParamList>) => {
   const [email, setEmail] = useState('');
+  const disPatch = useDispatch();
   const [password, setPassword] = useState('');
   const [name, setName] = useState<any>();
   const [passwordError, setPasswordError] = useState('');
@@ -56,10 +58,10 @@ const Register = ({navigation}: NativeStackScreenProps<RootParamList>) => {
     firebase
       .auth()
       .createUserWithEmailAndPassword(email, password)
-      .then(userCredential => {
+      .then(async userCredential => {
         const user = userCredential?.user;
         setTimeout(() => {
-          navigation.navigate('Login');
+          navigation.navigate(APP_SCREEN.LOGIN);
         }, 3000);
         if (user) {
           return user

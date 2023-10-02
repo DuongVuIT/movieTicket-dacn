@@ -18,16 +18,14 @@ const MainBottomTab = () => {
   const Tab = createBottomTabNavigator<RootParamList>();
   const route = useRoute<Props['route']>();
   const {uid} = route.params;
-  console.log('route main', uid);
   return (
     <Tab.Navigator
       screenOptions={({route}) => ({
         tabBarStyle: {
           backgroundColor: COLORS.Black,
-          height: 100,
+          height: 110,
           borderBlockColor: COLORS.Black,
         },
-        // tabBarShowLabel: false,
         headerShown: false,
         tabBarLabelStyle: {
           fontSize: FONTSIZE.size_16,
