@@ -9,10 +9,15 @@ import {
 import React, {useState} from 'react';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 import {COLORS, SPACING} from '@type/theme';
-import {searchMovies} from '@api/apiCall';
+import {baseImagePath, searchMovies} from '@api/apiCall';
 import InputHeader from '@components/InputHeader';
+import SubCardMovie from '@components/SubCardMovie';
+import {APP_SCREEN, RootParamList} from '@type/navigation';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
 const {width, height} = Dimensions.get('screen');
-export default function Search() {
+export default function Search({
+  navigation,
+}: NativeStackScreenProps<RootParamList>) {
   const [searchList, setSearchList] = useState([]);
 
   const searchMovieFunction = async (name: string) => {
@@ -31,26 +36,27 @@ export default function Search() {
         <FlatList
           data={searchList}
           keyExtractor={(item: any) => item.id}
-          contentContainerStyle={styles.contentContainer}
           numColumns={2}
           ListHeaderComponent={
             <View style={styles.inputHeaderContainer}>
-              <InputHeader searchMovie={searchMovieFunction} />
+              <InputHeader searchFunction={searchMovieFunction} />
             </View>
           }
+          contentContainerStyle={styles.contentContainer}
           renderItem={({item, index}) => (
             <SubCardMovie
-              shouldMarginatedAtEnd={true}
+              shouldMarginatedAtEnd={false}
+              shouldMarginatedAround={true}
               cardMovieFunction={() => {
                 navigation.navigate(APP_SCREEN.MOVIE_DETAIL, {
                   movieId: item.id,
                 });
               }}
-              cardWidth={width / 3}
-              firstCard={index == 0 ? true : false}
-              lastCard={index == upCommingMovieList?.length ? true : false}
+              cardWidth={width / 2 - SPACING.space_12 * 2}
               title={item.original_title}
               imagaPath={baseImagePath('w342', item.poster_path)}
+              vote_average={item.vote_average}
+              vote_count={item.vote_count}
             />
           )}
         />
@@ -67,7 +73,11 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.Black,
   },
   inputHeaderContainer: {
+    display: 'flex',
     marginHorizontal: SPACING.space_36,
     marginTop: SPACING.space_28,
+  },
+  contentContainer: {
+    alignItems: 'center',
   },
 });
