@@ -1,19 +1,11 @@
-import {
-  Dimensions,
-  FlatList,
-  StatusBar,
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native';
-import React, {useState} from 'react';
-import {Colors} from 'react-native/Libraries/NewAppScreen';
-import {COLORS, SPACING} from '@type/theme';
 import {baseImagePath, searchMovies} from '@api/apiCall';
 import InputHeader from '@components/InputHeader';
 import SubCardMovie from '@components/SubCardMovie';
-import {APP_SCREEN, RootParamList} from '@type/navigation';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import {APP_SCREEN, RootParamList} from '@type/navigation';
+import {COLORS, SPACING} from '@type/theme';
+import React, {useState} from 'react';
+import {Dimensions, FlatList, StatusBar, StyleSheet, View} from 'react-native';
 const {width, height} = Dimensions.get('screen');
 export default function Search({
   navigation,

@@ -6,15 +6,8 @@ import {
   SPACING,
 } from '@type/theme';
 import React from 'react';
-import {
-  Image,
-  StyleSheet,
-  TouchableOpacity,
-  TouchableWithoutFeedback,
-  View,
-} from 'react-native';
+import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import CustomIcon from './CustomIcon';
-import {Text} from 'react-native';
 
 const genres: any = {
   28: 'Action',
@@ -46,7 +39,7 @@ const CardMovie = (props: any) => {
       <View
         style={[
           styles.container,
-          props.shouldMarginatedAtEnd
+          props.Margin
             ? props.firstCard
               ? {marginLeft: SPACING.space_36}
               : props.lastCard
@@ -115,6 +108,12 @@ const styles = StyleSheet.create({
     color: COLORS.Yellow,
   },
   voteText: {
+    fontFamily: FONTTFAMILY.poppins_medium,
+    fontSize: FONTSIZE.size_14,
+    color: COLORS.White,
+    textAlign: 'center',
+  },
+  release: {
     fontFamily: FONTTFAMILY.poppins_medium,
     fontSize: FONTSIZE.size_14,
     color: COLORS.White,

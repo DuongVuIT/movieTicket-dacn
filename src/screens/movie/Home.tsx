@@ -6,9 +6,12 @@ import {
   upComming,
 } from '@api/apiCall';
 import CardMovie from '@components/CardMovie';
+import CustomHeader from '@components/CustomHeader';
+
 import CustomTitle from '@components/CustomTitle';
 import InputHeader from '@components/InputHeader';
 import SubCardMovie from '@components/SubCardMovie';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useRoute} from '@react-navigation/native';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {APP_SCREEN, RootParamList} from '@type/navigation';
@@ -32,6 +35,7 @@ export default function Home({
 }: NativeStackScreenProps<RootParamList>) {
   const route = useRoute<any>();
   const {uid} = route.params;
+  const [keys, setKeys] = useState([]);
   const [nowPlayingMovieList, setNowPlayingMovieList] = useState<any>();
   const [popularMovieList, setPopularMovieList] = useState<any>();
   const [topRatedMovieList, setTopRatedMovieList] = useState<any>();
@@ -127,7 +131,7 @@ export default function Home({
       contentContainerStyle={styles.scollContainer}>
       <StatusBar hidden />
       <View style={styles.inputHeaderContainer}>
-        <InputHeader searchMovie={searchMovieFunction} />
+        <CustomHeader />
       </View>
       <CustomTitle title={'Now Playing'} />
       <FlatList
@@ -148,7 +152,7 @@ export default function Home({
           }
           return (
             <CardMovie
-              shouldMarginatedAtEnd={true}
+              Margin={false}
               cardMovieFunction={() => {
                 navigation.navigate(APP_SCREEN.MOVIE_DETAIL, {
                   movieId: item.id,

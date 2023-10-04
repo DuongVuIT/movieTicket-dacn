@@ -24,6 +24,6 @@ export type RootParamList = {
     uid: any | string | undefined;
   };
   [APP_SCREEN.MOVIE_DETAIL]: {
-    movieId: string;
+    movieId: any | string | undefined;
   };
 };
