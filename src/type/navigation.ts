@@ -9,6 +9,7 @@ export enum APP_SCREEN {
   LOGIN = 'LOGIN',
   ACCOUNT = 'ACCOUNT',
   HOME = 'HOME',
+  CASTDETAILS = 'CASTDETAILS',
 }
 export type RootParamList = {
   [APP_SCREEN.HOME]: {
@@ -25,5 +26,8 @@ export type RootParamList = {
   };
   [APP_SCREEN.MOVIE_DETAIL]: {
     movieId: any | string | undefined;
+  };
+  [APP_SCREEN.CASTDETAILS]: {
+    castId: any | string | undefined;
   };
 };
