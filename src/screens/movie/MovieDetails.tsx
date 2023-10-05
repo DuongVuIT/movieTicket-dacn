@@ -1,9 +1,11 @@
 import {baseImagePath, castDetails, movieDetails} from '@api/apiCall';
+import CastCard from '@components/CastCard';
 import CustomIcon from '@components/CustomIcon';
+import CustomTitle from '@components/CustomTitle';
 import IconHeader from '@components/IconHeader';
 import {useRoute} from '@react-navigation/native';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import {RootParamList} from '@type/navigation';
+import {APP_SCREEN, RootParamList} from '@type/navigation';
 import {
   BORDERRADIUS,
   COLORS,
@@ -12,7 +14,7 @@ import {
   SPACING,
 } from '@type/theme';
 import React, {useEffect, useState} from 'react';
-import {Image, ImageBackground} from 'react-native';
+import {FlatList, Image, ImageBackground} from 'react-native';
 import {
   ActivityIndicator,
   ScrollView,
@@ -22,6 +24,7 @@ import {
   View,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 export default function MovieDetails({
   navigation,
@@ -38,6 +41,9 @@ export default function MovieDetails({
     } catch (error) {
       console.log(error);
     }
+  };
+  const SeparatorComponent = () => {
+    return <View style={{width: 10}} />;
   };
   const getMovieCastDetails = async (movieId: number) => {
     try {
@@ -56,7 +62,7 @@ export default function MovieDetails({
 
     (async () => {
       const tempMovieCastData = await getMovieCastDetails(data?.movieId);
-      setMovieCastData(tempMovieCastData.cast);
+      setMovieCastData(tempMovieCastData?.cast);
     })();
   }, []);
   if (
@@ -123,7 +129,7 @@ export default function MovieDetails({
       <View>
         <Text style={styles.original_title}>{movieData?.original_title}</Text>
         <View style={styles.genreContainer}>
-          {movieData?.genres.map((item: any) => {
+          {movieData?.genres?.map((item: any) => {
             return (
               <View key={item.id} style={styles.genreBox}>
                 <Text style={styles.genres}>{item.name}</Text>
@@ -137,18 +143,44 @@ export default function MovieDetails({
         <View style={styles.rateContainer}>
           <CustomIcon name="star" style={styles.starIcon} />
           <Text style={styles.time}>
-            {movieData?.vote_average.toFixed(1)} ({movieData?.vote_count})
+            {movieData?.vote_average?.toFixed(1)} ({movieData?.vote_count})
           </Text>
           <Text style={styles.time}>
-            {movieData?.release_date.substring(8, 10)}{' '}
+            {movieData?.release_date?.substring(8, 10)}{' '}
             {new Date(movieData?.release_date).toLocaleDateString('default', {
               month: 'long',
             })}{' '}
-            {movieData?.release_date.substring(0, 4)}
+            {movieData?.release_date?.substring(0, 4)}
           </Text>
         </View>
+        <Text style={styles.overview}>{movieData?.overview}</Text>
       </View>
-      <View></View>
+      <View>
+        <CustomTitle title="Top Cast" />
+        <View>
+          <FlatList
+            data={movieCastData}
+            keyExtractor={(item: any) => item.id}
+            horizontal
+            renderItem={({item, index}) => (
+              <CastCard
+                action={() => {
+                  navigation.navigate(APP_SCREEN.CASTDETAILS, {
+                    castId: item?.id,
+                  });
+                }}
+                cardWidth={90}
+                firstCard={index === 0 ? true : false}
+                lastCard={index == movieCastData?.length - 1 ? true : false}
+                imagePath={baseImagePath('w342', item.profile_path)}
+                title={item.original_name}
+                subtitle={item.character}
+              />
+            )}
+            ItemSeparatorComponent={SeparatorComponent}
+          />
+        </View>
+      </View>
     </ScrollView>
   );
 }
@@ -250,5 +282,12 @@ const styles = StyleSheet.create({
   starIcon: {
     fontSize: FONTSIZE.size_14,
     color: COLORS.Yellow,
+  },
+  overview: {
+    marginTop: SPACING.space_10,
+    fontFamily: FONTTFAMILY.poppins_regular,
+    fontSize: FONTSIZE.size_14,
+    color: COLORS.White,
+    textAlign: 'justify',
   },
 });

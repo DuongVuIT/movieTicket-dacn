@@ -36,19 +36,7 @@ const genres: any = {
 const CardMovie = (props: any) => {
   return (
     <TouchableOpacity onPress={() => props.cardMovieFunction()}>
-      <View
-        style={[
-          styles.container,
-          props.Margin
-            ? props.firstCard
-              ? {marginLeft: SPACING.space_36}
-              : props.lastCard
-              ? {marginRight: SPACING.space_36}
-              : {}
-            : {},
-          props.shouldMarginatedAround ? {margin: SPACING.space_12} : {},
-          {maxWidth: props.cardWidth},
-        ]}>
+      <View style={[styles.container, {maxWidth: props.cardWidth}]}>
         <Image
           style={[styles.cardImage, {width: props.cardWidth}]}
           source={{uri: props.imagaPath}}

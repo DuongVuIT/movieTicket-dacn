@@ -10,6 +10,7 @@ import {APP_SCREEN, RootParamList} from '@type/navigation';
 import React from 'react';
 import {StyleSheet} from 'react-native';
 import MainBottomTab from './MainBottomTab';
+import CastDetails from '@screens/movie/CastDetails';
 const RootStack = createNativeStackNavigator<RootParamList>();
 const MainStack = () => {
   return (
@@ -42,6 +43,10 @@ const MainStack = () => {
           name={APP_SCREEN.MOVIE_DETAIL}
           component={MovieDetails}
           options={{headerShown: false}}
+        />
+        <RootStack.Screen
+          name={APP_SCREEN.CASTDETAILS}
+          component={CastDetails}
         />
       </RootStack.Navigator>
     </NavigationContainer>

@@ -49,7 +49,6 @@ export default function Home({
       console.log(error);
     }
   };
-  console.log('home', uid);
   const getPopularMovieList = async () => {
     try {
       let response = await fetch(popular);
@@ -95,7 +94,6 @@ export default function Home({
       setUpCommingMovieList(upCommingMovie.results);
     })();
   }, []);
-
   const searchMovieFunction = () => {
     navigation.navigate(APP_SCREEN.SEARCH);
   };
@@ -152,7 +150,7 @@ export default function Home({
           }
           return (
             <CardMovie
-              Margin={false}
+              shouldMarginatedAtEnd={false}
               cardMovieFunction={() => {
                 navigation.navigate(APP_SCREEN.MOVIE_DETAIL, {
                   movieId: item.id,
