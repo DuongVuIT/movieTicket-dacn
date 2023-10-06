@@ -69,7 +69,6 @@ const Login = ({navigation}: NativeStackScreenProps<RootParamList>) => {
   };
   const LoginHandler = async () => {
     try {
-      console.log(email, password);
       const dataFirebase = await firebase
         .auth()
         .signInWithEmailAndPassword(email, password);
@@ -81,7 +80,6 @@ const Login = ({navigation}: NativeStackScreenProps<RootParamList>) => {
         await AsyncStorage.setItem('uid', uid);
         await AsyncStorage.setItem('userToken', token);
         dispatch(setToken(token));
-        console.log(token);
         const userInfo = dataUser.displayName;
         setName(dataUser.displayName);
         navigation.navigate(APP_SCREEN.MOVIE_HOME, {uid: dataUser.uid});

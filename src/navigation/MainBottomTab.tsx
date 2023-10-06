@@ -2,7 +2,6 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import React from 'react';
 
 import Account from '@screens/movie/Account';
-import Home from '@screens/movie/Home';
 import Search from '@screens/movie/Search';
 import Ticket from '@screens/movie/Ticket';
 
@@ -13,6 +12,7 @@ import LottieView from 'lottie-react-native';
 import {View} from 'react-native';
 
 import {StackScreenProps} from '@react-navigation/stack';
+import Home from '@screens/movie/Home';
 export type Props = StackScreenProps<RootParamList, APP_SCREEN.MOVIE_HOME>;
 const MainBottomTab = () => {
   const Tab = createBottomTabNavigator<RootParamList>();

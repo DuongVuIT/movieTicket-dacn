@@ -13,7 +13,6 @@ export default function Account({
     const getData = async () => {
       try {
         const value = await AsyncStorage.getItem('uid');
-        console.log('userid', value);
         if (value !== null) {
           console.log('Dữ liệu đã được lấy thành công:', value);
           return value;

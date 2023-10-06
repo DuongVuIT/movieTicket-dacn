@@ -5,8 +5,11 @@ import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {APP_SCREEN, RootParamList} from '@type/navigation';
 import {COLORS, SPACING} from '@type/theme';
 import React, {useState} from 'react';
-import {Dimensions, FlatList, StatusBar, StyleSheet, View} from 'react-native';
+import {Dimensions, FlatList, StyleSheet, View} from 'react-native';
 const {width, height} = Dimensions.get('screen');
+const SeparatorComponent = () => {
+  return <View style={{width: 15}} />;
+};
 export default function Search({
   navigation,
 }: NativeStackScreenProps<RootParamList>) {
@@ -23,7 +26,6 @@ export default function Search({
   };
   return (
     <View style={styles.container}>
-      <StatusBar hidden />
       <View>
         <FlatList
           data={searchList}
@@ -35,7 +37,7 @@ export default function Search({
             </View>
           }
           contentContainerStyle={styles.contentContainer}
-          renderItem={({item, index}) => (
+          renderItem={({item}) => (
             <SubCardMovie
               shouldMarginatedAtEnd={false}
               shouldMarginatedAround={true}

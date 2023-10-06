@@ -11,6 +11,7 @@ import React from 'react';
 import {StyleSheet} from 'react-native';
 import MainBottomTab from './MainBottomTab';
 import CastDetails from '@screens/movie/CastDetails';
+import MovieSimilar from '@screens/movie/MovieSimilar';
 const RootStack = createNativeStackNavigator<RootParamList>();
 const MainStack = () => {
   return (
@@ -48,6 +49,7 @@ const MainStack = () => {
           name={APP_SCREEN.CASTDETAILS}
           component={CastDetails}
         />
+        <RootStack.Screen name={ APP_SCREEN.MOVIE_SIMILAR} component={MovieSimilar} />
       </RootStack.Navigator>
     </NavigationContainer>
   );

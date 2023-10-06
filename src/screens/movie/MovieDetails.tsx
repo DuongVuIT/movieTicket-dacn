@@ -1,8 +1,14 @@
-import {baseImagePath, castDetails, movieDetails} from '@api/apiCall';
+import {
+  baseImagePath,
+  castDetails,
+  movieDetails,
+  movieSimilar,
+} from '@api/apiCall';
 import CastCard from '@components/CastCard';
 import CustomIcon from '@components/CustomIcon';
 import CustomTitle from '@components/CustomTitle';
 import IconHeader from '@components/IconHeader';
+import SubCardMovie from '@components/SubCardMovie';
 import {useRoute} from '@react-navigation/native';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {APP_SCREEN, RootParamList} from '@type/navigation';
@@ -14,7 +20,7 @@ import {
   SPACING,
 } from '@type/theme';
 import React, {useEffect, useState} from 'react';
-import {FlatList, Image, ImageBackground} from 'react-native';
+import {Dimensions, FlatList, Image, ImageBackground} from 'react-native';
 import {
   ActivityIndicator,
   ScrollView,
@@ -24,15 +30,20 @@ import {
   View,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
+const {width} = Dimensions.get('window');
 
 export default function MovieDetails({
   navigation,
 }: NativeStackScreenProps<RootParamList>) {
   const [movieData, setMovieData] = useState<any>();
   const [movieCastData, setMovieCastData] = useState<any>();
+  const [similarData, setSimilar] = useState<any>();
   const route = useRoute<any>();
   const data = route.params;
+  const SeparatorComponent = () => {
+    return <View style={{width: 10}} />;
+  };
   const getMovieDetails = async (movieId: number) => {
     try {
       let response = await fetch(movieDetails(movieId));
@@ -41,9 +52,6 @@ export default function MovieDetails({
     } catch (error) {
       console.log(error);
     }
-  };
-  const SeparatorComponent = () => {
-    return <View style={{width: 10}} />;
   };
   const getMovieCastDetails = async (movieId: number) => {
     try {
@@ -54,6 +62,17 @@ export default function MovieDetails({
       console.log(error);
     }
   };
+  const getMovieSimilar = async (movieId: number) => {
+    try {
+      let response = await fetch(movieSimilar(movieId));
+      let json = await response.json();
+      console.log(json);
+      setSimilar(json.results);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
     (async () => {
       const tempMovieData = await getMovieDetails(data?.movieId);
@@ -64,13 +83,9 @@ export default function MovieDetails({
       const tempMovieCastData = await getMovieCastDetails(data?.movieId);
       setMovieCastData(tempMovieCastData?.cast);
     })();
+    getMovieSimilar(data?.movieId);
   }, []);
-  if (
-    movieData == undefined &&
-    movieData == null &&
-    movieCastData == undefined &&
-    movieCastData == null
-  ) {
+  if (!similarData && !movieData && !movieCastData) {
     return (
       <ScrollView
         style={styles.container}
@@ -95,7 +110,6 @@ export default function MovieDetails({
       style={styles.container}
       bounces={false}
       showsVerticalScrollIndicator={false}>
-      <StatusBar hidden />
       <View>
         <ImageBackground
           style={styles.imageBG}
@@ -181,6 +195,32 @@ export default function MovieDetails({
           />
         </View>
       </View>
+      <View>
+        <CustomTitle title={'Movie Similar'} />
+        <FlatList
+          data={similarData}
+          keyExtractor={(item: any) => item.id}
+          contentContainerStyle={styles.contentContainer}
+          horizontal
+          renderItem={({item, index}) => (
+            <SubCardMovie
+              shouldMarginatedAtEnd={true}
+              cardMovieFunction={() => {
+                navigation.navigate(APP_SCREEN.MOVIE_SIMILAR, {
+                  movieId: item.id,
+                });
+              }}
+              cardWidth={width / 3}
+              firstCard={index == 0 ? true : false}
+              lastCard={index == similarData?.length ? true : false}
+              title={item.original_title}
+              imagaPath={baseImagePath('w342', item.poster_path)}
+              vote_average={item.vote_average}
+              vote_count={item.vote_count}
+            />
+          )}
+        />
+      </View>
     </ScrollView>
   );
 }
@@ -213,6 +253,9 @@ const styles = StyleSheet.create({
   imagesContainer: {
     width: '100%',
     aspectRatio: 16 / 9,
+  },
+  scollContainer: {
+    backgroundColor: COLORS.Black,
   },
   images: {
     width: '60%',
@@ -289,5 +332,8 @@ const styles = StyleSheet.create({
     fontSize: FONTSIZE.size_14,
     color: COLORS.White,
     textAlign: 'justify',
+  },
+  contentContainer: {
+    gap: SPACING.space_36,
   },
 });

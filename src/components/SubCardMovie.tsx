@@ -1,6 +1,3 @@
-import {StyleSheet, Text, TouchableOpacity, View, Image} from 'react-native';
-import React from 'react';
-import {Colors} from 'react-native/Libraries/NewAppScreen';
 import {
   BORDERRADIUS,
   COLORS,
@@ -8,6 +5,8 @@ import {
   FONTTFAMILY,
   SPACING,
 } from '@type/theme';
+import React from 'react';
+import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import CustomIcon from './CustomIcon';
 
 const SubCardMovie = (props: any) => {
@@ -30,7 +29,6 @@ const SubCardMovie = (props: any) => {
           style={[styles.cardImage, {width: props.cardWidth}]}
           source={{uri: props.imagaPath}}
         />
-
         <View>
           <View style={styles.rateContainer}>
             <CustomIcon name="star" style={styles.iconStyle} />
@@ -49,9 +47,7 @@ const SubCardMovie = (props: any) => {
 
 const styles = StyleSheet.create({
   container: {
-    display: 'flex',
     flex: 1,
-    backgroundColor: COLORS.Black,
   },
   cardImage: {
     aspectRatio: 2 / 3,

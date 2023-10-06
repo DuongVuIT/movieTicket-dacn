@@ -77,7 +77,6 @@ export default function Home({
       console.log(error);
     }
   };
-
   useEffect(() => {
     (async () => {
       let nowPlayIng = await getNowPlayingMovieList();
@@ -98,21 +97,16 @@ export default function Home({
     navigation.navigate(APP_SCREEN.SEARCH);
   };
   if (
-    nowPlayingMovieList == undefined &&
-    nowPlayingMovieList == null &&
-    popularMovieList == undefined &&
-    popularMovieList == null &&
-    topRatedMovieList == undefined &&
-    topRatedMovieList == null &&
-    upCommingMovieList == undefined &&
-    upCommingMovieList == null
+    !nowPlayingMovieList &&
+    !popularMovieList &&
+    !topRatedMovieList &&
+    !upCommingMovieList
   ) {
     return (
       <ScrollView
         style={styles.container}
         bounces={false}
         contentContainerStyle={styles.scollContainer}>
-        <StatusBar hidden />
         <View style={styles.inputHeaderContainer}>
           <InputHeader searchMovie={searchMovieFunction} />
         </View>
@@ -127,7 +121,6 @@ export default function Home({
       scrollEnabled
       style={styles.container}
       contentContainerStyle={styles.scollContainer}>
-      <StatusBar hidden />
       <View style={styles.inputHeaderContainer}>
         <CustomHeader />
       </View>
@@ -162,7 +155,7 @@ export default function Home({
               title={item.original_title}
               imagaPath={baseImagePath('w780', item.poster_path)}
               genre={item.genre_ids.slice(1, 4)}
-              vote_average={item.vote_average}
+              vote_average={item.vote_average.toFixed(2)}
               vote_count={item.vote_count}
             />
           );
@@ -216,6 +209,7 @@ export default function Home({
       <CustomTitle title={'Top Rated'} />
       <FlatList
         data={topRatedMovieList}
+        bounces={false}
         keyExtractor={(item: any) => item.id}
         contentContainerStyle={styles.contentContainer}
         horizontal
