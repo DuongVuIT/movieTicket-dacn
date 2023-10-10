@@ -1,7 +1,7 @@
 export const mall = [
   {
     idMall: 1,
-    Name: 'Lottie Cantavvil',
+    Name: 'Lottie Cantavil',
   },
   {
     idMall: 2,

@@ -83,9 +83,10 @@ const Booking = ({navigation}: NativeStackScreenProps<RootParamList>) => {
         <View>
           <SelectList
             placeholder="Select city "
+            inputStyles={{color: 'white'}}
             boxStyles={styles.boxSelectedStyle}
             dropdownStyles={styles.dropdownStyle}
-            dropdownTextStyles={{fontSize: 14}}
+            dropdownTextStyles={{fontSize: 14, color: 'white'}}
             setSelected={(val: any) => handleCityChange(val)}
             data={cities.map((item: any) => ({
               value: item.name,
@@ -97,8 +98,9 @@ const Booking = ({navigation}: NativeStackScreenProps<RootParamList>) => {
           <SelectList
             placeholder="Select district"
             boxStyles={styles.boxSelectedStyle}
+            inputStyles={{color: 'white'}}
             dropdownStyles={styles.dropdownStyle}
-            dropdownTextStyles={{fontSize: 14}}
+            dropdownTextStyles={{fontSize: 14, color: 'white'}}
             setSelected={(val: any) => setSelectedDistrict(val)}
             onSelect={() => handleDistrictChange}
             data={districts.map((item: any) => ({
@@ -114,8 +116,9 @@ const Booking = ({navigation}: NativeStackScreenProps<RootParamList>) => {
           placeholder="Select mall"
           boxStyles={styles.boxSelectedStyle}
           dropdownStyles={styles.dropdownStyle}
-          dropdownTextStyles={{fontSize: 14}}
+          dropdownTextStyles={{fontSize: 14, color: 'white'}}
           setSelected={(val: any) => setSelectedMall(val)}
+          inputStyles={{color: 'white'}}
           data={mall.map((item: any) => ({
             value: item.Name,
             key: item.idMall,
@@ -131,6 +134,7 @@ const styles = StyleSheet.create({
   container: {
     display: 'flex',
     flex: 1,
+    backgroundColor: COLORS.Black,
   },
   loadingIcon: {
     flex: 1,
@@ -151,10 +155,7 @@ const styles = StyleSheet.create({
   linearGradient: {
     height: '100%',
   },
-  itemStyle: {
-    fontSize: 16,
-    color: COLORS.Black,
-  },
+
   boxSelectedStyle: {
     marginTop: 10,
     borderRadius: 20,
