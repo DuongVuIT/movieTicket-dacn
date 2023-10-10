@@ -1,6 +1,5 @@
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 
-import {loginSuccess, setToken} from '@actions/authActions';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {APP_SCREEN, RootParamList} from '@type/navigation';
 import {
@@ -28,6 +27,7 @@ import {
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import LinearGradient from 'react-native-linear-gradient';
 import {useDispatch} from 'react-redux';
+import {loginSuccess, setToken} from '@actions/authActions';
 const images: string[] = [
   'https://www.themoviedb.org/t/p/w1280/cswPVyXwQ13dFHU1KFS8dpFxIyY.jpg',
   'https://www.themoviedb.org/t/p/w1280/kdAOhC8IIS5jqzruRk7To3AEsHH.jpg',
@@ -274,7 +274,7 @@ const styles = StyleSheet.create({
     borderColor: COLORS.White,
     padding: SPACING.space_10,
     width: 130,
-    borderRadius: BORDERRADIUS.radius_10,
+    borderRadius: BORDERRADIUS.radius_20,
   },
   textInput_password: {
     color: COLORS.White,

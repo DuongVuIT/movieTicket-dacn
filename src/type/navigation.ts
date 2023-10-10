@@ -11,6 +11,7 @@ export enum APP_SCREEN {
   HOME = 'HOME',
   CASTDETAILS = 'CASTDETAILS',
   MOVIE_SIMILAR = 'MOVIE_SIMILAR',
+  BOOKING = 'BOOKING',
 }
 export type RootParamList = {
   [APP_SCREEN.HOME]: {
@@ -33,5 +34,9 @@ export type RootParamList = {
   };
   [APP_SCREEN.MOVIE_SIMILAR]: {
     movieId: any | string | undefined;
+  };
+  [APP_SCREEN.BOOKING]: {
+    BgImage: string | undefined;
+    PosterImage: string | undefined;
   };
 };

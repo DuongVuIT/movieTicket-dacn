@@ -17,7 +17,6 @@ import {ImageBackground} from 'react-native';
 
 const CustomHeader = (props: any) => {
   const [searchText, setSearchText] = useState<string>('');
-  console.log(searchText);
   return (
     <View style={styles.container}>
       <Text style={styles.textHeader}>Lottie Movie</Text>

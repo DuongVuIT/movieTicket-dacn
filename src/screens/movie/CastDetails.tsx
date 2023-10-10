@@ -46,7 +46,6 @@ const CastDetails = ({navigation}: NativeStackScreenProps<RootParamList>) => {
     return <View style={{width: 10}} />;
   };
   const getCastCredits = async (castId: number) => {
-    console.log(castMovieList);
     try {
       let response = await fetch(castCredits(castId));
       let json = await response.json();

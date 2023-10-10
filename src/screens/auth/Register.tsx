@@ -1,4 +1,3 @@
-import {registerSuccess} from '@actions/authActions';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {APP_SCREEN, RootParamList} from '@type/navigation';
 import {
@@ -239,6 +238,9 @@ const Register = ({navigation}: NativeStackScreenProps<RootParamList>) => {
                 Register
               </Text>
             </TouchableOpacity>
+            <TouchableOpacity onPress={() => navigation.goBack()}>
+              <Text style={styles.textLogin}>Have account? Login</Text>
+            </TouchableOpacity>
           </View>
         </View>
       </LinearGradient>
@@ -269,7 +271,7 @@ const styles = StyleSheet.create({
     borderColor: COLORS.White,
     padding: SPACING.space_10,
     width: 130,
-    borderRadius: BORDERRADIUS.radius_10,
+    borderRadius: BORDERRADIUS.radius_20,
   },
   erroMessage: {
     color: COLORS.Red,
@@ -305,6 +307,11 @@ const styles = StyleSheet.create({
     borderColor: COLORS.White,
     marginLeft: MARGIN.margin_36,
     width: PERCENT.percent_75,
+  },
+  textLogin: {
+    color: COLORS.White,
+    textAlign: 'center',
+    marginTop: MARGIN.margin_6,
   },
 });
 export default Register;

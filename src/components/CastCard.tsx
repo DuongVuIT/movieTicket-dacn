@@ -33,6 +33,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   cardImage: {
+    marginLeft: SPACING.space_20,
     aspectRatio: 1 / 1,
     marginBottom: SPACING.space_20,
     borderRadius: BORDERRADIUS.radius_26 * 4,

@@ -17,12 +17,12 @@ const SubCardMovie = (props: any) => {
           styles.container,
           props.shouldMarginatedAtEnd
             ? props.firstCard
-              ? {marginLeft: SPACING.space_36}
+              ? {marginLeft: SPACING.space_20}
               : props.lastCard
-              ? {marginRight: SPACING.space_36}
+              ? {marginRight: SPACING.space_20}
               : {}
             : {},
-          props.shouldMarginatedAround ? {margin: SPACING.space_12} : {},
+          props.shouldMarginatedAround ? {margin: SPACING.space_10} : {},
           {maxWidth: props.cardWidth},
         ]}>
         <Image

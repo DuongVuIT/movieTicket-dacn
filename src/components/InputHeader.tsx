@@ -17,7 +17,6 @@ import CustomIcon from './CustomIcon';
 
 const InputHeader = (props: any) => {
   const [searchText, setSearchText] = useState<string>('');
-  console.log(searchText);
   return (
     <View style={styles.container}>
       <TextInput
