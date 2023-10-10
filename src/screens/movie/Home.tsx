@@ -105,6 +105,7 @@ export default function Home({
     return (
       <ScrollView
         style={styles.container}
+        showsVerticalScrollIndicator={false}
         bounces={false}
         contentContainerStyle={styles.scollContainer}>
         <View style={styles.inputHeaderContainer}>
@@ -119,6 +120,7 @@ export default function Home({
   return (
     <ScrollView
       scrollEnabled
+      showsVerticalScrollIndicator={false}
       style={styles.container}
       contentContainerStyle={styles.scollContainer}>
       <View style={styles.inputHeaderContainer}>
@@ -131,6 +133,7 @@ export default function Home({
         contentContainerStyle={styles.contentContainer}
         decelerationRate={0}
         snapToInterval={width * 0.7 + SPACING.space_36}
+        showsHorizontalScrollIndicator={false}
         horizontal
         renderItem={({item, index}) => {
           if (!item.original_title) {
@@ -151,7 +154,7 @@ export default function Home({
               }}
               cardWidth={width * 0.7}
               firstCard={index == 0 ? true : false}
-              lastCard={index == upCommingMovieList?.length ? true : false}
+              lastCard={index == nowPlayingMovieList?.length ? true : false}
               title={item.original_title}
               imagaPath={baseImagePath('w780', item.poster_path)}
               genre={item.genre_ids.slice(1, 4)}
@@ -164,6 +167,7 @@ export default function Home({
       <CustomTitle title={'Popular'} />
       <FlatList
         data={popularMovieList}
+        showsHorizontalScrollIndicator={false}
         keyExtractor={(item: any) => item.id}
         contentContainerStyle={styles.contentContainer}
         horizontal
@@ -187,6 +191,7 @@ export default function Home({
       <CustomTitle title={'Up comming'} />
       <FlatList
         data={upCommingMovieList}
+        showsHorizontalScrollIndicator={false}
         keyExtractor={(item: any) => item.id}
         contentContainerStyle={styles.contentContainer}
         horizontal
@@ -209,6 +214,7 @@ export default function Home({
       <CustomTitle title={'Top Rated'} />
       <FlatList
         data={topRatedMovieList}
+        showsHorizontalScrollIndicator={false}
         bounces={false}
         keyExtractor={(item: any) => item.id}
         contentContainerStyle={styles.contentContainer}
@@ -235,10 +241,10 @@ export default function Home({
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: COLORS.Black,
+    backgroundColor: COLORS.GrayRGBA,
   },
   scollContainer: {
-    backgroundColor: COLORS.Black,
+    backgroundColor: COLORS.GrayRGBA,
   },
   loadingIcon: {
     flex: 1,

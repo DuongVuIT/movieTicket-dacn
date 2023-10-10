@@ -20,19 +20,21 @@ import {
   SPACING,
 } from '@type/theme';
 import React, {useEffect, useState} from 'react';
-import {Dimensions, FlatList, Image, ImageBackground} from 'react-native';
 import {
   ActivityIndicator,
+  Dimensions,
+  FlatList,
+  Image,
+  ImageBackground,
   ScrollView,
-  StatusBar,
   StyleSheet,
   Text,
+  TouchableOpacity,
   View,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 const {width} = Dimensions.get('window');
-
 export default function MovieDetails({
   navigation,
 }: NativeStackScreenProps<RootParamList>) {
@@ -40,6 +42,7 @@ export default function MovieDetails({
   const [movieCastData, setMovieCastData] = useState<any>();
   const [similarData, setSimilar] = useState<any>();
   const route = useRoute<any>();
+  const inserts = useSafeAreaInsets();
   const data = route.params;
   const SeparatorComponent = () => {
     return <View style={{width: 10}} />;
@@ -66,7 +69,6 @@ export default function MovieDetails({
     try {
       let response = await fetch(movieSimilar(movieId));
       let json = await response.json();
-      console.log(json);
       setSimilar(json.results);
     } catch (error) {
       console.log(error);
@@ -117,7 +119,7 @@ export default function MovieDetails({
             uri: baseImagePath('w780', movieData?.backdrop_path),
           }}>
           <LinearGradient
-            colors={[COLORS.LightGreyRGBA50]}
+            colors={[COLORS.LightGreyRGBA50, COLORS.Black]}
             style={styles.linearGradient}>
             <View style={styles.iconHeader}>
               <IconHeader
@@ -221,6 +223,18 @@ export default function MovieDetails({
           )}
         />
       </View>
+      <View>
+        <TouchableOpacity
+          style={styles.buttonContainer}
+          onPress={() =>
+            navigation.navigate(APP_SCREEN.BOOKING, {
+              BgImage: baseImagePath('w780', movieData.backdrop_path),
+              PosterImage: baseImagePath('original', movieData.poster_path),
+            })
+          }>
+          <Text style={styles.buttonText}>Booking</Text>
+        </TouchableOpacity>
+      </View>
     </ScrollView>
   );
 }
@@ -229,7 +243,7 @@ const styles = StyleSheet.create({
   container: {
     display: 'flex',
     flex: 1,
-    backgroundColor: COLORS.Black,
+    backgroundColor: COLORS.GrayRGBA,
   },
   loadingIcon: {
     flex: 1,
@@ -255,7 +269,7 @@ const styles = StyleSheet.create({
     aspectRatio: 16 / 9,
   },
   scollContainer: {
-    backgroundColor: COLORS.Black,
+    backgroundColor: COLORS.GrayRGBA,
   },
   images: {
     width: '60%',
@@ -335,5 +349,22 @@ const styles = StyleSheet.create({
   },
   contentContainer: {
     gap: SPACING.space_36,
+  },
+  buttonContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderWidth: 2,
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    width: 150,
+    paddingVertical: 10,
+    marginBottom: 30,
+    borderRadius: BORDERRADIUS.radius_20,
+    backgroundColor: COLORS.Black,
+  },
+  buttonText: {
+    fontSize: FONTSIZE.size_16,
+    fontFamily: FONTTFAMILY.poppins_regular,
+    color: COLORS.White,
   },
 });
