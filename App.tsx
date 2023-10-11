@@ -5,6 +5,7 @@ import {Provider} from 'react-redux';
 import {PersistGate} from 'redux-persist/integration/react';
 import MainStack from './src/navigation/MainStack';
 import {persistor, store} from '@store/store';
+import Toast from 'react-native-toast-message';
 
 function App() {
   const firebaseConfig = {
@@ -24,6 +25,7 @@ function App() {
       <PersistGate loading={null} persistor={persistor}>
         <MainStack />
       </PersistGate>
+      <Toast />
     </Provider>
   );
 }

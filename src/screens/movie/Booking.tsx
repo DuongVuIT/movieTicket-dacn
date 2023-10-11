@@ -1,29 +1,81 @@
-import {FlatList, ScrollView, StyleSheet, Text, View} from 'react-native';
-import React, {useEffect, useState} from 'react';
-import axios from 'axios';
-import {ImageBackground} from 'react-native';
-import LinearGradient from 'react-native-linear-gradient';
-import {COLORS, SPACING} from '@type/theme';
+import {mall} from '@api/fakeData';
+import CustomIcon from '@components/CustomIcon';
 import IconHeader from '@components/IconHeader';
+import {useRoute} from '@react-navigation/native';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {RootParamList} from '@type/navigation';
-import {useRoute} from '@react-navigation/native';
+import {COLORS, FONTSIZE, SPACING} from '@type/theme';
+import axios from 'axios';
+import React, {useEffect, useState} from 'react';
+import {
+  ImageBackground,
+  ScrollView,
+  StatusBar,
+  StyleSheet,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import {SelectList} from 'react-native-dropdown-select-list';
-import {mall} from '@api/fakeData';
+import LinearGradient from 'react-native-linear-gradient';
 const host = 'https://provinces.open-api.vn/api/';
 
+const getDate = () => {
+  const date = new Date();
+  let weekday = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+  let weekdays = [];
+  for (let i = 0; i < 30; i++) {
+    let tempDate = {
+      date: new Date(date.getTime() + i * 24 * 60 * 60 * 1000).getDate(),
+      day: weekday[new Date(date.getTime() + i * 24 * 60 * 60 * 1000).getDay()],
+    };
+    weekdays.push(tempDate);
+  }
+  return weekdays;
+};
+const generateSeat = () => {
+  let numRow = 8;
+  let numCol = 3;
+  let rowArray = [];
+  let start = 1;
+  let reachnine = false;
+  for (let i = 0; i < numRow; i++) {
+    let columnArray = [];
+    for (let j = 0; j < numCol; j++) {
+      let seatObject = {
+        number: start,
+        taken: Boolean(Math.round(Math.random())),
+        selected: false,
+      };
+      columnArray.push(seatObject);
+      start++;
+    }
+    if (i == 3) {
+      numCol += 2;
+    }
+    if (numCol < 9 && !reachnine) {
+      numCol += 2;
+    } else {
+      reachnine = true;
+      numCol -= 2;
+    }
+    rowArray.push(columnArray);
+  }
+  return rowArray;
+};
 const Booking = ({navigation}: NativeStackScreenProps<RootParamList>) => {
   const route = useRoute<any>();
   const [cities, setCities] = useState<[]>([]);
   const [districts, setDistricts] = useState<[]>([]);
+  const [seatArray, setSeatArray] = useState<any[][]>(generateSeat());
   const [selectedCity, setSelectedCity] = useState<[]>([]);
   const [selectedDistrict, setSelectedDistrict] = useState<[]>([]);
   const [selectedMall, setSelectedMall] = useState<[]>([]);
-  console.log(selectedCity, selectedMall, selectedDistrict);
+  const [dateArray, setDateArray] = useState<any[]>(getDate());
+
   useEffect(() => {
     callAPI(host);
   }, []);
-
+  console.log(JSON.stringify(seatArray, null, 2));
   const callAPI = async (api: any) => {
     try {
       const response = await axios.get(api);
@@ -63,12 +115,13 @@ const Booking = ({navigation}: NativeStackScreenProps<RootParamList>) => {
       style={styles.container}
       bounces={false}
       showsVerticalScrollIndicator={false}>
+      <StatusBar hidden />
       <View>
         <ImageBackground
           style={styles.imageBG}
           source={{uri: route.params?.BgImage}}>
           <LinearGradient
-            colors={[COLORS.LightGreyRGBA50, COLORS.Black]}
+            colors={[COLORS.LightGreyRGBA50]}
             style={styles.linearGradient}>
             <View style={styles.iconHeader}>
               <IconHeader
@@ -84,6 +137,7 @@ const Booking = ({navigation}: NativeStackScreenProps<RootParamList>) => {
           <SelectList
             placeholder="Select city "
             inputStyles={{color: 'white'}}
+            dropdownShown={false}
             boxStyles={styles.boxSelectedStyle}
             dropdownStyles={styles.dropdownStyle}
             dropdownTextStyles={{fontSize: 14, color: 'white'}}
@@ -126,6 +180,30 @@ const Booking = ({navigation}: NativeStackScreenProps<RootParamList>) => {
           save="value"
         />
       </View>
+      <View style={styles.seatContainer}>
+        <View style={styles.seat}>
+          {seatArray?.map((item, index) => {
+            return (
+              <View key={index} style={styles.seatStyle}>
+                {item?.map((subitem, subindex) => {
+                  return (
+                    <TouchableOpacity key={subitem.number}>
+                      <CustomIcon
+                        name="seat"
+                        style={[
+                          styles.seatIcon,
+                          subitem.taken ? {color: COLORS.Grey} : {},
+                          subitem.selected ? {color: COLORS.Orange} : {},
+                        ]}
+                      />
+                    </TouchableOpacity>
+                  );
+                })}
+              </View>
+            );
+          })}
+        </View>
+      </View>
     </ScrollView>
   );
 };
@@ -164,6 +242,21 @@ const styles = StyleSheet.create({
   dropdownStyle: {
     borderRadius: 30,
     marginRight: 10,
+  },
+  seatContainer: {
+    marginVertical: SPACING.space_20,
+  },
+  seat: {
+    gap: SPACING.space_20,
+  },
+  seatStyle: {
+    flexDirection: 'row',
+    gap: SPACING.space_20,
+    justifyContent: 'center',
+  },
+  seatIcon: {
+    fontSize: FONTSIZE.size_24,
+    color: COLORS.White,
   },
 });
 export default Booking;

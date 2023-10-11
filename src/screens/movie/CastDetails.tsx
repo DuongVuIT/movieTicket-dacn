@@ -1,5 +1,4 @@
 import {baseImagePath, castCredits, castPeoples} from '@api/apiCall';
-import CustomTitle from '@components/CustomTitle';
 import IconHeader from '@components/IconHeader';
 import SubCardMovie from '@components/SubCardMovie';
 import {useRoute} from '@react-navigation/native';
@@ -14,9 +13,10 @@ import {
   SPACING,
 } from '@type/theme';
 import React, {useEffect, useState} from 'react';
-import {Dimensions, FlatList} from 'react-native';
 import {
   ActivityIndicator,
+  Dimensions,
+  FlatList,
   Image,
   ScrollView,
   StyleSheet,

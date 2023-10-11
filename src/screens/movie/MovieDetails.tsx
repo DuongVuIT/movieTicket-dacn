@@ -119,7 +119,7 @@ export default function MovieDetails({
             uri: baseImagePath('w780', movieData?.backdrop_path),
           }}>
           <LinearGradient
-            colors={[COLORS.LightGreyRGBA50, COLORS.Black]}
+            colors={[COLORS.LightGreyRGBA50]}
             style={styles.linearGradient}>
             <View style={styles.iconHeader}>
               <IconHeader
