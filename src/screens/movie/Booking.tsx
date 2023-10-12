@@ -4,6 +4,8 @@ import IconHeader from '@components/IconHeader';
 import {useRoute} from '@react-navigation/native';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {RootParamList} from '@type/navigation';
+
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import {
   BORDERRADIUS,
   COLORS,
@@ -12,20 +14,22 @@ import {
   SPACING,
 } from '@type/theme';
 import axios from 'axios';
+import firebase from 'firebase/compat';
 import React, {useEffect, useState} from 'react';
-import {Dimensions, FlatList, Text} from 'react-native';
 import {
+  FlatList,
   ImageBackground,
   ScrollView,
   StatusBar,
   StyleSheet,
+  Text,
   TouchableOpacity,
   View,
 } from 'react-native';
 import {SelectList} from 'react-native-dropdown-select-list';
 import LinearGradient from 'react-native-linear-gradient';
+import Toast from 'react-native-toast-message';
 const host = 'https://provinces.open-api.vn/api/';
-const {height, width} = Dimensions.get('screen');
 const getDate = () => {
   const date = new Date();
   let weekday = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
@@ -69,8 +73,10 @@ const generateSeat = () => {
   }
   return rowArray;
 };
+
 const Booking = ({navigation}: NativeStackScreenProps<RootParamList>) => {
   const route = useRoute<any>();
+  const [uid, setIduser] = useState<any>([]);
   const [cities, setCities] = useState<[]>([]);
   const [districts, setDistricts] = useState<[]>([]);
   const [seatArray, setSeatArray] = useState<any[][]>(generateSeat());
@@ -82,8 +88,18 @@ const Booking = ({navigation}: NativeStackScreenProps<RootParamList>) => {
   const [selectedMall, setSelectedMall] = useState<[]>([]);
   const [dateArray, setDateArray] = useState<any[]>(getDate());
   const [selectedTime, setSelectedTime] = useState<any>();
+
   useEffect(() => {
     callAPI(host);
+  }, []);
+  console.log(selectedCity, selectedDistrict, selectedMall);
+  console.log(selectedDate, selectedTime, selectedSeatArray);
+  useEffect(() => {
+    const getUid = async () => {
+      const iduser = await AsyncStorage.getItem('uid');
+      setIduser(iduser);
+    };
+    getUid();
   }, []);
   const callAPI = async (api: any) => {
     try {
@@ -136,6 +152,62 @@ const Booking = ({navigation}: NativeStackScreenProps<RootParamList>) => {
       }
       setPrice(arraySeatSelect.length * 50);
       setSeatArray(seat);
+    }
+  };
+  const bookSeat = async () => {
+    const ticketImage = route?.params?.PosterImage;
+    console.log(selectedSeatArray.length, 11111);
+    console.log(
+      selectedTime !== undefined &&
+        selectedDate !== undefined &&
+        selectedCity !== undefined &&
+        selectedDistrict !== undefined &&
+        selectedMall !== undefined &&
+        selectedSeatArray !== undefined &&
+        selectedSeatArray.length > 0,
+    );
+    if (
+      selectedSeatArray.length > 0 &&
+      !!selectedTime &&
+      !!selectedDate &&
+      !!selectedCity &&
+      !!selectedDistrict &&
+      !!selectedMall &&
+      !!selectedSeatArray
+    ) {
+      try {
+        const userUID = uid;
+        const ticketData = {
+          seatArray: selectedSeatArray,
+          time: selectedTime,
+          date: selectedDate,
+          city: selectedCity,
+          districts: selectedDistrict,
+          image: ticketImage,
+        };
+        firebase
+          .database()
+          .ref(`users/${userUID}/tickets`)
+          .push(ticketData)
+          .then(() => {
+            console.log('Dữ liệu đã được lưu vào Firebase Realtime Database.');
+          })
+          .catch(error => {
+            console.error('Lỗi khi lưu dữ liệu:', error);
+          });
+      } catch (error) {
+        console.log(error);
+      }
+    } else {
+      Toast.show({
+        type: 'error',
+        position: 'top',
+        text1: 'Error',
+        text2: 'Please select all information',
+        visibilityTime: 1000,
+        autoHide: true,
+        topOffset: 50,
+      });
     }
   };
   return (
@@ -263,20 +335,18 @@ const Booking = ({navigation}: NativeStackScreenProps<RootParamList>) => {
           horizontal
           bounces={false}
           contentContainerStyle={styles.contentContainerStyle}
-          renderItem={({item, index}) => {
+          renderItem={({item}) => {
+            const isSelected = item === selectedDate;
             return (
-              <TouchableOpacity onPress={() => setSelectedDate(index)}>
+              <TouchableOpacity onPress={() => setSelectedDate(item)}>
                 <View
                   style={[
                     styles.dateContainer,
-                    index == 0
-                      ? {marginLeft: SPACING.space_18}
-                      : index == dateArray.length - 1
+                    item === dateArray[0] ? {marginLeft: SPACING.space_18} : {},
+                    item === dateArray[dateArray.length - 1]
                       ? {marginRight: SPACING.space_10}
                       : {},
-                    index == selectedDate
-                      ? {backgroundColor: COLORS.Orange}
-                      : {},
+                    isSelected ? {backgroundColor: COLORS.Orange} : {},
                   ]}>
                   <Text style={styles.dateText}>{item.date}</Text>
                   <Text style={styles.dayText}>{item.day}</Text>
@@ -294,20 +364,18 @@ const Booking = ({navigation}: NativeStackScreenProps<RootParamList>) => {
           horizontal
           bounces={false}
           contentContainerStyle={styles.contentContainerStyle}
-          renderItem={({item, index}) => {
+          renderItem={({item}) => {
+            const isSelected = item === selectedTime;
             return (
-              <TouchableOpacity onPress={() => setSelectedTime(index)}>
+              <TouchableOpacity onPress={() => setSelectedTime(item)}>
                 <View
                   style={[
                     styles.timeContainer,
-                    index == 0
-                      ? {marginLeft: SPACING.space_24}
-                      : index == dateArray.length - 1
-                      ? {marginRight: SPACING.space_24}
+                    item === timeArray[0] ? {marginLeft: SPACING.space_18} : {},
+                    item === timeArray[timeArray.length - 1]
+                      ? {marginRight: SPACING.space_10}
                       : {},
-                    index == selectedTime
-                      ? {backgroundColor: COLORS.Orange}
-                      : {},
+                    isSelected ? {backgroundColor: COLORS.Orange} : {},
                   ]}>
                   <Text style={styles.timeText}>{item}</Text>
                 </View>
@@ -321,7 +389,7 @@ const Booking = ({navigation}: NativeStackScreenProps<RootParamList>) => {
           <Text style={styles.totalPrice}>Total Price</Text>
           <Text style={styles.price}>{price},000</Text>
         </View>
-        <TouchableOpacity style={styles.ticketContainer}>
+        <TouchableOpacity style={styles.ticketContainer} onPress={bookSeat}>
           <Text style={styles.ticket}>Buy ticket</Text>
         </TouchableOpacity>
       </View>
@@ -334,7 +402,6 @@ const styles = StyleSheet.create({
     display: 'flex',
     flex: 1,
     backgroundColor: COLORS.Black,
-    height: height + 150,
   },
   loadingIcon: {
     flex: 1,
