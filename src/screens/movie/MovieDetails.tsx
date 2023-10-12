@@ -230,6 +230,7 @@ export default function MovieDetails({
             navigation.navigate(APP_SCREEN.BOOKING, {
               BgImage: baseImagePath('w780', movieData.backdrop_path),
               PosterImage: baseImagePath('original', movieData.poster_path),
+              MovieName: movieData?.original_title,
             })
           }>
           <Text style={styles.buttonText}>Booking</Text>

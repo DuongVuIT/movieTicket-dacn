@@ -13,6 +13,7 @@ import MainBottomTab from './MainBottomTab';
 import CastDetails from '@screens/movie/CastDetails';
 import MovieSimilar from '@screens/movie/MovieSimilar';
 import Booking from '@screens/movie/Booking';
+import Ticket from '@screens/movie/Ticket';
 const RootStack = createNativeStackNavigator<RootParamList>();
 const MainStack = () => {
   return (
@@ -55,6 +56,7 @@ const MainStack = () => {
           component={MovieSimilar}
         />
         <RootStack.Screen name={APP_SCREEN.BOOKING} component={Booking} />
+        <RootStack.Screen name={APP_SCREEN.TICKET} component={Ticket} />
       </RootStack.Navigator>
     </NavigationContainer>
   );

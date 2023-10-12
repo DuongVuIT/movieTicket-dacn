@@ -19,7 +19,6 @@ export type RootParamList = {
   };
   [APP_SCREEN.WELCOME]: undefined;
   [APP_SCREEN.REGISTER]: undefined;
-  [APP_SCREEN.TICKET]: undefined;
   [APP_SCREEN.SEARCH]: undefined;
   [APP_SCREEN.LOGIN]: undefined;
   [APP_SCREEN.ACCOUNT]: {uid: string | undefined};
@@ -38,5 +37,15 @@ export type RootParamList = {
   [APP_SCREEN.BOOKING]: {
     BgImage: string | undefined;
     PosterImage: string | undefined;
+    MovieName: string | undefined;
+  };
+  [APP_SCREEN.TICKET]: {
+    seat: any | string | undefined;
+    movieName: any | string | undefined;
+    date: any | string | undefined;
+    time: any | string | undefined;
+    city: any | string | undefined;
+    districts: any | string | undefined;
+    image: any | string | undefined;
   };
 };

@@ -1,11 +1,3 @@
-import React, {useState} from 'react';
-import {
-  StyleSheet,
-  TextInput,
-  TouchableOpacity,
-  View,
-  Text,
-} from 'react-native';
 import {
   BORDERRADIUS,
   COLORS,
@@ -13,10 +5,10 @@ import {
   FONTTFAMILY,
   SPACING,
 } from '@type/theme';
-import {ImageBackground} from 'react-native';
+import React from 'react';
+import {StyleSheet, Text, View} from 'react-native';
 
 const CustomHeader = (props: any) => {
-  const [searchText, setSearchText] = useState<string>('');
   return (
     <View style={styles.container}>
       <Text style={styles.textHeader}>Lottie Movie</Text>

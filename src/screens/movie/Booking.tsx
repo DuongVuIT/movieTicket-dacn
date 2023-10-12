@@ -3,7 +3,7 @@ import CustomIcon from '@components/CustomIcon';
 import IconHeader from '@components/IconHeader';
 import {useRoute} from '@react-navigation/native';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import {RootParamList} from '@type/navigation';
+import {APP_SCREEN, RootParamList} from '@type/navigation';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {
@@ -78,6 +78,7 @@ const Booking = ({navigation}: NativeStackScreenProps<RootParamList>) => {
   const route = useRoute<any>();
   const [uid, setIduser] = useState<any>([]);
   const [cities, setCities] = useState<[]>([]);
+  const [displayName, setDisplayName] = useState<any>();
   const [districts, setDistricts] = useState<[]>([]);
   const [seatArray, setSeatArray] = useState<any[][]>(generateSeat());
   const [selectedSeatArray, setSelectedSeatArray] = useState<any>([]);
@@ -92,8 +93,7 @@ const Booking = ({navigation}: NativeStackScreenProps<RootParamList>) => {
   useEffect(() => {
     callAPI(host);
   }, []);
-  console.log(selectedCity, selectedDistrict, selectedMall);
-  console.log(selectedDate, selectedTime, selectedSeatArray);
+
   useEffect(() => {
     const getUid = async () => {
       const iduser = await AsyncStorage.getItem('uid');
@@ -134,7 +134,27 @@ const Booking = ({navigation}: NativeStackScreenProps<RootParamList>) => {
   const handleDistrictChange = (itemValue: any) => {
     setSelectedDistrict(itemValue);
   };
-
+  useEffect(() => {
+    const getNameMovie = () => {
+      const nameMovie = route?.params?.MovieName;
+      console.log(nameMovie);
+    };
+    getNameMovie();
+  }, []);
+  useEffect(() => {
+    firebase
+      .database()
+      .ref(`users/${uid}/name`)
+      .on('value', snapshot => {
+        if (snapshot.exists()) {
+          const name = snapshot.val();
+          setDisplayName(name);
+          console.log('User name:', name);
+        } else {
+          console.log('No data.');
+        }
+      });
+  });
   const selectSeat = (index: number, subindex: number, num: number) => {
     if (!seatArray[index][subindex].taken) {
       let arraySeatSelect: any = [...selectedSeatArray];
@@ -156,16 +176,7 @@ const Booking = ({navigation}: NativeStackScreenProps<RootParamList>) => {
   };
   const bookSeat = async () => {
     const ticketImage = route?.params?.PosterImage;
-    console.log(selectedSeatArray.length, 11111);
-    console.log(
-      selectedTime !== undefined &&
-        selectedDate !== undefined &&
-        selectedCity !== undefined &&
-        selectedDistrict !== undefined &&
-        selectedMall !== undefined &&
-        selectedSeatArray !== undefined &&
-        selectedSeatArray.length > 0,
-    );
+    const movieName = route?.params?.MovieName;
     if (
       selectedSeatArray.length > 0 &&
       !!selectedTime &&
@@ -178,9 +189,11 @@ const Booking = ({navigation}: NativeStackScreenProps<RootParamList>) => {
       try {
         const userUID = uid;
         const ticketData = {
-          seatArray: selectedSeatArray,
-          time: selectedTime,
+          userName: displayName,
+          seat: selectedSeatArray,
+          movieName: movieName,
           date: selectedDate,
+          time: selectedTime,
           city: selectedCity,
           districts: selectedDistrict,
           image: ticketImage,
@@ -195,6 +208,24 @@ const Booking = ({navigation}: NativeStackScreenProps<RootParamList>) => {
           .catch(error => {
             console.error('Lỗi khi lưu dữ liệu:', error);
           });
+        navigation.navigate(APP_SCREEN.TICKET, {
+          seat: selectedSeatArray,
+          movieName: movieName,
+          date: selectedDate,
+          time: selectedTime,
+          city: selectedCity,
+          districts: selectedDistrict,
+          image: ticketImage,
+        });
+        Toast.show({
+          type: 'success',
+          position: 'top',
+          text1: 'Success',
+          text2: 'Buy ticket success',
+          visibilityTime: 4000,
+          autoHide: true,
+          topOffset: 50,
+        });
       } catch (error) {
         console.log(error);
       }
