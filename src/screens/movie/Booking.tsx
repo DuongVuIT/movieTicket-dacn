@@ -346,7 +346,7 @@ const styles = StyleSheet.create({
   },
   iconHeader: {
     marginHorizontal: SPACING.space_36,
-    marginTop: SPACING.space_20 * 2,
+    marginTop: SPACING.space_24 * 2,
   },
   imageBG: {
     width: '100%',
