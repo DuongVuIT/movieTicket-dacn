@@ -79,7 +79,7 @@ export const COLORS: Color = {
   Yellow: '#FFFF00',
   Purple: '#800080',
   Pink: '#FFC0CB',
-  Orange: '#e6780a',
+  Orange: '#FF5524',
   Cyan: '#00FFFF',
   BlackRGB10: 'rgba(0, 0, 0, 0.1)',
   WhiteRGBA75: 'rgba(255, 255, 255, 0.75)',
