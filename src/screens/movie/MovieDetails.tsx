@@ -3,6 +3,7 @@ import {
   castDetails,
   movieDetails,
   movieSimilar,
+  movieTrailers,
 } from '@api/apiCall';
 import CastCard from '@components/CastCard';
 import CustomIcon from '@components/CustomIcon';
@@ -19,13 +20,15 @@ import {
   FONTTFAMILY,
   SPACING,
 } from '@type/theme';
-import React, {useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {
   ActivityIndicator,
+  Alert,
   Dimensions,
   FlatList,
   Image,
   ImageBackground,
+  Modal,
   ScrollView,
   StyleSheet,
   Text,
@@ -33,7 +36,7 @@ import {
   View,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
-import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import YoutubePlayer from 'react-native-youtube-iframe';
 const {width} = Dimensions.get('window');
 export default function MovieDetails({
   navigation,
@@ -41,12 +44,30 @@ export default function MovieDetails({
   const [movieData, setMovieData] = useState<any>();
   const [movieCastData, setMovieCastData] = useState<any>();
   const [similarData, setSimilar] = useState<any>();
+  const [trailerUrl, setTrailerUrl] = useState<any>();
+  const [playing, setPlaying] = useState(false);
+  const [modalTrailer, setModalTrailer] = useState(false);
   const route = useRoute<any>();
-  const inserts = useSafeAreaInsets();
   const data = route.params;
   const SeparatorComponent = () => {
     return <View style={{width: 10}} />;
   };
+  const onStateChange = useCallback((state: any) => {
+    if (state === 'ended') {
+      setPlaying(false);
+      Alert.alert('Video has finished playing!');
+    }
+  }, []);
+  const getMovieTrailer = async (movieId: number) => {
+    try {
+      let response = await fetch(movieTrailers(movieId));
+      const json = await response.json();
+      return json;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const getMovieDetails = async (movieId: number) => {
     try {
       let response = await fetch(movieDetails(movieId));
@@ -65,6 +86,7 @@ export default function MovieDetails({
       console.log(error);
     }
   };
+
   const getMovieSimilar = async (movieId: number) => {
     try {
       let response = await fetch(movieSimilar(movieId));
@@ -74,20 +96,27 @@ export default function MovieDetails({
       console.log(error);
     }
   };
+  const togglePlaying = useCallback(() => {
+    setPlaying(prev => !prev);
+  }, []);
 
   useEffect(() => {
     (async () => {
       const tempMovieData = await getMovieDetails(data?.movieId);
       setMovieData(tempMovieData);
     })();
-
+    (async () => {
+      const tempMovieTrailer = await getMovieTrailer(data?.movieId);
+      const trailerKey = tempMovieTrailer?.videos?.results[0]?.key;
+      setTrailerUrl(trailerKey);
+    })();
     (async () => {
       const tempMovieCastData = await getMovieCastDetails(data?.movieId);
       setMovieCastData(tempMovieCastData?.cast);
     })();
     getMovieSimilar(data?.movieId);
   }, []);
-  if (!similarData && !movieData && !movieCastData) {
+  if (!similarData && !movieData && !movieCastData && !trailerUrl) {
     return (
       <ScrollView
         style={styles.container}
@@ -107,12 +136,49 @@ export default function MovieDetails({
       </ScrollView>
     );
   }
+
   return (
     <ScrollView
       style={styles.container}
       bounces={false}
       showsVerticalScrollIndicator={false}>
       <View>
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={modalTrailer}
+          onRequestClose={() => {
+            setModalTrailer(!modalTrailer);
+          }}>
+          <TouchableOpacity style={{flex: 1}}>
+            <View style={styles.centeredView}>
+              <View style={styles.modalView}>
+                <View
+                  style={{
+                    flex: 1,
+                    flexDirection: 'row',
+                    gap: 20,
+                    paddingTop: 10,
+                    justifyContent: 'flex-end',
+                  }}>
+                  <TouchableOpacity
+                    onPress={() => setModalTrailer(!modalTrailer)}>
+                    <CustomIcon name="close" size={40} color={COLORS.Orange} />
+                  </TouchableOpacity>
+                </View>
+                <View>
+                  <YoutubePlayer
+                    width={width - 30}
+                    height={width + 250}
+                    play={playing}
+                    videoId={trailerUrl}
+                    onChangeState={onStateChange}
+                  />
+                </View>
+              </View>
+            </View>
+          </TouchableOpacity>
+        </Modal>
         <ImageBackground
           style={styles.imageBG}
           source={{
@@ -134,6 +200,24 @@ export default function MovieDetails({
           source={{uri: baseImagePath('w342', movieData?.poster_path)}}
           style={styles.images}
         />
+        <TouchableOpacity
+          onPress={() => {
+            setModalTrailer(!modalTrailer);
+            togglePlaying;
+          }}
+          style={styles.button}>
+          <Image
+            style={{
+              flex: 1,
+
+              height: 60,
+              width: 60,
+              resizeMode: 'cover',
+              borderRadius: 30,
+            }}
+            source={require('@assets/image/youtube.jpg')}
+          />
+        </TouchableOpacity>
       </View>
       <View style={styles.time_realease}>
         <CustomIcon name="clock" style={styles.clockIcon} />
@@ -254,6 +338,12 @@ const styles = StyleSheet.create({
   scrollContainer: {
     flex: 1,
   },
+  button: {
+    position: 'absolute',
+    top: '50%',
+    alignSelf: 'center',
+    padding: 10,
+  },
   iconHeader: {
     marginHorizontal: SPACING.space_36,
     marginTop: SPACING.space_24 * 2,
@@ -265,13 +355,7 @@ const styles = StyleSheet.create({
   linearGradient: {
     height: '100%',
   },
-  imagesContainer: {
-    width: '100%',
-    aspectRatio: 16 / 9,
-  },
-  scollContainer: {
-    backgroundColor: COLORS.GrayRGBA,
-  },
+
   images: {
     width: '60%',
     position: 'absolute',
@@ -367,5 +451,29 @@ const styles = StyleSheet.create({
     fontSize: FONTSIZE.size_16,
     fontFamily: FONTTFAMILY.poppins_regular,
     color: COLORS.White,
+  },
+  subText: {
+    fontFamily: 'nunito-regular',
+    fontSize: 14,
+    color: COLORS.White,
+  },
+  voteContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    gap: 10,
+  },
+
+  centeredView: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginHorizontal: 20,
+  },
+  modalView: {
+    marginTop: 100,
+    borderRadius: 20,
+    padding: 10,
+    margin: 20,
   },
 });

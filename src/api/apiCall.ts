@@ -4,6 +4,7 @@ export const nowPlaying: string = `https://api.themoviedb.org/3/movie/now_playin
 export const upComming: string = `https://api.themoviedb.org/3/movie/upcoming?api_key=${apikey}`;
 export const popular: string = `https://api.themoviedb.org/3/movie/popular?api_key=${apikey}`;
 export const topRated: string = `https://api.themoviedb.org/3/movie/top_rated?api_key=${apikey}`;
+export const trending: string = `https://api.themoviedb.org/3/trending/movie/day?api_key=${apikey}`;
 export const searchMovies = (keyword: string) => {
   return `https://api.themoviedb.org/3/search/movie?api_key=${apikey}&query=${keyword}`;
 };
@@ -21,7 +22,14 @@ export const baseImagePath = (size: string, path: string) => {
 };
 export const movieSimilar = (id: number) => {
   return `https://api.themoviedb.org/3/movie/${id}/similar?api_key=${apikey}`;
-}
-export const castCredits = (id: number) => { 
+};
+export const castCredits = (id: number) => {
   return `https://api.themoviedb.org/3/person/${id}/movie_credits?api_key=${apikey}`;
-}
+};
+export const reviews = (id: number) => {
+  return `https://api.themoviedb.org/3/movie/${id}/reviews?api_key=${apikey}`;
+};
+
+export const movieTrailers = (id: number) => {
+  return `https://api.themoviedb.org/3/movie/${id}?api_key=${apikey}&append_to_response=videos,images`;
+};

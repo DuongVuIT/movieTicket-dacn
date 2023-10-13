@@ -3,6 +3,7 @@ import {
   nowPlaying,
   popular,
   topRated,
+  trending,
   upComming,
 } from '@api/apiCall';
 import CardMovie from '@components/CardMovie';
@@ -11,7 +12,6 @@ import CustomHeader from '@components/CustomHeader';
 import CustomTitle from '@components/CustomTitle';
 import InputHeader from '@components/InputHeader';
 import SubCardMovie from '@components/SubCardMovie';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useRoute} from '@react-navigation/native';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {APP_SCREEN, RootParamList} from '@type/navigation';
@@ -23,7 +23,6 @@ import {
   Dimensions,
   FlatList,
   ScrollView,
-  StatusBar,
   StyleSheet,
   View,
 } from 'react-native';
@@ -40,6 +39,7 @@ export default function Home({
   const [popularMovieList, setPopularMovieList] = useState<any>();
   const [topRatedMovieList, setTopRatedMovieList] = useState<any>();
   const [upCommingMovieList, setUpCommingMovieList] = useState<any>();
+  const [trendingMovieList, setTrendingMovieList] = useState<any>();
   const getNowPlayingMovieList = async () => {
     try {
       let response = await fetch(nowPlaying);
@@ -58,7 +58,15 @@ export default function Home({
       console.log(error);
     }
   };
-
+  const getTrendingMovieList = async () => {
+    try {
+      let response = await fetch(trending);
+      let json = await response.json();
+      return json;
+    } catch (error) {
+      console.log(error);
+    }
+  };
   const getTopRatedMovieList = async () => {
     try {
       let response = await fetch(topRated);
@@ -91,6 +99,12 @@ export default function Home({
       setTopRatedMovieList(topRatedMovie.results);
       let upCommingMovie = await getUpCommingMovieList();
       setUpCommingMovieList(upCommingMovie.results);
+      let trendingMovie = await getTrendingMovieList();
+      setTrendingMovieList([
+        {id: 'zun03'},
+        ...trendingMovie.results,
+        {id: 'zun04'},
+      ]);
     })();
   }, []);
   const searchMovieFunction = () => {
@@ -100,7 +114,8 @@ export default function Home({
     !nowPlayingMovieList &&
     !popularMovieList &&
     !topRatedMovieList &&
-    !upCommingMovieList
+    !upCommingMovieList &&
+    !trendingMovieList
   ) {
     return (
       <ScrollView
@@ -129,6 +144,44 @@ export default function Home({
       <CustomTitle title={'Now Playing'} />
       <FlatList
         data={nowPlayingMovieList}
+        keyExtractor={(item: any) => item.id}
+        contentContainerStyle={styles.contentContainer}
+        decelerationRate={0}
+        snapToInterval={width * 0.7 + SPACING.space_36}
+        showsHorizontalScrollIndicator={false}
+        horizontal
+        renderItem={({item, index}) => {
+          if (!item.original_title) {
+            return (
+              <View
+                style={{
+                  width: (width - (width * 0.7 + SPACING.space_36 * 2)) / 2,
+                }}></View>
+            );
+          }
+          return (
+            <CardMovie
+              shouldMarginatedAtEnd={false}
+              cardMovieFunction={() => {
+                navigation.navigate(APP_SCREEN.MOVIE_DETAIL, {
+                  movieId: item.id,
+                });
+              }}
+              cardWidth={width * 0.7}
+              firstCard={index == 0 ? true : false}
+              lastCard={index == nowPlayingMovieList?.length ? true : false}
+              title={item.original_title}
+              imagaPath={baseImagePath('w780', item.poster_path)}
+              genre={item.genre_ids.slice(1, 4)}
+              vote_average={item.vote_average.toFixed(2)}
+              vote_count={item.vote_count}
+            />
+          );
+        }}
+      />
+      <CustomTitle title={'Trending'} />
+      <FlatList
+        data={trendingMovieList}
         keyExtractor={(item: any) => item.id}
         contentContainerStyle={styles.contentContainer}
         decelerationRate={0}

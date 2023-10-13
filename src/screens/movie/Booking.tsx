@@ -84,9 +84,9 @@ const Booking = ({navigation}: NativeStackScreenProps<RootParamList>) => {
   const [selectedSeatArray, setSelectedSeatArray] = useState<any>([]);
   const [price, setPrice] = useState<number>();
   const [selectedDate, setSelectedDate] = useState<any>();
-  const [selectedCity, setSelectedCity] = useState<[]>([]);
-  const [selectedDistrict, setSelectedDistrict] = useState<[]>([]);
-  const [selectedMall, setSelectedMall] = useState<[]>([]);
+  const [selectedCity, setSelectedCity] = useState<any>();
+  const [selectedDistrict, setSelectedDistrict] = useState<any>();
+  const [selectedMall, setSelectedMall] = useState<any>();
   const [dateArray, setDateArray] = useState<any[]>(getDate());
   const [selectedTime, setSelectedTime] = useState<any>();
 
@@ -157,28 +157,27 @@ const Booking = ({navigation}: NativeStackScreenProps<RootParamList>) => {
   });
   const selectSeat = (index: number, subindex: number, num: number) => {
     if (!seatArray[index][subindex].taken) {
-      let arraySeatSelect: any = [...selectedSeatArray];
-      let seat = [...seatArray];
-      seat[index][subindex].selected = !seat[index][subindex].selected;
-      if (!arraySeatSelect.includes(num)) {
-        arraySeatSelect.push(num);
-        setSelectedSeatArray(arraySeatSelect);
+      seatArray[index][subindex].selected =
+        !seatArray[index][subindex].selected;
+      if (!selectedSeatArray.includes(num)) {
+        selectedSeatArray.push(num);
+        setSelectedSeatArray(selectedSeatArray);
       } else {
-        const tempIndex = arraySeatSelect.indexOf(num);
+        const tempIndex = selectedSeatArray.indexOf(num);
         if (tempIndex > -1) {
-          arraySeatSelect.splice(tempIndex, 1);
-          setSelectedSeatArray(arraySeatSelect);
+          selectedSeatArray.splice(tempIndex, 1);
+          setSelectedSeatArray(selectedSeatArray);
         }
       }
-      setPrice(arraySeatSelect.length * 50);
-      setSeatArray(seat);
+      setPrice(selectedSeatArray.length * 50);
+      setSeatArray(seatArray);
     }
   };
   const bookSeat = async () => {
     const ticketImage = route?.params?.PosterImage;
     const movieName = route?.params?.MovieName;
     if (
-      selectedSeatArray.length > 0 &&
+      selectedSeatArray.length !== 0 &&
       !!selectedTime &&
       !!selectedDate &&
       !!selectedCity &&
