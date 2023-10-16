@@ -37,7 +37,7 @@ const styles = StyleSheet.create({
   headerText: {
     flex: 1,
     fontFamily: FONTTFAMILY.poppins_medium,
-    fontSize: FONTSIZE.size_24,
+    fontSize: FONTSIZE.size_20,
     textAlign: 'center',
     color: COLORS.White,
   },

@@ -28,6 +28,7 @@ import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import LinearGradient from 'react-native-linear-gradient';
 import {useDispatch} from 'react-redux';
 import {loginSuccess, setToken} from '@actions/authActions';
+import Toast from 'react-native-toast-message';
 const images: string[] = [
   'https://www.themoviedb.org/t/p/w1280/cswPVyXwQ13dFHU1KFS8dpFxIyY.jpg',
   'https://www.themoviedb.org/t/p/w1280/kdAOhC8IIS5jqzruRk7To3AEsHH.jpg',
@@ -80,9 +81,15 @@ const Login = ({navigation}: NativeStackScreenProps<RootParamList>) => {
         await AsyncStorage.setItem('uid', uid);
         await AsyncStorage.setItem('userToken', token);
         dispatch(setToken(token));
-        const userInfo = dataUser.displayName;
-        setName(dataUser.displayName);
         navigation.navigate(APP_SCREEN.MOVIE_HOME, {uid: dataUser.uid});
+        Toast.show({
+          type: 'success',
+          text1: 'Success',
+          text2: `Welcome ${name}`,
+          visibilityTime: 4000,
+          topOffset: 50,
+          autoHide: true,
+        });
       }
     } catch (error) {
       const errorCode = (error as firebase.auth.Error).code;

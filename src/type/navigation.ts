@@ -47,5 +47,6 @@ export type RootParamList = {
     city: any | string | undefined;
     districts: any | string | undefined;
     image: any | string | undefined;
+    keyMovies: any | string | undefined;
   };
 };

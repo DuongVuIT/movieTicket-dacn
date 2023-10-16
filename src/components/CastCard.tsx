@@ -40,14 +40,15 @@ const styles = StyleSheet.create({
   },
   title: {
     alignSelf: 'center',
-
     fontFamily: FONTTFAMILY.poppins_medium,
     fontSize: FONTSIZE.size_12,
     color: COLORS.White,
+    marginLeft: SPACING.space_14,
   },
   subtitle: {
     alignSelf: 'stretch',
     marginBottom: SPACING.space_20,
+    marginLeft: SPACING.space_18 * 2,
 
     fontFamily: FONTTFAMILY.poppins_medium,
     fontSize: FONTSIZE.size_12,

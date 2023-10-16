@@ -209,7 +209,6 @@ export default function MovieDetails({
           <Image
             style={{
               flex: 1,
-
               height: 60,
               width: 60,
               resizeMode: 'cover',

@@ -93,14 +93,10 @@ const Booking = ({navigation}: NativeStackScreenProps<RootParamList>) => {
   useEffect(() => {
     callAPI(host);
   }, []);
-
   useEffect(() => {
-    const getUid = async () => {
-      const iduser = await AsyncStorage.getItem('uid');
-      setIduser(iduser);
-    };
-    getUid();
+    getInfo();
   }, []);
+
   const callAPI = async (api: any) => {
     try {
       const response = await axios.get(api);
@@ -134,27 +130,31 @@ const Booking = ({navigation}: NativeStackScreenProps<RootParamList>) => {
   const handleDistrictChange = (itemValue: any) => {
     setSelectedDistrict(itemValue);
   };
-  useEffect(() => {
-    const getNameMovie = () => {
-      const nameMovie = route?.params?.MovieName;
-      console.log(nameMovie);
-    };
-    getNameMovie();
-  }, []);
-  useEffect(() => {
-    firebase
-      .database()
-      .ref(`users/${uid}/name`)
-      .on('value', snapshot => {
-        if (snapshot.exists()) {
-          const name = snapshot.val();
-          setDisplayName(name);
-          console.log('User name:', name);
-        } else {
-          console.log('No data.');
-        }
-      });
-  });
+
+  const getInfo = async () => {
+    const iduser = await AsyncStorage.getItem('uid');
+    setIduser(iduser);
+    const nameMovie = route?.params?.MovieName;
+    if (iduser) {
+      try {
+        firebase
+          .database()
+          .ref(`users/${iduser}/name`)
+          .on('value', snapshot => {
+            if (snapshot.exists()) {
+              const name = snapshot.val();
+              setDisplayName(name);
+              console.log('User name:', name);
+            } else {
+              console.log('No data.');
+            }
+          });
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  };
+
   const selectSeat = (index: number, subindex: number, num: number) => {
     if (!seatArray[index][subindex].taken) {
       seatArray[index][subindex].selected =
@@ -196,17 +196,13 @@ const Booking = ({navigation}: NativeStackScreenProps<RootParamList>) => {
           city: selectedCity,
           districts: selectedDistrict,
           image: ticketImage,
+          mall: selectedMall,
         };
-        firebase
-          .database()
-          .ref(`users/${userUID}/tickets`)
-          .push(ticketData)
-          .then(() => {
-            console.log('Dữ liệu đã được lưu vào Firebase Realtime Database.');
-          })
-          .catch(error => {
-            console.error('Lỗi khi lưu dữ liệu:', error);
-          });
+        const ticketsRef = firebase.database().ref(`users/${userUID}/tickets`);
+        const newTicketRef = await ticketsRef.push(ticketData);
+        const newTicketID: any = newTicketRef?.key;
+        await AsyncStorage.setItem('ticketId', newTicketID);
+
         navigation.navigate(APP_SCREEN.TICKET, {
           seat: selectedSeatArray,
           movieName: movieName,
@@ -215,7 +211,9 @@ const Booking = ({navigation}: NativeStackScreenProps<RootParamList>) => {
           city: selectedCity,
           districts: selectedDistrict,
           image: ticketImage,
+          keyMovies: newTicketID,
         });
+
         Toast.show({
           type: 'success',
           position: 'top',
@@ -417,7 +415,7 @@ const Booking = ({navigation}: NativeStackScreenProps<RootParamList>) => {
       <View style={styles.buttonpriceContainer}>
         <View style={styles.priceContainer}>
           <Text style={styles.totalPrice}>Total Price</Text>
-          <Text style={styles.price}>{price},000</Text>
+          <Text style={styles.price}>{price},000 VNĐ</Text>
         </View>
         <TouchableOpacity style={styles.ticketContainer} onPress={bookSeat}>
           <Text style={styles.ticket}>Buy ticket</Text>
