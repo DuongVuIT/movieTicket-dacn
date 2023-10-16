@@ -1,8 +1,7 @@
-import CustomHeader from '@components/CustomHeader';
 import CustomIcon from '@components/CustomIcon';
 import IconHeader from '@components/IconHeader';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {useIsFocused, useRoute} from '@react-navigation/native';
+import {useIsFocused} from '@react-navigation/native';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {RootParamList} from '@type/navigation';
 import {
@@ -14,17 +13,16 @@ import {
 } from '@type/theme';
 import firebase from 'firebase/compat';
 import React, {useEffect, useState} from 'react';
-import {Text} from 'react-native';
-import {Image} from 'react-native';
 import {
   ActivityIndicator,
+  Image,
   ImageBackground,
   ScrollView,
   StatusBar,
   StyleSheet,
+  Text,
   View,
 } from 'react-native';
-import LinearGradient from 'react-native-linear-gradient';
 export default function Ticket({
   navigation,
 }: NativeStackScreenProps<RootParamList>) {
@@ -154,8 +152,11 @@ const styles = StyleSheet.create({
   ticketBGimage: {
     top: 10,
     alignSelf: 'center',
+    borderTopLeftRadius: BORDERRADIUS.radius_26,
+    borderTopRightRadius: BORDERRADIUS.radius_26,
     width: 300,
     aspectRatio: 200 / 300,
+    overflow: 'hidden',
   },
 
   ticketFooter: {
