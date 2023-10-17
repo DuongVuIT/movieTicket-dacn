@@ -5,11 +5,11 @@ import Account from '@screens/movie/Account';
 import Search from '@screens/movie/Search';
 import Ticket from '@screens/movie/Ticket';
 
-import {APP_SCREEN, RootParamList} from '@type/navigation';
+import Movie from '@screens/movie/Movie';
+import {APP_SCREEN} from '@type/navigation';
 import {COLORS, FONTSIZE, PERCENT} from '@type/theme';
 import LottieView from 'lottie-react-native';
 import {View} from 'react-native';
-import Movie from '@screens/movie/Movie';
 
 const MainBottomTab = () => {
   const Tab = createBottomTabNavigator();

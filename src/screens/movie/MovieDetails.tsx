@@ -4,6 +4,7 @@ import {
   movieDetails,
   movieSimilar,
   movieTrailers,
+  reviews,
 } from '@api/apiCall';
 import CastCard from '@components/CastCard';
 import CustomIcon from '@components/CustomIcon';
@@ -47,6 +48,7 @@ export default function MovieDetails({
   const [trailerUrl, setTrailerUrl] = useState<any>();
   const [playing, setPlaying] = useState(false);
   const [modalTrailer, setModalTrailer] = useState(false);
+  const [reviewMovies, setReviewMovies] = useState();
   const route = useRoute<any>();
   const data = route.params;
   const SeparatorComponent = () => {
@@ -67,7 +69,16 @@ export default function MovieDetails({
       console.log(error);
     }
   };
-
+  const getReviews = async (movieId: number) => {
+    try {
+      let response = await fetch(reviews(movieId));
+      let json = await response.json();
+      console.log('review', JSON.stringify(json, null, 2));
+      return json;
+    } catch (error) {
+      console.error('Error in getReviews:', error);
+    }
+  };
   const getMovieDetails = async (movieId: number) => {
     try {
       let response = await fetch(movieDetails(movieId));
@@ -105,6 +116,7 @@ export default function MovieDetails({
       const tempMovieData = await getMovieDetails(data?.movieId);
       setMovieData(tempMovieData);
     })();
+
     (async () => {
       const tempMovieTrailer = await getMovieTrailer(data?.movieId);
       const trailerKey = tempMovieTrailer?.videos?.results[0]?.key;
@@ -115,6 +127,10 @@ export default function MovieDetails({
       setMovieCastData(tempMovieCastData?.cast);
     })();
     getMovieSimilar(data?.movieId);
+    (async () => {
+      const tempMovieReview = await getReviews(data?.movieId);
+      setReviewMovies(tempMovieReview);
+    })();
   }, []);
   if (!similarData && !movieData && !movieCastData && !trailerUrl) {
     return (
@@ -306,6 +322,24 @@ export default function MovieDetails({
           )}
         />
       </View>
+      <View>
+        <CustomTitle title="Review" />
+        <View
+          style={{
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+          }}>
+          <Text style={styles.subText}>{reviews.length} Comments</Text>
+          <View style={styles.voteContainer}>
+            <CustomIcon name="star" size={18} color={COLORS.Yellow} />
+            <Text style={styles.subText}>
+              {movieData?.vote_average} ({movieData?.vote_count})
+            </Text>
+          </View>
+        </View>
+      </View>
+
       <View>
         <TouchableOpacity
           style={styles.buttonContainer}

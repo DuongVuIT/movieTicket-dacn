@@ -11,6 +11,7 @@ import {APP_SCREEN, RootParamList} from '@type/navigation';
 import React from 'react';
 import {StyleSheet} from 'react-native';
 import MainBottomTab from './MainBottomTab';
+import MyTicket from '@screens/movie/MyTicket';
 const RootStack = createNativeStackNavigator<RootParamList>();
 const MainStack = () => {
   return (
@@ -52,6 +53,7 @@ const MainStack = () => {
           component={MovieSimilar}
         />
         <RootStack.Screen name={APP_SCREEN.BOOKING} component={Booking} />
+        <RootStack.Screen name={APP_SCREEN.MY_TICKET} component={MyTicket} />
       </RootStack.Navigator>
     </NavigationContainer>
   );

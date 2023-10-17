@@ -11,6 +11,7 @@ export enum APP_SCREEN {
   CASTDETAILS = 'CASTDETAILS',
   MOVIE_SIMILAR = 'MOVIE_SIMILAR',
   BOOKING = 'BOOKING',
+  MY_TICKET = 'MY_TICKET',
 }
 export type RootParamList = {
   [APP_SCREEN.MOVIE]: undefined;
@@ -35,4 +36,5 @@ export type RootParamList = {
   };
   [APP_SCREEN.TICKET]: undefined;
   [APP_SCREEN.BOTTOM_TAB]: undefined;
+  [APP_SCREEN.MY_TICKET]: undefined;
 };

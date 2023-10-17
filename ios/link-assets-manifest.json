@@ -77,10 +77,7 @@
       "path": "src/assets/fonts/app_icons.ttf",
       "sha1": "017e9e000c7fa8dbb481f2c3e6271196c4658d46"
     },
-    {
-      "path": "src/assets/image/avatar.png",
-      "sha1": "2c2a37f7d856525ac75feb7cfdc26afd7b03513d"
-    },
+
     {
       "path": "src/assets/image/barcode.png",
       "sha1": "11e2d372d192130e612eb026cf1b261f64869a48"
