@@ -5,7 +5,6 @@ import Register from '@screens/auth/Register';
 import Welcome from '@screens/auth/Welcome';
 import Booking from '@screens/movie/Booking';
 import CastDetails from '@screens/movie/CastDetails';
-import Home from '@screens/movie/Home';
 import MovieDetails from '@screens/movie/MovieDetails';
 import MovieSimilar from '@screens/movie/MovieSimilar';
 import {APP_SCREEN, RootParamList} from '@type/navigation';
@@ -22,7 +21,6 @@ const MainStack = () => {
           component={Welcome}
           options={{headerShown: false}}
         />
-        <RootStack.Screen name={APP_SCREEN.HOME} component={Home} />
         <RootStack.Screen
           name={APP_SCREEN.LOGIN}
           component={Login}
@@ -36,7 +34,7 @@ const MainStack = () => {
           }}
         />
         <RootStack.Screen
-          name={APP_SCREEN.MOVIE_HOME}
+          name={APP_SCREEN.BOTTOM_TAB}
           component={MainBottomTab}
           options={{headerShown: false}}
         />

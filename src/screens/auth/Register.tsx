@@ -24,7 +24,6 @@ import {
 } from 'react-native';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import LinearGradient from 'react-native-linear-gradient';
-import {useDispatch} from 'react-redux';
 const images: string[] = [
   'https://www.themoviedb.org/t/p/w1280/cswPVyXwQ13dFHU1KFS8dpFxIyY.jpg',
   'https://www.themoviedb.org/t/p/w1280/kdAOhC8IIS5jqzruRk7To3AEsHH.jpg',
@@ -34,7 +33,6 @@ const images: string[] = [
 const {width, height} = Dimensions.get('screen');
 const Register = ({navigation}: NativeStackScreenProps<RootParamList>) => {
   const [email, setEmail] = useState<string>('');
-  const disPatch = useDispatch();
   const [password, setPassword] = useState<string>('');
   const [name, setName] = useState<any>();
   const [passwordError, setPasswordError] = useState<string>('');

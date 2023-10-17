@@ -8,11 +8,9 @@ import {
 } from '@api/apiCall';
 import CardMovie from '@components/CardMovie';
 import CustomHeader from '@components/CustomHeader';
-
 import CustomTitle from '@components/CustomTitle';
 import InputHeader from '@components/InputHeader';
 import SubCardMovie from '@components/SubCardMovie';
-import {useRoute} from '@react-navigation/native';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {APP_SCREEN, RootParamList} from '@type/navigation';
 import {COLORS, SPACING} from '@type/theme';
@@ -29,12 +27,9 @@ import {
 
 const {width} = Dimensions.get('window');
 
-export default function Home({
+export default function Movie({
   navigation,
 }: NativeStackScreenProps<RootParamList>) {
-  const route = useRoute<any>();
-  const {uid} = route.params;
-  const [keys, setKeys] = useState([]);
   const [nowPlayingMovieList, setNowPlayingMovieList] = useState<any>();
   const [popularMovieList, setPopularMovieList] = useState<any>();
   const [topRatedMovieList, setTopRatedMovieList] = useState<any>();

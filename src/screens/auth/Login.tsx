@@ -40,7 +40,6 @@ const Login = ({navigation}: NativeStackScreenProps<RootParamList>) => {
 
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
-  const [name, setName] = useState<string>('');
   const [emailError, setEmailError] = useState<string>('');
   const [passwordError, setPasswordError] = useState<string>('');
   const [loginStatus, setLoginStatus] = useState<string>('');
@@ -78,11 +77,11 @@ const Login = ({navigation}: NativeStackScreenProps<RootParamList>) => {
         const uid = dataUser.uid;
         dispatch(loginSuccess(uid));
         dispatch(setToken(token));
-        navigation.navigate(APP_SCREEN.MOVIE_HOME, {uid: dataUser.uid});
+        navigation.navigate(APP_SCREEN.BOTTOM_TAB);
         Toast.show({
           type: 'success',
           text1: 'Success',
-          text2: `Welcome ${name}`,
+          text2: `Welcome`,
           visibilityTime: 4000,
           topOffset: 50,
           autoHide: true,

@@ -5,19 +5,14 @@ import Account from '@screens/movie/Account';
 import Search from '@screens/movie/Search';
 import Ticket from '@screens/movie/Ticket';
 
-import {useRoute} from '@react-navigation/native';
 import {APP_SCREEN, RootParamList} from '@type/navigation';
 import {COLORS, FONTSIZE, PERCENT} from '@type/theme';
 import LottieView from 'lottie-react-native';
 import {View} from 'react-native';
+import Movie from '@screens/movie/Movie';
 
-import {StackScreenProps} from '@react-navigation/stack';
-import Home from '@screens/movie/Home';
-export type Props = StackScreenProps<RootParamList, APP_SCREEN.MOVIE_HOME>;
 const MainBottomTab = () => {
-  const Tab = createBottomTabNavigator<RootParamList>();
-  const route = useRoute<Props['route']>();
-  const {uid} = route.params;
+  const Tab = createBottomTabNavigator();
   return (
     <Tab.Navigator
       screenOptions={({route}) => ({
@@ -37,7 +32,7 @@ const MainBottomTab = () => {
           let iconName;
 
           switch (route.name) {
-            case APP_SCREEN.HOME:
+            case APP_SCREEN.MOVIE:
               filePath = require('@assets/lotties/home.json');
 
               break;
@@ -78,18 +73,10 @@ const MainBottomTab = () => {
           );
         },
       })}>
-      <Tab.Screen
-        name={APP_SCREEN.HOME}
-        component={Home}
-        initialParams={{uid}}
-      />
+      <Tab.Screen name={APP_SCREEN.MOVIE} component={Movie} />
       <Tab.Screen name={APP_SCREEN.SEARCH} component={Search} />
       <Tab.Screen name={APP_SCREEN.TICKET} component={Ticket} />
-      <Tab.Screen
-        name={APP_SCREEN.ACCOUNT}
-        component={Account}
-        initialParams={{uid}}
-      />
+      <Tab.Screen name={APP_SCREEN.ACCOUNT} component={Account} />
     </Tab.Navigator>
   );
 };

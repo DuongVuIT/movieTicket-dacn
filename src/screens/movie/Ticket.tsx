@@ -30,10 +30,12 @@ export default function Ticket({
   const isFocused = useIsFocused();
 
   const [ticketUser, setTicketUser] = useState<any>();
-
+  const [tickets, setTickets] = useState();
   useEffect(() => {
     getInfo();
+    getData();
   }, [isFocused]);
+
   const idticket = useSelector((state: AuthTypes) => state?.ticketId);
   const uid = useSelector((state: AuthTypes) => state?.uid);
   console.log('uid', uid);
@@ -53,30 +55,49 @@ export default function Ticket({
       }
     }
   };
+  const getData = async () => {
+    try {
+      const snapshot = await firebase
+        .database()
+        .ref(`users/${uid}/tickets/`)
+        .once('value');
+      if (snapshot.exists()) {
+        const dataticket = snapshot.val();
+        setTickets(dataticket);
+        console.log('Dữ liệu vé phim:', JSON.stringify(dataticket, null, 5));
 
-  if (ticketUser == undefined || ticketUser == null) {
+        const currentUserHasTicket = Object.keys(dataticket).includes(idticket);
+
+        if (currentUserHasTicket) {
+          console.log('Current user have ticket.');
+          const userTicketData = dataticket[idticket];
+          setTicketUser(userTicketData);
+        } else {
+          console.log('Current user has no ticket.');
+          setTicketUser(null);
+        }
+      } else {
+        console.log('Data not found');
+        setTicketUser(null);
+      }
+    } catch (error) {
+      console.log('Data not found');
+    }
+  };
+
+  if (!ticketUser) {
     return (
-      <ScrollView style={styles.container}>
-        <StatusBar hidden />
-        <View style={styles.iconHeader}>
-          <IconHeader name="arrow-left" action={() => navigation.goBack()} />
-        </View>
+      <View style={styles.container}>
         <View style={styles.loadingIcon}>
           <ActivityIndicator size={'large'} color={COLORS.White} />
         </View>
-      </ScrollView>
+      </View>
     );
   }
+
   return (
     <ScrollView style={styles.container}>
-      <StatusBar hidden />
-      <View style={styles.iconHeader}>
-        <IconHeader
-          name="arrow-left"
-          header={''}
-          action={() => navigation.goBack()}
-        />
-      </View>
+      <View style={styles.iconHeader}></View>
       <View style={[styles.ticketContainer]}>
         <View>
           <ImageBackground
@@ -112,13 +133,13 @@ export default function Ticket({
                 {ticketUser?.seat
                   ?.slice(0, 3)
                   ?.map((item: any, index: number, arr: any) => {
-                    return item + (index == arr.length - 1 ? '' : ', ');
+                    return item + (index === arr.length - 1 ? '' : ', ');
                   })}
               </Text>
             </View>
           </View>
           <View>
-            <Text style={styles.name}>Vu Dai Duong</Text>
+            <Text style={styles.name}>{ticketUser?.userName}</Text>
           </View>
           <Image
             source={require('@assets/image/barcode.png')}
@@ -138,7 +159,7 @@ const styles = StyleSheet.create({
   loadingIcon: {
     flex: 1,
     justifyContent: 'center',
-    alignItems: 'center',
+    alignSelf: 'center',
   },
   iconHeader: {
     marginHorizontal: SPACING.space_36,
