@@ -1,7 +1,6 @@
-import {removeToken} from '@actions/authActions';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {useRoute} from '@react-navigation/native';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import {removeToken} from '@redux/actions/authActions';
 import {APP_SCREEN, RootParamList} from '@type/navigation';
 import React, {useEffect} from 'react';
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
@@ -30,6 +29,7 @@ export default function Account({
   const handleLogout = async () => {
     try {
       await AsyncStorage.removeItem('userToken');
+      await AsyncStorage.removeItem('ticketId');
       console.log('Token removed successfully');
     } catch (error) {
       console.error('Error removing token:', error);

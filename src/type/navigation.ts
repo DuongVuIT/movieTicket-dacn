@@ -39,14 +39,5 @@ export type RootParamList = {
     PosterImage: string | undefined;
     MovieName: string | undefined;
   };
-  [APP_SCREEN.TICKET]: {
-    seat: any | string | undefined;
-    movieName: any | string | undefined;
-    date: any | string | undefined;
-    time: any | string | undefined;
-    city: any | string | undefined;
-    districts: any | string | undefined;
-    image: any | string | undefined;
-    keyMovies: any | string | undefined;
-  };
+  [APP_SCREEN.TICKET]: undefined;
 };

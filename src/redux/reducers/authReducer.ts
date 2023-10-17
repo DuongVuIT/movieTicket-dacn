@@ -1,29 +1,37 @@
 import {
+  AuthActionTypes,
   LOGIN_SUCCESS,
   REGISTER_SUCCESS,
   REMOVE_TOKEN,
+  SAVE_TICKET,
   SET_TOKEN,
-} from '@actions/authActions';
+} from '@redux/actions/authActions';
 
-const initialState = {
-  user: null,
+export interface AuthTypes {
+  isLogin: boolean;
+  token: string;
+  uid: string;
+  ticketId: string;
+}
+const initialState: AuthTypes = {
   isLogin: false,
-  token: null,
-  uid: null,
+  token: '',
+  uid: '',
+  ticketId: '',
 };
 
-export default function authReducer(state = initialState, action: any) {
+export const authReducer = (state = initialState, action: AuthActionTypes) => {
   switch (action.type) {
     case SET_TOKEN:
       return {
         ...state,
-        token: action.payload.token,
+        token: action.payload,
         isLogin: true,
       };
     case LOGIN_SUCCESS:
       return {
         ...state,
-        uid: action.payload.uid,
+        uid: action.payload,
       };
     case REGISTER_SUCCESS:
       return {
@@ -34,9 +42,15 @@ export default function authReducer(state = initialState, action: any) {
     case REMOVE_TOKEN:
       return {
         ...state,
-        token: null,
+        token: '',
       };
+    case SAVE_TICKET:
+      return {
+        ...state,
+        ticketId: action.payload,
+      };
+
     default:
       return state;
   }
-}
+};

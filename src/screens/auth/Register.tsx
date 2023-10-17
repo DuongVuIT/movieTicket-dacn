@@ -33,13 +33,13 @@ const images: string[] = [
 ];
 const {width, height} = Dimensions.get('screen');
 const Register = ({navigation}: NativeStackScreenProps<RootParamList>) => {
-  const [email, setEmail] = useState('');
+  const [email, setEmail] = useState<string>('');
   const disPatch = useDispatch();
-  const [password, setPassword] = useState('');
+  const [password, setPassword] = useState<string>('');
   const [name, setName] = useState<any>();
-  const [passwordError, setPasswordError] = useState('');
-  const [registerError, setRegisterError] = useState('');
-  const [emailError, setEmailError] = useState('');
+  const [passwordError, setPasswordError] = useState<string>('');
+  const [registerError, setRegisterError] = useState<string>('');
+  const [emailError, setEmailError] = useState<string>('');
   const flatlistRef = useRef<FlatList>(null);
   const currentIndex = useRef(0);
   const xScroll = useRef(new Animated.Value(0)).current;

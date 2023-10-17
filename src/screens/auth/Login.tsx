@@ -1,6 +1,6 @@
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import {loginSuccess, setToken} from '@redux/actions/authActions';
 import {APP_SCREEN, RootParamList} from '@type/navigation';
 import {
   BORDERRADIUS,
@@ -26,9 +26,8 @@ import {
 } from 'react-native';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import LinearGradient from 'react-native-linear-gradient';
-import {useDispatch} from 'react-redux';
-import {loginSuccess, setToken} from '@actions/authActions';
 import Toast from 'react-native-toast-message';
+import {useDispatch} from 'react-redux';
 const images: string[] = [
   'https://www.themoviedb.org/t/p/w1280/cswPVyXwQ13dFHU1KFS8dpFxIyY.jpg',
   'https://www.themoviedb.org/t/p/w1280/kdAOhC8IIS5jqzruRk7To3AEsHH.jpg',
@@ -39,12 +38,12 @@ const {width, height} = Dimensions.get('screen');
 const Login = ({navigation}: NativeStackScreenProps<RootParamList>) => {
   const dispatch = useDispatch();
 
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [name, setName] = useState<any>();
-  const [emailError, setEmailError] = useState('');
-  const [passwordError, setPasswordError] = useState('');
-  const [loginStatus, setLoginStatus] = useState('');
+  const [email, setEmail] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
+  const [name, setName] = useState<string>('');
+  const [emailError, setEmailError] = useState<string>('');
+  const [passwordError, setPasswordError] = useState<string>('');
+  const [loginStatus, setLoginStatus] = useState<string>('');
   const flatlistRef = useRef<FlatList>(null);
   const currentIndex = useRef(0);
   const xScroll = useRef(new Animated.Value(0)).current;
@@ -78,8 +77,6 @@ const Login = ({navigation}: NativeStackScreenProps<RootParamList>) => {
         const token = await dataUser.getIdToken();
         const uid = dataUser.uid;
         dispatch(loginSuccess(uid));
-        await AsyncStorage.setItem('uid', uid);
-        await AsyncStorage.setItem('userToken', token);
         dispatch(setToken(token));
         navigation.navigate(APP_SCREEN.MOVIE_HOME, {uid: dataUser.uid});
         Toast.show({

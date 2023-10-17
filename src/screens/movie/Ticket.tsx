@@ -1,8 +1,8 @@
 import CustomIcon from '@components/CustomIcon';
 import IconHeader from '@components/IconHeader';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useIsFocused} from '@react-navigation/native';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import {AuthTypes} from '@redux/reducers/authReducer';
 import {RootParamList} from '@type/navigation';
 import {
   BORDERRADIUS,
@@ -23,27 +23,26 @@ import {
   Text,
   View,
 } from 'react-native';
+import {useSelector} from 'react-redux';
 export default function Ticket({
   navigation,
 }: NativeStackScreenProps<RootParamList>) {
   const isFocused = useIsFocused();
+
   const [ticketUser, setTicketUser] = useState<any>();
-  const [idUser, setidUser] = useState<any>();
-  const [ticketId, setTicketId] = useState<any>();
 
   useEffect(() => {
     getInfo();
   }, [isFocused]);
-
+  const idticket = useSelector((state: AuthTypes) => state?.ticketId);
+  const uid = useSelector((state: AuthTypes) => state?.uid);
+  console.log('uid', uid);
+  console.log(idticket);
   const getInfo = async () => {
-    const user = await AsyncStorage.getItem('uid');
-    setidUser(user);
-    const idTicket = await AsyncStorage.getItem('ticketId');
-    setTicketId(idTicket);
-    if (user && idTicket) {
+    if (uid) {
       const snapshot = await firebase
         .database()
-        .ref(`users/${user}/tickets/${idTicket}/`)
+        .ref(`users/${uid}/tickets/${idticket}/`)
         .once('value');
       if (snapshot.exists()) {
         const data = snapshot.val();
@@ -219,22 +218,5 @@ const styles = StyleSheet.create({
     fontSize: FONTSIZE.size_20,
     color: COLORS.White,
     marginBottom: SPACING.space_10,
-  },
-  linearGradient: {
-    height: '70%',
-  },
-  linear: {
-    borderTopColor: COLORS.Black,
-    borderTopWidth: 3,
-    width: 300,
-    alignSelf: 'center',
-    backgroundColor: COLORS.Orange,
-    borderStyle: 'dashed',
-  },
-  blackCircle: {
-    height: 80,
-    width: 80,
-    borderRadius: 80,
-    backgroundColor: COLORS.Black,
   },
 });

@@ -29,6 +29,8 @@ import {
 import {SelectList} from 'react-native-dropdown-select-list';
 import LinearGradient from 'react-native-linear-gradient';
 import Toast from 'react-native-toast-message';
+import {useDispatch} from 'react-redux';
+import {saveTicket} from '@redux/actions/authActions';
 const host = 'https://provinces.open-api.vn/api/';
 const getDate = () => {
   const date = new Date();
@@ -77,6 +79,7 @@ const generateSeat = () => {
 const Booking = ({navigation}: NativeStackScreenProps<RootParamList>) => {
   const route = useRoute<any>();
   const [uid, setIduser] = useState<any>([]);
+  const dispatch = useDispatch();
   const [cities, setCities] = useState<[]>([]);
   const [displayName, setDisplayName] = useState<any>();
   const [districts, setDistricts] = useState<[]>([]);
@@ -201,18 +204,9 @@ const Booking = ({navigation}: NativeStackScreenProps<RootParamList>) => {
         const ticketsRef = firebase.database().ref(`users/${userUID}/tickets`);
         const newTicketRef = await ticketsRef.push(ticketData);
         const newTicketID: any = newTicketRef?.key;
-        await AsyncStorage.setItem('ticketId', newTicketID);
+        dispatch(saveTicket(newTicketID));
 
-        navigation.navigate(APP_SCREEN.TICKET, {
-          seat: selectedSeatArray,
-          movieName: movieName,
-          date: selectedDate,
-          time: selectedTime,
-          city: selectedCity,
-          districts: selectedDistrict,
-          image: ticketImage,
-          keyMovies: newTicketID,
-        });
+        navigation.navigate(APP_SCREEN.TICKET);
 
         Toast.show({
           type: 'success',

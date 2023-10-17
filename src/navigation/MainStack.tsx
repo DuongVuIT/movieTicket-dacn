@@ -1,19 +1,17 @@
-import {NavigationContainer, useRoute} from '@react-navigation/native';
+import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import {StackScreenProps} from '@react-navigation/stack';
 import Login from '@screens/auth/Login';
 import Register from '@screens/auth/Register';
 import Welcome from '@screens/auth/Welcome';
+import Booking from '@screens/movie/Booking';
+import CastDetails from '@screens/movie/CastDetails';
 import Home from '@screens/movie/Home';
 import MovieDetails from '@screens/movie/MovieDetails';
+import MovieSimilar from '@screens/movie/MovieSimilar';
 import {APP_SCREEN, RootParamList} from '@type/navigation';
 import React from 'react';
 import {StyleSheet} from 'react-native';
 import MainBottomTab from './MainBottomTab';
-import CastDetails from '@screens/movie/CastDetails';
-import MovieSimilar from '@screens/movie/MovieSimilar';
-import Booking from '@screens/movie/Booking';
-import Ticket from '@screens/movie/Ticket';
 const RootStack = createNativeStackNavigator<RootParamList>();
 const MainStack = () => {
   return (
@@ -56,7 +54,6 @@ const MainStack = () => {
           component={MovieSimilar}
         />
         <RootStack.Screen name={APP_SCREEN.BOOKING} component={Booking} />
-        <RootStack.Screen name={APP_SCREEN.TICKET} component={Ticket} />
       </RootStack.Navigator>
     </NavigationContainer>
   );

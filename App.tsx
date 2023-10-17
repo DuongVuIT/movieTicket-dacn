@@ -1,4 +1,3 @@
-import {persistor, store} from '@store/store';
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
 import * as React from 'react';
@@ -6,6 +5,7 @@ import Toast from 'react-native-toast-message';
 import {Provider} from 'react-redux';
 import {PersistGate} from 'redux-persist/integration/react';
 import MainStack from './src/navigation/MainStack';
+import {persistor, store} from '@redux/store/store';
 function App() {
   const firebaseConfig = {
     apiKey: 'AIzaSyB89X3sWgSJCNnSU-o-bo-KiXUYUaZJO8k',

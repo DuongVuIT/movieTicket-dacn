@@ -6,14 +6,17 @@ import React, {useEffect, useState} from 'react';
 import {Image, StyleSheet, View} from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import LinearGradient from 'react-native-linear-gradient';
+import {useSelector} from 'react-redux';
 const Welcome = ({navigation}: NativeStackScreenProps<RootParamList>) => {
-  const [isAnimationCompleted, setIsAnimationCompleted] = useState(false);
-
+  const [isAnimationCompleted, setIsAnimationCompleted] =
+    useState<boolean>(false);
+  const uid = useSelector((store: any) => store?.uid);
+  console.log('1', uid);
+  const userToken = useSelector((store: any) => store?.token);
+  console.log('2', userToken);
   useEffect(() => {
     const checkToken = async () => {
       try {
-        const userToken = await AsyncStorage.getItem('userToken');
-        const uid = await AsyncStorage.getItem('uid');
         if (userToken) {
           setTimeout(() => {
             navigation.navigate(APP_SCREEN.MOVIE_HOME, {uid: uid});
