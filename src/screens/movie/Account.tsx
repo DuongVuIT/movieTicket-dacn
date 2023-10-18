@@ -100,6 +100,15 @@ export default function Account({
           <Text style={styles.textSubtitle}>About Lottie Movie</Text>
         </TouchableOpacity>
       </View>
+      <View
+        style={{marginTop: 20, flexDirection: 'row', justifyContent: 'center'}}>
+        <TouchableOpacity
+          style={{flexDirection: 'row'}}
+          onPress={() => handleLogout()}>
+          <CustomIcon style={styles.iconStyle} name="arrow-left" size={30} />
+          <Text style={styles.logoutTitle}>Logout</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 }
@@ -156,7 +165,12 @@ const styles = StyleSheet.create({
   },
   subContainer: {
     flexDirection: 'row',
-    marginTop: 40,
+    marginTop: 30,
     marginLeft: 30,
+  },
+  logoutTitle: {
+    fontSize: FONTSIZE.size_20,
+    color: COLORS.White,
+    fontFamily: FONTTFAMILY.poppins_regular,
   },
 });

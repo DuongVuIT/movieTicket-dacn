@@ -29,8 +29,9 @@ import {
 import {SelectList} from 'react-native-dropdown-select-list';
 import LinearGradient from 'react-native-linear-gradient';
 import Toast from 'react-native-toast-message';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {saveTicket} from '@redux/actions/authActions';
+import {AuthTypes} from '@redux/reducers/authReducer';
 const host = 'https://provinces.open-api.vn/api/';
 const getDate = () => {
   const date = new Date();
@@ -78,7 +79,6 @@ const generateSeat = () => {
 
 const Booking = ({navigation}: NativeStackScreenProps<RootParamList>) => {
   const route = useRoute<any>();
-  const [uid, setIduser] = useState<any>([]);
   const dispatch = useDispatch();
   const [cities, setCities] = useState<[]>([]);
   const [displayName, setDisplayName] = useState<any>();
@@ -92,7 +92,7 @@ const Booking = ({navigation}: NativeStackScreenProps<RootParamList>) => {
   const [selectedMall, setSelectedMall] = useState<any>();
   const [dateArray, setDateArray] = useState<any[]>(getDate());
   const [selectedTime, setSelectedTime] = useState<any>();
-
+  const uid = useSelector((state: AuthTypes) => state?.uid);
   useEffect(() => {
     callAPI(host);
   }, []);
@@ -135,14 +135,11 @@ const Booking = ({navigation}: NativeStackScreenProps<RootParamList>) => {
   };
 
   const getInfo = async () => {
-    const iduser = await AsyncStorage.getItem('uid');
-    setIduser(iduser);
-    const nameMovie = route?.params?.MovieName;
-    if (iduser) {
+    if (uid) {
       try {
         firebase
           .database()
-          .ref(`users/${iduser}/name`)
+          .ref(`users/${uid}/name`)
           .on('value', snapshot => {
             if (snapshot.exists()) {
               const name = snapshot.val();

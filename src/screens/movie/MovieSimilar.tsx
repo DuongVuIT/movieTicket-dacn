@@ -28,12 +28,12 @@ import {
   FlatList,
   Image,
   ImageBackground,
-  TouchableOpacity,
-  View,
   Modal,
   ScrollView,
   StyleSheet,
   Text,
+  TouchableOpacity,
+  View,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import YoutubePlayer from 'react-native-youtube-iframe';

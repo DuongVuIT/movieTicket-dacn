@@ -7,19 +7,19 @@ export const SAVE_TICKET = 'SAVE_TICKET';
 
 interface SetTokenAction {
   type: typeof SET_TOKEN;
-  payload: string; // Change to the appropriate type for your token
+  payload: string;
 }
 
 interface LoginSuccessAction {
   type: typeof LOGIN_SUCCESS;
-  payload: string; // Change to the appropriate type for your user ID (uid)
+  payload: string;
 }
 
 interface RegisterSuccessAction {
   type: typeof REGISTER_SUCCESS;
   payload: {
-    user: string; // Change to the appropriate type for user data
-    token: string; // Change to the appropriate type for the token
+    user: string;
+    token: string;
   };
 }
 
@@ -29,7 +29,7 @@ interface RemoveTokenAction {
 
 interface SaveTicketAction {
   type: typeof SAVE_TICKET;
-  payload: string; // Change to the appropriate type for your ticket ID
+  payload: string;
 }
 
 export type AuthActionTypes =

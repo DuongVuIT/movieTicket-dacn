@@ -12,12 +12,14 @@ export interface AuthTypes {
   token: string;
   uid: string;
   ticketId: string;
+  movieId: string;
 }
 const initialState: AuthTypes = {
   isLogin: false,
   token: '',
   uid: '',
   ticketId: '',
+  movieId: '',
 };
 
 export const authReducer = (state = initialState, action: AuthActionTypes) => {

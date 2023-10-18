@@ -8,7 +8,7 @@ import {
 import React from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 
-const CustomHeader = (props: any) => {
+const CustomHeader = () => {
   return (
     <View style={styles.container}>
       <Text style={styles.textHeader}>Lottie Movie</Text>

@@ -69,9 +69,7 @@ const CardMovie = (props: any) => {
 
 const styles = StyleSheet.create({
   container: {
-    display: 'flex',
     flex: 1,
-    backgroundColor: COLORS.GrayRGBA,
   },
   cardImage: {
     aspectRatio: 2 / 3,

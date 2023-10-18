@@ -1,6 +1,4 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import {AuthActionTypes} from '@redux/actions/authActions';
 import {AuthTypes} from '@redux/reducers/authReducer';
 import {APP_SCREEN, RootParamList} from '@type/navigation';
 import {PERCENT} from '@type/theme';
@@ -13,9 +11,7 @@ const Welcome = ({navigation}: NativeStackScreenProps<RootParamList>) => {
   const [isAnimationCompleted, setIsAnimationCompleted] =
     useState<boolean>(false);
   const uid = useSelector((store: AuthTypes) => store?.uid);
-  console.log('1', uid);
   const userToken = useSelector((store: any) => store?.token);
-  console.log('2', userToken);
   useEffect(() => {
     const checkToken = async () => {
       try {

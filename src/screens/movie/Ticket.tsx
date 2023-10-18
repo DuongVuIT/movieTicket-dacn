@@ -38,8 +38,6 @@ export default function Ticket({
 
   const idticket = useSelector((state: AuthTypes) => state?.ticketId);
   const uid = useSelector((state: AuthTypes) => state?.uid);
-  console.log('uid', uid);
-  console.log(idticket);
   const getInfo = async () => {
     if (uid) {
       const snapshot = await firebase
