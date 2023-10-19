@@ -81,7 +81,7 @@ const Booking = ({navigation}: NativeStackScreenProps<RootParamList>) => {
   const route = useRoute<any>();
   const dispatch = useDispatch();
   const [cities, setCities] = useState<[]>([]);
-  const [displayName, setDisplayName] = useState<any>();
+  const [dataUser, setData] = useState<any>();
   const [districts, setDistricts] = useState<[]>([]);
   const [seatArray, setSeatArray] = useState<any[][]>(generateSeat());
   const [selectedSeatArray, setSelectedSeatArray] = useState<any>([]);
@@ -139,12 +139,12 @@ const Booking = ({navigation}: NativeStackScreenProps<RootParamList>) => {
       try {
         firebase
           .database()
-          .ref(`users/${uid}/name`)
+          .ref(`users/${uid}`)
           .on('value', snapshot => {
             if (snapshot.exists()) {
-              const name = snapshot.val();
-              setDisplayName(name);
-              console.log('User name:', name);
+              const data = snapshot.val();
+              setData(data?.displayName);
+              console.log('data:', data);
             } else {
               console.log('No data.');
             }
@@ -188,7 +188,7 @@ const Booking = ({navigation}: NativeStackScreenProps<RootParamList>) => {
       try {
         const userUID = uid;
         const ticketData = {
-          userName: displayName,
+          userName: dataUser,
           seat: selectedSeatArray,
           movieName: movieName,
           date: selectedDate,

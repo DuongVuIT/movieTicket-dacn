@@ -8,13 +8,12 @@ import MainStack from './src/navigation/MainStack';
 import {persistor, store} from '@redux/store/store';
 function App() {
   const firebaseConfig = {
-    apiKey: 'AIzaSyB89X3sWgSJCNnSU-o-bo-KiXUYUaZJO8k',
-    authDomain: 'movieticket-befc8.firebaseapp.com',
-    databaseURL: 'https://movieticket-befc8-default-rtdb.firebaseio.com',
-    projectId: 'movieticket-befc8',
-    storageBucket: 'movieticket-befc8.appspot.com',
-    messagingSenderId: '10166869724',
-    appId: '1:10166869724:web:06270daae182fb4e221e19',
+    apiKey: 'AIzaSyDvVMhy-hME5v2CToUycvpA-8X5e8ubkls',
+    authDomain: 'movieticket-bb94b.firebaseapp.com',
+    projectId: 'movieticket-bb94b',
+    storageBucket: 'movieticket-bb94b.appspot.com',
+    messagingSenderId: '898118438010',
+    appId: '1:898118438010:web:e25db2f3ac508caab17fc3',
   };
   if (firebase.apps.length === 0) {
     firebase.initializeApp(firebaseConfig);

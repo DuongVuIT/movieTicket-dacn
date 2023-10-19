@@ -18,6 +18,8 @@ import {useSelector} from 'react-redux';
 const {width} = Dimensions.get('window');
 const MyTicket = ({navigation}: NativeStackScreenProps<RootParamList>) => {
   const uid = useSelector((state: AuthTypes) => state?.uid);
+  const idticket = useSelector((state: AuthTypes) => state?.ticketId);
+  console.log('id', idticket);
   console.log(uid);
   const [movieData, setMovieData] = useState<any[]>();
   const isFocused = useIsFocused();
@@ -51,10 +53,11 @@ const MyTicket = ({navigation}: NativeStackScreenProps<RootParamList>) => {
 
       <FlatList
         data={movieData}
-        keyExtractor={(item: any) => item.id}
-        renderItem={({item, index}) => {
+        keyExtractor={(item: any) => item.id?.toString()}
+        renderItem={({item}) => {
           return (
             <MovieCard
+              key={item.idticket}
               cardWidth={width}
               imagaPath={item.image}
               mall={item.mall}

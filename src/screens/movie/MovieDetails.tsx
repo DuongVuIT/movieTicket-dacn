@@ -166,7 +166,7 @@ export default function MovieDetails({
           onRequestClose={() => {
             setModalTrailer(!modalTrailer);
           }}>
-          <TouchableOpacity style={{flex: 1}}>
+          <View style={{flex: 1}}>
             <View style={styles.centeredView}>
               <View style={styles.modalView}>
                 <View
@@ -193,7 +193,7 @@ export default function MovieDetails({
                 </View>
               </View>
             </View>
-          </TouchableOpacity>
+          </View>
         </Modal>
         <ImageBackground
           style={styles.imageBG}

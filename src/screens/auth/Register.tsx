@@ -50,6 +50,7 @@ const Register = ({navigation}: NativeStackScreenProps<RootParamList>) => {
       });
     }
   };
+  console.log('name', name);
 
   const RegisterHandler = async () => {
     firebase
@@ -70,14 +71,14 @@ const Register = ({navigation}: NativeStackScreenProps<RootParamList>) => {
               const userRef = ref(db, 'users/' + user.uid);
               return set(userRef, {
                 email: email,
-                name: name,
+                displayName: name,
                 password: password,
               });
             })
             .then(() => {
               return user.sendEmailVerification({
                 handleCodeInApp: true,
-                url: 'https://movieticket-befc8.firebaseapp.com',
+                url: 'https://movieticket-bb94b.firebaseapp.com',
               });
             })
             .then(() => {
