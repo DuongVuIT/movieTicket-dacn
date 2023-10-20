@@ -139,9 +139,7 @@ export default function Account({
           style={styles.imagesStyles}
           source={require('@assets/image/avatar1.png')}
         />
-        <Text style={styles.nameUser}>
-          {dataUser ? dataUser?.displayName : dataUser?.name}
-        </Text>
+        <Text style={styles.nameUser}>{dataUser?.displayName}</Text>
       </View>
       <Modal
         animationType="slide"

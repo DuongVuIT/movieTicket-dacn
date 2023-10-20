@@ -53,11 +53,11 @@ const MyTicket = ({navigation}: NativeStackScreenProps<RootParamList>) => {
 
       <FlatList
         data={movieData}
-        keyExtractor={(item: any) => item.id?.toString()}
-        renderItem={({item}) => {
+        keyExtractor={(item: any, index: number) => index.toString()}
+        renderItem={({item, index}) => {
           return (
             <MovieCard
-              key={item.idticket}
+              key={index}
               cardWidth={width}
               imagaPath={item.image}
               mall={item.mall}
