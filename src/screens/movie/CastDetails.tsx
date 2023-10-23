@@ -23,7 +23,6 @@ import {
   Text,
   View,
 } from 'react-native';
-import {useSafeAreaInsets} from 'react-native-safe-area-context';
 const {width} = Dimensions.get('window');
 
 const CastDetails = ({navigation}: NativeStackScreenProps<RootParamList>) => {

@@ -101,28 +101,6 @@ export default function Account({
     }
   };
   const handlerChangeProfile = async () => {
-    // try {
-    //   const user = firebase.auth().currentUser;
-    //   if (user) {
-    //     const userName = await user.updateProfile(newName);
-    //     await firebase.database().ref(`users/${userId}`).update({
-    //       displayName: newName,
-    //     });
-    //     setNewName(userName);
-    //     console.log('Tên đã được cập nhật thành công.');
-    //   }
-    //   Toast.show({
-    //     type: 'success',
-    //     text1: 'Success',
-    //     text2: `Change Infomation Successfully`,
-    //     visibilityTime: 3000,
-    //     topOffset: 50,
-    //     autoHide: true,
-    //   });
-    //   setModalProfile(!modalProfile);
-    // } catch (error) {
-    //   console.log(error);
-    // }
     try {
       if (userId) {
         const userName = await firebase
@@ -336,7 +314,7 @@ export default function Account({
           style={{flexDirection: 'row'}}
           onPress={() => handleLogout()}>
           <CustomIcon style={styles.iconStyle} name="arrow-left" size={30} />
-          <Text style={styles.logoutTitle}>Logout</Text>
+          <Text style={styles.logoutTitle}>Log out</Text>
         </TouchableOpacity>
       </View>
     </View>
