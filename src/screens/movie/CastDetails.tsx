@@ -23,7 +23,6 @@ import {
   Text,
   View,
 } from 'react-native';
-import LinearGradient from 'react-native-linear-gradient';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 const {width} = Dimensions.get('window');
 
@@ -32,7 +31,6 @@ const CastDetails = ({navigation}: NativeStackScreenProps<RootParamList>) => {
   const [castMovieList, setCastmovie] = useState<any>();
   const route = useRoute<any>();
   const data = route?.params;
-  const insets = useSafeAreaInsets();
   const getPeopleDetails = async (castId: number) => {
     try {
       let response = await fetch(castPeoples(castId));
@@ -89,7 +87,7 @@ const CastDetails = ({navigation}: NativeStackScreenProps<RootParamList>) => {
     <View style={styles.container}>
       <ScrollView bounces={false} showsVerticalScrollIndicator={false}>
         <View>
-          <LinearGradient colors={[COLORS.LightGreyRGBA50]}>
+          <View>
             <View style={styles.iconHeader}>
               <IconHeader
                 name="arrow-left"
@@ -106,7 +104,7 @@ const CastDetails = ({navigation}: NativeStackScreenProps<RootParamList>) => {
               <Text style={styles.nameStyles}>{peopleDetails?.name}</Text>
               <Text style={styles.place}>{peopleDetails?.place_of_birth}</Text>
             </View>
-          </LinearGradient>
+          </View>
         </View>
         <View style={styles.infoContainer}>
           <View style={styles.borderWidth}>

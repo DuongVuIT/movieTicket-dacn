@@ -27,28 +27,27 @@ import {
 } from 'react-native';
 import Toast from 'react-native-toast-message';
 import {useDispatch, useSelector} from 'react-redux';
-const {width, height} = Dimensions.get('window');
+const {width} = Dimensions.get('window');
 export default function Account({
   navigation,
 }: NativeStackScreenProps<RootParamList>) {
   const dispacth = useDispatch();
-  const uid = useSelector((store: AuthTypes) => store?.uid);
+  const userId = useSelector((store: AuthTypes) => store?.uid);
   const [dataUser, setDataUser] = useState<any>();
   const [modalPassword, setModalPassword] = useState<boolean>(false);
   const [modalProfile, setModalProfile] = useState<boolean>(false);
   const [newName, setNewName] = useState<any>();
-  const [newEmail, setNewEmail] = useState<any>();
   const [newPassword, setNewPassword] = useState<any>();
   const isFocused = useIsFocused();
   useEffect(() => {
     getDataUser();
   }, [isFocused]);
   const getDataUser = async () => {
-    if (uid) {
+    if (userId) {
       try {
         firebase
           .database()
-          .ref(`users/${uid}`)
+          .ref(`users/${userId}`)
           .on('value', snapshot => {
             if (snapshot.exists()) {
               const data = snapshot.val();
@@ -71,50 +70,86 @@ export default function Account({
   };
   const handlerChangePassword = async () => {
     try {
-      const user = await firebase.auth().currentUser;
-      console.log('current user', user);
-      if (user) {
-        const newPass = await user.updatePassword(newPassword);
-        await firebase.database().ref(`users/${uid}`).update({
-          password: newPassword,
-        });
+      if (userId) {
+        const newPass = await firebase
+          .auth()
+          .currentUser?.updatePassword(newPassword);
+        await firebase
+          .database()
+          .ref(`users/${userId}`)
+          .child('password')
+          .set(newPassword);
+
         console.log('Mật khẩu đã được cập nhật thành công.');
         setNewPassword(newPass);
+
+        Toast.show({
+          type: 'success',
+          text1: 'Success',
+          text2: `Change Password Successfully`,
+          visibilityTime: 4000,
+          topOffset: 50,
+          autoHide: true,
+        });
+
+        setModalPassword(!modalPassword);
+      } else {
+        console.log('User is not logged in.');
       }
-      Toast.show({
-        type: 'success',
-        text1: 'Success',
-        text2: `Change Password Successfully`,
-        visibilityTime: 4000,
-        topOffset: 50,
-        autoHide: true,
-      });
-      setModalPassword(!modalPassword);
     } catch (error) {
       console.log(error);
     }
   };
   const handlerChangeProfile = async () => {
+    // try {
+    //   const user = firebase.auth().currentUser;
+    //   if (user) {
+    //     const userName = await user.updateProfile(newName);
+    //     await firebase.database().ref(`users/${userId}`).update({
+    //       displayName: newName,
+    //     });
+    //     setNewName(userName);
+    //     console.log('Tên đã được cập nhật thành công.');
+    //   }
+    //   Toast.show({
+    //     type: 'success',
+    //     text1: 'Success',
+    //     text2: `Change Infomation Successfully`,
+    //     visibilityTime: 3000,
+    //     topOffset: 50,
+    //     autoHide: true,
+    //   });
+    //   setModalProfile(!modalProfile);
+    // } catch (error) {
+    //   console.log(error);
+    // }
     try {
-      const user = firebase.auth().currentUser;
-      console.log('1111', user?.displayName);
-      if (user) {
-        const userName = await user.updateProfile(newName);
-        await firebase.database().ref(`users/${uid}`).update({
-          displayName: newName,
-        });
+      if (userId) {
+        const userName = await firebase
+          .auth()
+          .currentUser?.updateProfile(newName);
+        await firebase
+          .database()
+          .ref(`users/${userId}`)
+          .child('displayName')
+          .set(newName);
+
+        console.log('Mật khẩu đã được cập nhật thành công.');
         setNewName(userName);
-        console.log('Tên đã được cập nhật thành công.');
+
+        Toast.show({
+          type: 'success',
+          text1: 'Success',
+          text2: `Change Password Successfully`,
+          visibilityTime: 4000,
+          topOffset: 50,
+          autoHide: true,
+        });
+
+        setModalProfile(!modalProfile);
+      } else {
+        console.log('User is not logged in.');
       }
-      Toast.show({
-        type: 'success',
-        text1: 'Success',
-        text2: `Change Infomation Successfully`,
-        visibilityTime: 3000,
-        topOffset: 50,
-        autoHide: true,
-      });
-      setModalProfile(!modalProfile);
     } catch (error) {
       console.log(error);
     }

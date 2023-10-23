@@ -5,7 +5,8 @@ import {useRoute} from '@react-navigation/native';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {APP_SCREEN, RootParamList} from '@type/navigation';
 
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import {saveTicket} from '@redux/actions/authActions';
+import {AuthTypes} from '@redux/reducers/authReducer';
 import {
   BORDERRADIUS,
   COLORS,
@@ -30,8 +31,6 @@ import {SelectList} from 'react-native-dropdown-select-list';
 import LinearGradient from 'react-native-linear-gradient';
 import Toast from 'react-native-toast-message';
 import {useDispatch, useSelector} from 'react-redux';
-import {saveTicket} from '@redux/actions/authActions';
-import {AuthTypes} from '@redux/reducers/authReducer';
 const host = 'https://provinces.open-api.vn/api/';
 const getDate = () => {
   const date = new Date();

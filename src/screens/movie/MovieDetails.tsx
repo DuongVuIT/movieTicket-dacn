@@ -36,7 +36,6 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import LinearGradient from 'react-native-linear-gradient';
 import YoutubePlayer from 'react-native-youtube-iframe';
 const {width} = Dimensions.get('window');
 export default function MovieDetails({
@@ -200,16 +199,14 @@ export default function MovieDetails({
           source={{
             uri: baseImagePath('w780', movieData?.backdrop_path),
           }}>
-          <LinearGradient
-            colors={[COLORS.LightGreyRGBA50]}
-            style={styles.linearGradient}>
+          <View>
             <View style={styles.iconHeader}>
               <IconHeader
                 name="arrow-left"
                 action={() => navigation.goBack()}
               />
             </View>
-          </LinearGradient>
+          </View>
         </ImageBackground>
         <View style={styles.imageBG}></View>
         <Image
@@ -384,9 +381,6 @@ const styles = StyleSheet.create({
   imageBG: {
     width: '100%',
     aspectRatio: 16 / 9,
-  },
-  linearGradient: {
-    height: '100%',
   },
 
   images: {

@@ -1,5 +1,3 @@
-import {baseImagePath} from '@api/apiCall';
-import CustomTitle from '@components/CustomTitle';
 import IconHeader from '@components/IconHeader';
 import MovieCard from '@components/MovieCard';
 import {useIsFocused} from '@react-navigation/native';
@@ -9,10 +7,13 @@ import {RootParamList} from '@type/navigation';
 import {COLORS, SPACING} from '@type/theme';
 import firebase from 'firebase/compat';
 import React, {useEffect, useState} from 'react';
-import {SafeAreaView, StatusBar} from 'react-native';
-import {Dimensions, ScrollView} from 'react-native';
-import {FlatList} from 'react-native';
-import {StyleSheet, View} from 'react-native';
+import {
+  Dimensions,
+  FlatList,
+  SafeAreaView,
+  StyleSheet,
+  View,
+} from 'react-native';
 import {useSelector} from 'react-redux';
 
 const {width} = Dimensions.get('window');

@@ -73,29 +73,31 @@ const Login = ({navigation}: NativeStackScreenProps<RootParamList>) => {
         .signInWithEmailAndPassword(email, password);
       const dataUser = await dataFirebase.user;
       if (dataUser) {
-        const token = await dataUser.getIdToken();
-        const uid = dataUser.uid;
-        dispatch(loginSuccess(uid));
-        dispatch(setToken(token));
-        navigation.navigate(APP_SCREEN.BOTTOM_TAB);
-        Toast.show({
-          type: 'success',
-          text1: 'Success',
-          text2: `Welcome`,
-          visibilityTime: 4000,
-          topOffset: 50,
-          autoHide: true,
-        });
+        if (dataUser.emailVerified) {
+          // Người dùng đã xác nhận email
+          const token = await dataUser.getIdToken();
+          const uid = dataUser.uid;
+          dispatch(loginSuccess(uid));
+          dispatch(setToken(token));
+          navigation.navigate(APP_SCREEN.BOTTOM_TAB);
+          Toast.show({
+            type: 'success',
+            text1: 'Success',
+            text2: `Welcome`,
+            visibilityTime: 4000,
+            topOffset: 50,
+            autoHide: true,
+          });
+        } else {
+          // Người dùng chưa xác nhận email
+          setLoginStatus('Please verify your email before logging in.');
+        }
       }
     } catch (error) {
       const errorCode = (error as firebase.auth.Error).code;
       const errorMessage = (error as firebase.auth.Error).message;
-
       if (!email || !password) {
         setLoginStatus('Please enter your email and password');
-        setTimeout(() => {
-          setLoginStatus('');
-        }, 3000);
       } else {
         let errorText = '';
 
@@ -112,9 +114,6 @@ const Login = ({navigation}: NativeStackScreenProps<RootParamList>) => {
 
         if (errorText) {
           setLoginStatus(errorText);
-          setTimeout(() => {
-            setLoginStatus('');
-          }, 3000);
         }
       }
     }
