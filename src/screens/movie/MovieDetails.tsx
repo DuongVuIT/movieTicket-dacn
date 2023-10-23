@@ -36,6 +36,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import Toast from 'react-native-toast-message';
 import YoutubePlayer from 'react-native-youtube-iframe';
 const {width} = Dimensions.get('window');
 export default function MovieDetails({
@@ -53,6 +54,7 @@ export default function MovieDetails({
   const SeparatorComponent = () => {
     return <View style={{width: 10}} />;
   };
+  console.log(movieData);
   const onStateChange = useCallback((state: any) => {
     if (state === 'ended') {
       setPlaying(false);
@@ -340,13 +342,28 @@ export default function MovieDetails({
       <View>
         <TouchableOpacity
           style={styles.buttonContainer}
-          onPress={() =>
-            navigation.navigate(APP_SCREEN.BOOKING, {
-              BgImage: baseImagePath('w780', movieData.backdrop_path),
-              PosterImage: baseImagePath('original', movieData.poster_path),
-              MovieName: movieData?.original_title,
-            })
-          }>
+          onPress={() => {
+            const releaseDate = new Date(movieData.release_date);
+            console.log(releaseDate);
+            const currentYear = new Date('2023-05-08');
+            if (releaseDate > currentYear) {
+              navigation.navigate(APP_SCREEN.BOOKING, {
+                BgImage: baseImagePath('w780', movieData.backdrop_path),
+                PosterImage: baseImagePath('original', movieData.poster_path),
+                MovieName: movieData?.original_title,
+              });
+            } else {
+              Toast.show({
+                type: 'error',
+                position: 'top',
+                text1: 'Error',
+                text2: 'Unavailable',
+                visibilityTime: 1000,
+                autoHide: true,
+                topOffset: 50,
+              });
+            }
+          }}>
           <Text style={styles.buttonText}>Booking</Text>
         </TouchableOpacity>
       </View>
