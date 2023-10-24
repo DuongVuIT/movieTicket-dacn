@@ -13,6 +13,7 @@ module.exports = {
           '@type': './src/type',
           '@api': './src/api',
           '@redux': './src/redux',
+          '@i18n': './src/i18n',
         },
         extensions: ['.js', '.jsx', '.ts', '.tsx'],
       },
