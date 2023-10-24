@@ -12,6 +12,7 @@ import IconHeader from '@components/IconHeader';
 import SubCardMovie from '@components/SubCardMovie';
 import {useIsFocused, useRoute} from '@react-navigation/native';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import {AuthTypes} from '@redux/reducers/authReducer';
 import {APP_SCREEN, RootParamList} from '@type/navigation';
 import {
   BORDERRADIUS,
@@ -21,6 +22,7 @@ import {
   MARGIN,
   SPACING,
 } from '@type/theme';
+import firebase from 'firebase/compat';
 import React, {useCallback, useEffect, useState} from 'react';
 import {
   ActivityIndicator,
@@ -38,11 +40,9 @@ import {
   TouchableWithoutFeedback,
   View,
 } from 'react-native';
-import firebase from 'firebase/compat';
 import Toast from 'react-native-toast-message';
 import YoutubePlayer from 'react-native-youtube-iframe';
 import {useSelector} from 'react-redux';
-import {AuthTypes} from '@redux/reducers/authReducer';
 const {width} = Dimensions.get('window');
 export default function MovieDetails({
   navigation,
@@ -415,6 +415,7 @@ export default function MovieDetails({
             keyExtractor={(item: any) => item.id}
             contentContainerStyle={styles.contentContainer}
             horizontal
+            showsHorizontalScrollIndicator={false}
             renderItem={({item, index}) => (
               <SubCardMovie
                 shouldMarginatedAtEnd={true}
@@ -438,9 +439,9 @@ export default function MovieDetails({
           <Text
             style={{
               color: COLORS.White,
-              fontSize: FONTSIZE.size_20,
-              fontFamily: FONTTFAMILY.poppins_regular,
-              marginLeft: MARGIN.margin_24,
+              fontSize: FONTSIZE.size_18,
+              fontFamily: FONTTFAMILY.poppins_semibold,
+              marginLeft: MARGIN.margin_20 * 2,
               marginBottom: MARGIN.margin_14,
             }}>
             Reviews
@@ -455,22 +456,13 @@ export default function MovieDetails({
                     style={{
                       color: COLORS.White,
                       fontSize: FONTSIZE.size_16,
-                      marginLeft: 20,
+                      marginLeft: 20 * 2,
                       fontFamily: FONTTFAMILY.poppins_regular,
                       textAlign: 'justify',
                     }}>
                     {item.userName.toUpperCase()}
                   </Text>
-                  <Text
-                    style={{
-                      color: COLORS.WhiteRGBA75,
-                      fontSize: FONTSIZE.size_16,
-                      marginLeft: 20,
-                      fontFamily: FONTTFAMILY.poppins_regular,
-                      marginBottom: 10,
-                    }}>
-                    {item.comment}
-                  </Text>
+                  <Text style={styles.comments}>{item.comment}</Text>
                 </View>
               ))}
         </View>
@@ -648,17 +640,7 @@ const styles = StyleSheet.create({
     fontFamily: FONTTFAMILY.poppins_regular,
     color: COLORS.White,
   },
-  subText: {
-    fontFamily: 'nunito-regular',
-    fontSize: 14,
-    color: COLORS.White,
-  },
-  voteContainer: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    gap: 10,
-  },
+
   buttonSave: {
     backgroundColor: COLORS.Black,
   },
@@ -678,8 +660,8 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.Black,
   },
   textInput: {
-    marginTop: 10,
-    padding: 10,
+    marginTop: MARGIN.margin_10,
+    padding: SPACING.space_10,
     borderRadius: 25,
     backgroundColor: '#f7f8fb',
     width: width - 100,
@@ -690,7 +672,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 22,
+    marginTop: MARGIN.margin_22,
   },
   modal: {
     backgroundColor: COLORS.White,
@@ -711,5 +693,12 @@ const styles = StyleSheet.create({
     padding: 10,
     elevation: 2,
     paddingHorizontal: 50,
+  },
+  comments: {
+    fontFamily: FONTTFAMILY.poppins_regular,
+    fontSize: FONTSIZE.size_16,
+    marginLeft: MARGIN.margin_20,
+    marginBottom: MARGIN.margin_10,
+    color: COLORS.White,
   },
 });

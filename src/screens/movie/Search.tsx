@@ -61,13 +61,11 @@ export default function Search({
 
 const styles = StyleSheet.create({
   container: {
-    display: 'flex',
     flex: 1,
     alignItems: 'center',
     backgroundColor: COLORS.Black,
   },
   inputHeaderContainer: {
-    display: 'flex',
     marginHorizontal: SPACING.space_36,
     marginTop: SPACING.space_28,
   },

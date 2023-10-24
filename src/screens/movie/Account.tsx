@@ -1,8 +1,10 @@
 import CustomIcon from '@components/CustomIcon';
+import LanguagePicker from '@i18n/utils/LanguagePicker';
 import {useIsFocused} from '@react-navigation/native';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {removeToken} from '@redux/actions/authActions';
 import {AuthTypes} from '@redux/reducers/authReducer';
+import '@i18n/config/i18.config';
 import {APP_SCREEN, RootParamList} from '@type/navigation';
 import {
   BORDERRADIUS,
@@ -14,6 +16,7 @@ import {
 } from '@type/theme';
 import firebase from 'firebase/compat';
 import React, {useEffect, useState} from 'react';
+import {useTranslation} from 'react-i18next';
 import {
   Dimensions,
   Image,
@@ -24,6 +27,7 @@ import {
   TouchableOpacity,
   TouchableWithoutFeedback,
   View,
+  ScrollView,
 } from 'react-native';
 import Toast from 'react-native-toast-message';
 import {useDispatch, useSelector} from 'react-redux';
@@ -42,6 +46,7 @@ export default function Account({
   useEffect(() => {
     getDataUser();
   }, [isFocused]);
+  const {t} = useTranslation();
   const getDataUser = async () => {
     if (userId) {
       try {
@@ -143,9 +148,9 @@ export default function Account({
     navigation.navigate(APP_SCREEN.LOGIN);
   };
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
       <View>
-        <Text style={styles.text}>My Profile</Text>
+        <Text style={styles.text}>{`${t('My profile')}`}</Text>
       </View>
       <View>
         <Image
@@ -295,9 +300,12 @@ export default function Account({
         <TouchableOpacity>
           <Text style={styles.textSubtitle}>Themes</Text>
         </TouchableOpacity>
-        <TouchableOpacity>
-          <Text style={styles.textSubtitle}>Languages</Text>
-        </TouchableOpacity>
+        <View>
+          <TouchableOpacity style={{flexDirection: 'row'}}>
+            <Text style={styles.textSubtitle}>Languages</Text>
+            <LanguagePicker />
+          </TouchableOpacity>
+        </View>
       </View>
       <View>
         <View style={styles.subContainer}>
@@ -317,7 +325,7 @@ export default function Account({
           <Text style={styles.logoutTitle}>Log out</Text>
         </TouchableOpacity>
       </View>
-    </View>
+    </ScrollView>
   );
 }
 
