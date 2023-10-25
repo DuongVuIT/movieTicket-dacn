@@ -6,10 +6,8 @@ import {APP_SCREEN, RootParamList} from '@type/navigation';
 import {COLORS, SPACING} from '@type/theme';
 import React, {useState} from 'react';
 import {Dimensions, FlatList, StyleSheet, View} from 'react-native';
-const {width, height} = Dimensions.get('screen');
-const SeparatorComponent = () => {
-  return <View style={{width: 15}} />;
-};
+const {width} = Dimensions.get('screen');
+
 export default function Search({
   navigation,
 }: NativeStackScreenProps<RootParamList>) {

@@ -1,11 +1,3 @@
-import React, {useState} from 'react';
-import {
-  StyleSheet,
-  TextInput,
-  TouchableOpacity,
-  View,
-  Text,
-} from 'react-native';
 import {
   BORDERRADIUS,
   COLORS,
@@ -13,15 +5,19 @@ import {
   FONTTFAMILY,
   SPACING,
 } from '@type/theme';
+import React, {useState} from 'react';
+import {StyleSheet, TextInput, TouchableOpacity, View} from 'react-native';
 import CustomIcon from './CustomIcon';
+import {useTranslation} from 'react-i18next';
 
 const InputHeader = (props: any) => {
+  const {t} = useTranslation();
   const [searchText, setSearchText] = useState<string>('');
   return (
     <View style={styles.container}>
       <TextInput
         style={styles.textInput}
-        placeholder="Search your movies"
+        placeholder={`${t('Search your movies')}`}
         placeholderTextColor={COLORS.White}
         onChangeText={value => setSearchText(value)}
         value={searchText}

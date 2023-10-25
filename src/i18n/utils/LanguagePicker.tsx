@@ -34,7 +34,7 @@ const LanguagePicker = () => {
       label: 'Vietnamese',
     },
   ];
-  const LanguageItem = ({name, label}: {name: string; label: string}) => (
+  const LanguageItem = ({name, label}: languagesType) => (
     <Pressable
       style={styles.button}
       onPress={() => {

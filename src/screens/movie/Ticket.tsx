@@ -13,6 +13,7 @@ import {
 } from '@type/theme';
 import firebase from 'firebase/compat';
 import React, {useEffect, useState} from 'react';
+import {useTranslation} from 'react-i18next';
 import {
   ActivityIndicator,
   Image,
@@ -28,7 +29,7 @@ export default function Ticket({
   navigation,
 }: NativeStackScreenProps<RootParamList>) {
   const isFocused = useIsFocused();
-
+  const {t} = useTranslation();
   const [ticketUser, setTicketUser] = useState<any>();
   const [tickets, setTickets] = useState();
   useEffect(() => {
@@ -121,12 +122,12 @@ export default function Ticket({
           </View>
           <View style={styles.ticketSeatContainer}>
             <View style={styles.subtitleContainer}>
-              <Text style={styles.subheading}>Place</Text>
+              <Text style={styles.subheading}>{`${t('Place')}`}</Text>
               <Text style={styles.subtitle}>{ticketUser?.mall}</Text>
             </View>
 
             <View style={styles.subtitleContainer}>
-              <Text style={styles.subheading}>Seats</Text>
+              <Text style={styles.subheading}>{`${t('Seats')}`}</Text>
               <Text style={styles.subtitle}>
                 {ticketUser?.seat
                   ?.slice(0, 3)

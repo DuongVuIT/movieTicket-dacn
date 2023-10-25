@@ -24,6 +24,7 @@ import {
 } from '@type/theme';
 import firebase from 'firebase/compat';
 import React, {useCallback, useEffect, useState} from 'react';
+import {useTranslation} from 'react-i18next';
 import {
   ActivityIndicator,
   Alert,
@@ -61,6 +62,7 @@ export default function MovieSimilar({
   const [dataUser, setDataUser] = useState<any>();
   const uid = useSelector((state: AuthTypes) => state?.uid);
   const data = route.params;
+  const {t} = useTranslation();
   const SeparatorComponent = () => {
     return <View style={{width: 10}} />;
   };
@@ -230,7 +232,7 @@ export default function MovieSimilar({
               <View style={styles.viewCentered}>
                 <View style={styles.modal}>
                   <Text style={{...styles.title, fontSize: 20}}>
-                    Write your reviews here:
+                    {`${t('Write your reviews here')}`}
                   </Text>
                   <TextInput
                     style={styles.textInput}
@@ -253,7 +255,7 @@ export default function MovieSimilar({
                           fontSize: 20,
                           color: COLORS.White,
                         }}>
-                        Close
+                        {`${t('Close')}`}
                       </Text>
                     </TouchableOpacity>
                     <TouchableOpacity
@@ -261,7 +263,7 @@ export default function MovieSimilar({
                       onPress={() => commentUser()}>
                       <Text
                         style={{...styles.title, fontSize: 20, color: 'white'}}>
-                        Save
+                        {`${t('Save')}`}
                       </Text>
                     </TouchableOpacity>
                   </View>
@@ -383,7 +385,7 @@ export default function MovieSimilar({
           <Text style={styles.overview}>{movieData?.overview}</Text>
         </View>
         <View>
-          <CustomTitle title="Top Cast" />
+          <CustomTitle title={`${t('Top Cast')}`} />
           <View>
             <FlatList
               data={movieCastData}
@@ -409,12 +411,13 @@ export default function MovieSimilar({
           </View>
         </View>
         <View>
-          <CustomTitle title={'Movie Similar'} />
+          <CustomTitle title={`${t('Movie Similar')}`} />
           <FlatList
             data={similarData}
             keyExtractor={(item: any) => item.id}
             contentContainerStyle={styles.contentContainer}
             horizontal
+            showsHorizontalScrollIndicator={false}
             renderItem={({item, index}) => (
               <SubCardMovie
                 shouldMarginatedAtEnd={true}
@@ -438,12 +441,12 @@ export default function MovieSimilar({
           <Text
             style={{
               color: COLORS.White,
-              fontSize: FONTSIZE.size_20,
+              fontSize: FONTSIZE.size_18,
               fontFamily: FONTTFAMILY.poppins_semibold,
-              marginLeft: MARGIN.margin_36,
+              marginLeft: MARGIN.margin_20 * 2,
               marginBottom: MARGIN.margin_14,
             }}>
-            Reviews
+            {`${t('Reviews')}`}
           </Text>
           {commentData &&
             commentData.length > 0 &&
@@ -455,22 +458,13 @@ export default function MovieSimilar({
                     style={{
                       color: COLORS.White,
                       fontSize: FONTSIZE.size_16,
-                      marginLeft: 20,
+                      marginLeft: 20 * 2,
                       fontFamily: FONTTFAMILY.poppins_regular,
                       textAlign: 'justify',
                     }}>
                     {item.userName.toUpperCase()}
                   </Text>
-                  <Text
-                    style={{
-                      color: COLORS.WhiteRGBA75,
-                      fontSize: FONTSIZE.size_16,
-                      marginLeft: 20,
-                      fontFamily: FONTTFAMILY.poppins_regular,
-                      marginBottom: 10,
-                    }}>
-                    {item.comment}
-                  </Text>
+                  <Text style={styles.comments}>{item.comment}</Text>
                 </View>
               ))}
         </View>
@@ -480,7 +474,7 @@ export default function MovieSimilar({
             <TouchableOpacity
               style={styles.buttonContainer}
               onPress={() => setModalComment(!modalComment)}>
-              <Text style={styles.buttonText}>Comment</Text>
+              <Text style={styles.buttonText}>{`${t('Comment')}`}</Text>
             </TouchableOpacity>
           </View>
           <View>
@@ -510,7 +504,7 @@ export default function MovieSimilar({
                   });
                 }
               }}>
-              <Text style={styles.buttonText}>Booking</Text>
+              <Text style={styles.buttonText}>{`${t('Booking')}`}</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -648,17 +642,7 @@ const styles = StyleSheet.create({
     fontFamily: FONTTFAMILY.poppins_regular,
     color: COLORS.White,
   },
-  subText: {
-    fontFamily: 'nunito-regular',
-    fontSize: 14,
-    color: COLORS.White,
-  },
-  voteContainer: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    gap: 10,
-  },
+
   buttonSave: {
     backgroundColor: COLORS.Black,
   },
@@ -678,8 +662,8 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.Black,
   },
   textInput: {
-    marginTop: 10,
-    padding: 10,
+    marginTop: MARGIN.margin_10,
+    padding: SPACING.space_10,
     borderRadius: 25,
     backgroundColor: '#f7f8fb',
     width: width - 100,
@@ -690,7 +674,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 22,
+    marginTop: MARGIN.margin_22,
   },
   modal: {
     backgroundColor: COLORS.White,
@@ -711,5 +695,12 @@ const styles = StyleSheet.create({
     padding: 10,
     elevation: 2,
     paddingHorizontal: 50,
+  },
+  comments: {
+    fontFamily: FONTTFAMILY.poppins_regular,
+    fontSize: FONTSIZE.size_16,
+    marginLeft: MARGIN.margin_20,
+    marginBottom: MARGIN.margin_10,
+    color: COLORS.White,
   },
 });

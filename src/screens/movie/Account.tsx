@@ -170,7 +170,7 @@ export default function Account({
           <View style={styles.centeredView}>
             <View style={styles.modalView}>
               <Text style={{...styles.title, fontSize: 20}}>
-                Change your password:
+                {`${t('Change your password')}`}
               </Text>
               <TextInput
                 style={styles.textInput}
@@ -194,7 +194,7 @@ export default function Account({
                       fontSize: 20,
                       color: COLORS.White,
                     }}>
-                    Close
+                    {`${t('Close')}`}
                   </Text>
                 </TouchableOpacity>
                 <TouchableOpacity
@@ -203,7 +203,7 @@ export default function Account({
                   }}
                   style={[styles.button, styles.buttonSave]}>
                   <Text style={{...styles.title, fontSize: 20, color: 'white'}}>
-                    Save
+                    {`${t('Save')}`}
                   </Text>
                 </TouchableOpacity>
               </View>
@@ -222,7 +222,7 @@ export default function Account({
           <View style={styles.centeredView}>
             <View style={styles.modalView}>
               <Text style={{...styles.title, fontSize: 20}}>
-                Change your name:
+                {`${t('Change your name')}`}
               </Text>
               <TextInput
                 style={styles.textInput}
@@ -246,7 +246,7 @@ export default function Account({
                       fontSize: 20,
                       color: COLORS.White,
                     }}>
-                    Close
+                    {`${t('Close')}`}
                   </Text>
                 </TouchableOpacity>
                 <TouchableOpacity
@@ -255,7 +255,7 @@ export default function Account({
                   }}
                   style={[styles.button, styles.buttonSave]}>
                   <Text style={{...styles.title, fontSize: 20, color: 'white'}}>
-                    Save
+                    {`${t('Save')}`}
                   </Text>
                 </TouchableOpacity>
               </View>
@@ -266,43 +266,43 @@ export default function Account({
       <View>
         <View style={styles.subContainer}>
           <CustomIcon style={styles.iconStyle} name="user" size={30} />
-          <Text style={styles.mainTitle}>Account</Text>
+          <Text style={styles.mainTitle}>{`${t('Account')}`}</Text>
         </View>
         <TouchableOpacity
           onPress={() => {
             setModalProfile(!modalProfile);
           }}>
-          <Text style={styles.textSubtitle}>Edit profile</Text>
+          <Text style={styles.textSubtitle}>{`${t('Edit profile')}`}</Text>
         </TouchableOpacity>
         <TouchableOpacity
           onPress={() => {
             setModalPassword(!modalPassword);
           }}>
-          <Text style={styles.textSubtitle}>Change Password</Text>
+          <Text style={styles.textSubtitle}>{`${t('Change Password')}`}</Text>
         </TouchableOpacity>
       </View>
 
       <View>
         <View style={styles.subContainer}>
           <CustomIcon style={styles.iconStyle} name="ticket" size={30} />
-          <Text style={styles.mainTitle}>Ticket</Text>
+          <Text style={styles.mainTitle}>{`${t('Ticket')}`}</Text>
         </View>
         <TouchableOpacity
           onPress={() => navigation.navigate(APP_SCREEN.MY_TICKET)}>
-          <Text style={styles.textSubtitle}>My Ticket</Text>
+          <Text style={styles.textSubtitle}>{`${t('My Ticket')}`}</Text>
         </TouchableOpacity>
       </View>
       <View>
         <View style={styles.subContainer}>
           <CustomIcon style={styles.iconStyle} name="setting" size={30} />
-          <Text style={styles.mainTitle}>Setting</Text>
+          <Text style={styles.mainTitle}>{`${t('Setting')}`}</Text>
         </View>
         <TouchableOpacity>
-          <Text style={styles.textSubtitle}>Themes</Text>
+          <Text style={styles.textSubtitle}>{`${t('Themes')}`}</Text>
         </TouchableOpacity>
         <View>
           <TouchableOpacity style={{flexDirection: 'row'}}>
-            <Text style={styles.textSubtitle}>Languages</Text>
+            <Text style={styles.textSubtitle}>{`${t('Languages')}`}</Text>
             <LanguagePicker />
           </TouchableOpacity>
         </View>
@@ -310,10 +310,12 @@ export default function Account({
       <View>
         <View style={styles.subContainer}>
           <CustomIcon style={styles.iconStyle} name="info" size={30} />
-          <Text style={styles.mainTitle}>About</Text>
+          <Text style={styles.mainTitle}>{`${t('About')}`}</Text>
         </View>
         <TouchableOpacity>
-          <Text style={styles.textSubtitle}>About Lottie Movie</Text>
+          <Text style={styles.textSubtitle}>{`${t(
+            'About Lottie Movie',
+          )}`}</Text>
         </TouchableOpacity>
       </View>
       <View
@@ -322,7 +324,7 @@ export default function Account({
           style={{flexDirection: 'row'}}
           onPress={() => handleLogout()}>
           <CustomIcon style={styles.iconStyle} name="arrow-left" size={30} />
-          <Text style={styles.logoutTitle}>Log out</Text>
+          <Text style={styles.logoutTitle}>{`${t('Log out')}`}</Text>
         </TouchableOpacity>
       </View>
     </ScrollView>

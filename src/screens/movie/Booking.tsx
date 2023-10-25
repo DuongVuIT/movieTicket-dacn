@@ -31,6 +31,7 @@ import {SelectList} from 'react-native-dropdown-select-list';
 import LinearGradient from 'react-native-linear-gradient';
 import Toast from 'react-native-toast-message';
 import {useDispatch, useSelector} from 'react-redux';
+import {useTranslation} from 'react-i18next';
 const host = 'https://provinces.open-api.vn/api/';
 const getDate = () => {
   const date = new Date();
@@ -92,6 +93,7 @@ const Booking = ({navigation}: NativeStackScreenProps<RootParamList>) => {
   const [dateArray, setDateArray] = useState<any[]>(getDate());
   const [selectedTime, setSelectedTime] = useState<any>();
   const uid = useSelector((state: AuthTypes) => state?.uid);
+  const {t} = useTranslation();
   useEffect(() => {
     callAPI(host);
   }, []);
@@ -253,7 +255,7 @@ const Booking = ({navigation}: NativeStackScreenProps<RootParamList>) => {
       <View style={{flexDirection: 'row', flex: 1, justifyContent: 'center'}}>
         <View>
           <SelectList
-            placeholder="Select city "
+            placeholder={`${t('Select city')}`}
             inputStyles={{color: 'white'}}
             dropdownShown={false}
             boxStyles={styles.boxSelectedStyle}
@@ -268,7 +270,7 @@ const Booking = ({navigation}: NativeStackScreenProps<RootParamList>) => {
         </View>
         <View>
           <SelectList
-            placeholder="Select district"
+            placeholder={`${t('Select district')}`}
             boxStyles={styles.boxSelectedStyle}
             inputStyles={{color: 'white'}}
             dropdownStyles={styles.dropdownStyle}
@@ -285,7 +287,7 @@ const Booking = ({navigation}: NativeStackScreenProps<RootParamList>) => {
       </View>
       <View style={{justifyContent: 'center', alignItems: 'center'}}>
         <SelectList
-          placeholder="Select mall"
+          placeholder={`${t('Select mall')}`}
           boxStyles={styles.boxSelectedStyle}
           dropdownStyles={styles.dropdownStyle}
           dropdownTextStyles={{fontSize: 14, color: 'white'}}
@@ -328,21 +330,21 @@ const Booking = ({navigation}: NativeStackScreenProps<RootParamList>) => {
         <View style={styles.seatRadio}>
           <View style={styles.radioContainer}>
             <CustomIcon name="radio" style={styles.radioIcon} />
-            <Text style={styles.radioText}>Available</Text>
+            <Text style={styles.radioText}>{`${t('Available')}`}</Text>
           </View>
           <View style={styles.radioContainer}>
             <CustomIcon
               name="radio"
               style={[styles.radioIcon, {color: COLORS.Grey}]}
             />
-            <Text style={styles.radioText}>Taken</Text>
+            <Text style={styles.radioText}>{`${t('Taken')}`}</Text>
           </View>
           <View style={styles.radioContainer}>
             <CustomIcon
               name="radio"
               style={[styles.radioIcon, {color: COLORS.Orange}]}
             />
-            <Text style={styles.radioText}>Selected</Text>
+            <Text style={styles.radioText}>{`${t('Selected')}`}</Text>
           </View>
         </View>
       </View>
@@ -404,11 +406,11 @@ const Booking = ({navigation}: NativeStackScreenProps<RootParamList>) => {
       </View>
       <View style={styles.buttonpriceContainer}>
         <View style={styles.priceContainer}>
-          <Text style={styles.totalPrice}>Total Price</Text>
+          <Text style={styles.totalPrice}>{`${t('Total Price')}`}</Text>
           <Text style={styles.price}>{price},000 VNĐ</Text>
         </View>
         <TouchableOpacity style={styles.ticketContainer} onPress={bookSeat}>
-          <Text style={styles.ticket}>Buy ticket</Text>
+          <Text style={styles.ticket}>{`${t('Buy ticket')}`}</Text>
         </TouchableOpacity>
       </View>
     </ScrollView>

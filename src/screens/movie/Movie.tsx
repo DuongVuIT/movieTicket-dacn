@@ -16,6 +16,7 @@ import {APP_SCREEN, RootParamList} from '@type/navigation';
 import {COLORS, SPACING} from '@type/theme';
 import 'firebase/compat/auth';
 import React, {useEffect, useState} from 'react';
+import {useTranslation} from 'react-i18next';
 import {
   ActivityIndicator,
   Dimensions,
@@ -30,6 +31,7 @@ const {width} = Dimensions.get('window');
 export default function Movie({
   navigation,
 }: NativeStackScreenProps<RootParamList>) {
+  const {t} = useTranslation();
   const [nowPlayingMovieList, setNowPlayingMovieList] = useState<any>();
   const [popularMovieList, setPopularMovieList] = useState<any>();
   const [topRatedMovieList, setTopRatedMovieList] = useState<any>();
@@ -136,7 +138,7 @@ export default function Movie({
       <View style={styles.inputHeaderContainer}>
         <CustomHeader />
       </View>
-      <CustomTitle title={'Now Playing'} />
+      <CustomTitle title={`${t('Now Playing')}`} />
       <FlatList
         data={nowPlayingMovieList}
         keyExtractor={(item: any) => item.id}
@@ -174,7 +176,7 @@ export default function Movie({
           );
         }}
       />
-      <CustomTitle title={'Trending'} />
+      <CustomTitle title={`${t('Trending')}`} />
       <FlatList
         data={trendingMovieList}
         keyExtractor={(item: any) => item.id}
@@ -212,7 +214,7 @@ export default function Movie({
           );
         }}
       />
-      <CustomTitle title={'Popular'} />
+      <CustomTitle title={`${t('Popular')}`} />
       <FlatList
         data={popularMovieList}
         showsHorizontalScrollIndicator={false}
@@ -236,7 +238,7 @@ export default function Movie({
           />
         )}
       />
-      <CustomTitle title={'Up comming'} />
+      <CustomTitle title={`${t('Up comming')}`} />
       <FlatList
         data={upCommingMovieList}
         showsHorizontalScrollIndicator={false}
@@ -259,7 +261,7 @@ export default function Movie({
           />
         )}
       />
-      <CustomTitle title={'Top Rated'} />
+      <CustomTitle title={`${t('Top Rated')}`} />
       <FlatList
         data={topRatedMovieList}
         showsHorizontalScrollIndicator={false}

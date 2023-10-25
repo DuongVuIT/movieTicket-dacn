@@ -9,9 +9,12 @@ import Movie from '@screens/movie/Movie';
 import {APP_SCREEN} from '@type/navigation';
 import {COLORS, FONTSIZE, PERCENT} from '@type/theme';
 import LottieView from 'lottie-react-native';
+import {useTranslation} from 'react-i18next';
 import {View} from 'react-native';
 
 const MainBottomTab = () => {
+  const {t} = useTranslation();
+
   const Tab = createBottomTabNavigator();
   return (
     <Tab.Navigator
@@ -73,10 +76,26 @@ const MainBottomTab = () => {
           );
         },
       })}>
-      <Tab.Screen name={APP_SCREEN.MOVIE} component={Movie} />
-      <Tab.Screen name={APP_SCREEN.SEARCH} component={Search} />
-      <Tab.Screen name={APP_SCREEN.TICKET} component={Ticket} />
-      <Tab.Screen name={APP_SCREEN.ACCOUNT} component={Account} />
+      <Tab.Screen
+        name={APP_SCREEN.MOVIE}
+        component={Movie}
+        options={{title: `${t('MOVIE')}`}}
+      />
+      <Tab.Screen
+        name={APP_SCREEN.SEARCH}
+        component={Search}
+        options={{title: `${t('SEARCH')}`}}
+      />
+      <Tab.Screen
+        name={APP_SCREEN.TICKET}
+        component={Ticket}
+        options={{title: `${t('TICKET')}`}}
+      />
+      <Tab.Screen
+        name={APP_SCREEN.ACCOUNT}
+        component={Account}
+        options={{title: `${t('ACCOUNT')}`}}
+      />
     </Tab.Navigator>
   );
 };

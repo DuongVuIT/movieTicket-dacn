@@ -11,7 +11,7 @@ const languageDetector = {
         if (language) {
           return callback(language);
         } else {
-          const locale = (Localization as any).locale; // Sử dụng "as any" để tránh lỗi kiểm tra kiểu
+          const locale = (Localization as any).locale;
           return callback(locale);
         }
       });

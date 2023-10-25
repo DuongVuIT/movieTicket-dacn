@@ -13,6 +13,7 @@ import {
   SPACING,
 } from '@type/theme';
 import React, {useEffect, useState} from 'react';
+import {useTranslation} from 'react-i18next';
 import {
   ActivityIndicator,
   Dimensions,
@@ -30,6 +31,7 @@ const CastDetails = ({navigation}: NativeStackScreenProps<RootParamList>) => {
   const [castMovieList, setCastmovie] = useState<any>();
   const route = useRoute<any>();
   const data = route?.params;
+  const {t} = useTranslation();
   const getPeopleDetails = async (castId: number) => {
     try {
       let response = await fetch(castPeoples(castId));
@@ -107,34 +109,34 @@ const CastDetails = ({navigation}: NativeStackScreenProps<RootParamList>) => {
         </View>
         <View style={styles.infoContainer}>
           <View style={styles.borderWidth}>
-            <Text style={styles.textTitle}>Gender</Text>
+            <Text style={styles.textTitle}>{`${t('Gender')}`}</Text>
             <Text style={styles.textContent}>
               {peopleDetails?.gender == 1 ? 'Female' : 'Male'}
             </Text>
           </View>
           <View style={styles.borderWidth}>
-            <Text style={styles.textTitle}>Birth Day</Text>
+            <Text style={styles.textTitle}>{`${t('Birth Day')}`}</Text>
             <Text style={styles.textContent}>{peopleDetails?.birthday}</Text>
           </View>
           <View style={styles.borderWidth}>
-            <Text style={styles.textTitle}>Know For</Text>
+            <Text style={styles.textTitle}>{`${t('Know For')}`}</Text>
             <Text style={styles.textContent}>
               {peopleDetails?.known_for_department}
             </Text>
           </View>
           <View style={styles.borderWidthLast}>
-            <Text style={styles.textTitle}>Popularity</Text>
+            <Text style={styles.textTitle}>{`${t('Popularity')}`}</Text>
             <Text style={styles.textContent}>
               {peopleDetails?.popularity?.toFixed(2)} %
             </Text>
           </View>
         </View>
         <View style={styles.biographyContainer}>
-          <Text style={styles.nameStyles}>Biography</Text>
+          <Text style={styles.nameStyles}>{`${t('Biography')}`}</Text>
           <Text style={styles.textBiography}>{peopleDetails?.biography}</Text>
         </View>
         <View>
-          <Text style={styles.movies}>Movies</Text>
+          <Text style={styles.movies}>{`${t('MOVIE')}`}</Text>
           <FlatList
             data={castMovieList}
             keyExtractor={(item: any) => item.id}

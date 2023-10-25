@@ -24,6 +24,7 @@ import {
 } from '@type/theme';
 import firebase from 'firebase/compat';
 import React, {useCallback, useEffect, useState} from 'react';
+import {useTranslation} from 'react-i18next';
 import {
   ActivityIndicator,
   Alert,
@@ -61,6 +62,7 @@ export default function MovieDetails({
   const [dataUser, setDataUser] = useState<any>();
   const uid = useSelector((state: AuthTypes) => state?.uid);
   const data = route.params;
+  const {t} = useTranslation();
   const SeparatorComponent = () => {
     return <View style={{width: 10}} />;
   };
@@ -230,7 +232,7 @@ export default function MovieDetails({
               <View style={styles.viewCentered}>
                 <View style={styles.modal}>
                   <Text style={{...styles.title, fontSize: 20}}>
-                    Write your reviews here:
+                    {`${t('Write your reviews here')}`}
                   </Text>
                   <TextInput
                     style={styles.textInput}
@@ -253,7 +255,7 @@ export default function MovieDetails({
                           fontSize: 20,
                           color: COLORS.White,
                         }}>
-                        Close
+                        {`${t('Close')}`}
                       </Text>
                     </TouchableOpacity>
                     <TouchableOpacity
@@ -261,7 +263,7 @@ export default function MovieDetails({
                       onPress={() => commentUser()}>
                       <Text
                         style={{...styles.title, fontSize: 20, color: 'white'}}>
-                        Save
+                        {`${t('Save')}`}
                       </Text>
                     </TouchableOpacity>
                   </View>
@@ -383,7 +385,7 @@ export default function MovieDetails({
           <Text style={styles.overview}>{movieData?.overview}</Text>
         </View>
         <View>
-          <CustomTitle title="Top Cast" />
+          <CustomTitle title={`${t('Top Cast')}`} />
           <View>
             <FlatList
               data={movieCastData}
@@ -409,7 +411,7 @@ export default function MovieDetails({
           </View>
         </View>
         <View>
-          <CustomTitle title={'Movie Similar'} />
+          <CustomTitle title={`${t('Movie Similar')}`} />
           <FlatList
             data={similarData}
             keyExtractor={(item: any) => item.id}
@@ -444,25 +446,35 @@ export default function MovieDetails({
               marginLeft: MARGIN.margin_20 * 2,
               marginBottom: MARGIN.margin_14,
             }}>
-            Reviews
+            {`${t('Reviews')}`}
           </Text>
           {commentData &&
             commentData.length > 0 &&
             commentData
               .filter((item: any) => item.movieId === movieId)
               .map((item: any, index: any) => (
-                <View key={index.toString()}>
-                  <Text
+                <View
+                  style={{flexDirection: 'row', width: '85%', maxWidth: '90%'}}
+                  key={index.toString()}>
+                  <Image
                     style={{
-                      color: COLORS.White,
-                      fontSize: FONTSIZE.size_16,
-                      marginLeft: 20 * 2,
-                      fontFamily: FONTTFAMILY.poppins_regular,
-                      textAlign: 'justify',
-                    }}>
-                    {item.userName.toUpperCase()}
-                  </Text>
-                  <Text style={styles.comments}>{item.comment}</Text>
+                      marginBottom: MARGIN.margin_10,
+                      marginLeft: MARGIN.margin_4,
+                    }}
+                    source={require('@assets/image/avatar1.png')}
+                  />
+                  <View style={{flexDirection: 'column'}}>
+                    <Text
+                      style={{
+                        color: COLORS.White,
+                        fontSize: FONTSIZE.size_16,
+                        marginLeft: MARGIN.margin_2,
+                        fontFamily: FONTTFAMILY.poppins_regular,
+                      }}>
+                      {item.userName.toUpperCase()}
+                    </Text>
+                    <Text style={styles.comments}>{item.comment}</Text>
+                  </View>
                 </View>
               ))}
         </View>
@@ -472,7 +484,7 @@ export default function MovieDetails({
             <TouchableOpacity
               style={styles.buttonContainer}
               onPress={() => setModalComment(!modalComment)}>
-              <Text style={styles.buttonText}>Comment</Text>
+              <Text style={styles.buttonText}>{`${t('Comment')}`}</Text>
             </TouchableOpacity>
           </View>
           <View>
@@ -502,7 +514,7 @@ export default function MovieDetails({
                   });
                 }
               }}>
-              <Text style={styles.buttonText}>Booking</Text>
+              <Text style={styles.buttonText}>{`${t('Booking')}`}</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -697,7 +709,7 @@ const styles = StyleSheet.create({
   comments: {
     fontFamily: FONTTFAMILY.poppins_regular,
     fontSize: FONTSIZE.size_16,
-    marginLeft: MARGIN.margin_20,
+    marginLeft: MARGIN.margin_2,
     marginBottom: MARGIN.margin_10,
     color: COLORS.White,
   },
