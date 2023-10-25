@@ -1,4 +1,4 @@
-import {en, vi} from '@i18n/translations';
+import {ch, en, fr, kr, th, vi} from '@i18n/translations';
 import i18n from 'i18next';
 import {initReactI18next} from 'react-i18next';
 const {languageDetector} = require('@i18n/utils/languageDetector');
@@ -8,6 +8,18 @@ const resources = {
   },
   vi: {
     translation: vi,
+  },
+  th: {
+    translation: th,
+  },
+  fr: {
+    translation: fr,
+  },
+  kr: {
+    translation: kr,
+  },
+  ch: {
+    translation: ch,
   },
 };
 

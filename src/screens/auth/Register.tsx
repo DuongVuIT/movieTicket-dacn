@@ -12,6 +12,7 @@ import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
 import {getDatabase, ref, set} from 'firebase/database';
 import React, {useEffect, useRef, useState} from 'react';
+import {useTranslation} from 'react-i18next';
 import {
   Animated,
   Dimensions,
@@ -32,6 +33,7 @@ const images: string[] = [
 ];
 const {width, height} = Dimensions.get('screen');
 const Register = ({navigation}: NativeStackScreenProps<RootParamList>) => {
+  const {t} = useTranslation();
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [name, setName] = useState<any>();
@@ -82,7 +84,7 @@ const Register = ({navigation}: NativeStackScreenProps<RootParamList>) => {
               });
             })
             .then(() => {
-              alert('Verification email sent');
+              alert(`${t('Verification email sent')}`);
             });
         }
       })
@@ -90,7 +92,7 @@ const Register = ({navigation}: NativeStackScreenProps<RootParamList>) => {
         const errorCode = error.code;
         const errorMessage = error.message;
         if (!email || !password) {
-          setRegisterError('Please enter complete information');
+          setRegisterError(`${t('Please enter complete information')}`);
           setTimeout(() => {
             setRegisterError('');
           }, 2000);
@@ -98,20 +100,22 @@ const Register = ({navigation}: NativeStackScreenProps<RootParamList>) => {
         }
         let hasError = false;
         if (errorCode === 'auth/weak-password') {
-          setPasswordError('Password too weak, try again');
+          setPasswordError(`${t('Password too weak, try again')}`);
 
           setTimeout(() => {
             setPasswordError('');
             hasError = true;
           }, 2000);
         } else if (errorCode === 'auth/email-already-in-use') {
-          setEmailError('Email has been used, please select another email');
+          setEmailError(
+            `${t('Email has been used, please select another email')}`,
+          );
           setTimeout(() => {
             setEmailError('');
             hasError = true;
           }, 2000);
         } else if (!email.includes('@')) {
-          setEmailError('The email must have the correct format');
+          setEmailError(`${t('The email must have the correct format')}`);
           setTimeout(() => {
             setEmailError('');
             hasError = true;
@@ -181,7 +185,7 @@ const Register = ({navigation}: NativeStackScreenProps<RootParamList>) => {
               Name
             </Text>
             <TextInput
-              placeholder="Enter your name"
+              placeholder={`${t('Enter your name')}`}
               placeholderTextColor={'white'}
               style={styles.text_name}
               onChangeText={text => setName(text)}
@@ -198,7 +202,7 @@ const Register = ({navigation}: NativeStackScreenProps<RootParamList>) => {
               Email
             </Text>
             <TextInput
-              placeholder="Enter your email"
+              placeholder={`${t('Enter your email')}`}
               placeholderTextColor={'white'}
               style={styles.text_Email}
               onChangeText={text => setEmail(text)}
@@ -216,7 +220,7 @@ const Register = ({navigation}: NativeStackScreenProps<RootParamList>) => {
               Password
             </Text>
             <TextInput
-              placeholder="Enter your password"
+              placeholder={`${t('Enter your password')}`}
               placeholderTextColor={'white'}
               style={styles.text_password}
               onChangeText={text => setPassword(text)}
@@ -234,11 +238,13 @@ const Register = ({navigation}: NativeStackScreenProps<RootParamList>) => {
               onPress={RegisterHandler}
               style={styles.buttonRegister}>
               <Text style={{color: COLORS.White, textAlign: 'center'}}>
-                Register
+                {`${t('Register')}`}
               </Text>
             </TouchableOpacity>
             <TouchableOpacity onPress={() => navigation.goBack()}>
-              <Text style={styles.textLogin}>Have account? Login</Text>
+              <Text style={styles.textLogin}>
+                {`${t('Have account')}`}? {`${t('Login')}`}
+              </Text>
             </TouchableOpacity>
           </View>
         </View>

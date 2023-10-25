@@ -297,9 +297,7 @@ export default function Account({
           <CustomIcon style={styles.iconStyle} name="setting" size={30} />
           <Text style={styles.mainTitle}>{`${t('Setting')}`}</Text>
         </View>
-        <TouchableOpacity>
-          <Text style={styles.textSubtitle}>{`${t('Themes')}`}</Text>
-        </TouchableOpacity>
+
         <View>
           <TouchableOpacity style={{flexDirection: 'row'}}>
             <Text style={styles.textSubtitle}>{`${t('Languages')}`}</Text>

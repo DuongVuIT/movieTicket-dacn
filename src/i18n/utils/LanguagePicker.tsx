@@ -33,6 +33,22 @@ const LanguagePicker = () => {
       name: 'vi',
       label: 'Vietnamese',
     },
+    {
+      name: 'th',
+      label: 'Thailand',
+    },
+    {
+      name: 'fr',
+      label: 'French',
+    },
+    {
+      name: 'kr',
+      label: 'Korean',
+    },
+    {
+      name: 'ch',
+      label: 'Chinese',
+    },
   ];
   const LanguageItem = ({name, label}: languagesType) => (
     <Pressable

@@ -13,6 +13,7 @@ import {
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
 import React, {useEffect, useRef, useState} from 'react';
+import {useTranslation} from 'react-i18next';
 import {
   Alert,
   Animated,
@@ -37,7 +38,7 @@ const images: string[] = [
 const {width, height} = Dimensions.get('screen');
 const Login = ({navigation}: NativeStackScreenProps<RootParamList>) => {
   const dispatch = useDispatch();
-
+  const {t} = useTranslation();
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [emailError, setEmailError] = useState<string>('');
@@ -60,7 +61,7 @@ const Login = ({navigation}: NativeStackScreenProps<RootParamList>) => {
       .auth()
       .sendPasswordResetEmail(email)
       .then(() => {
-        alert('Password reset email sent');
+        alert(`${t('Password reset email sent')}`);
       })
       .catch(error => {
         Alert.alert('Message', `Failed to connect to server`, error);
@@ -74,7 +75,6 @@ const Login = ({navigation}: NativeStackScreenProps<RootParamList>) => {
       const dataUser = await dataFirebase.user;
       if (dataUser) {
         if (dataUser.emailVerified) {
-          // Người dùng đã xác nhận email
           const token = await dataUser.getIdToken();
           const uid = dataUser.uid;
           dispatch(loginSuccess(uid));
@@ -89,15 +89,14 @@ const Login = ({navigation}: NativeStackScreenProps<RootParamList>) => {
             autoHide: true,
           });
         } else {
-          // Người dùng chưa xác nhận email
-          setLoginStatus('Please verify your email before logging in.');
+          setLoginStatus(`${t('Please verify your email before logging in')}`);
         }
       }
     } catch (error) {
       const errorCode = (error as firebase.auth.Error).code;
       const errorMessage = (error as firebase.auth.Error).message;
       if (!email || !password) {
-        setLoginStatus('Please enter your email and password');
+        setLoginStatus(`${t('Please enter your email and password')}`);
       } else {
         let errorText = '';
 
@@ -105,9 +104,9 @@ const Login = ({navigation}: NativeStackScreenProps<RootParamList>) => {
           errorCode === 'auth/invalid-email' ||
           errorCode === 'auth/user-not-found'
         ) {
-          errorText = 'Email is not valid or not found';
+          errorText = `${t('Email is not valid or not found')}`;
         } else if (errorCode === 'auth/wrong-password') {
-          errorText = 'Incorrect password';
+          errorText = `${t('Incorrect password')}`;
         } else {
           errorText = 'Login failed: ' + errorMessage;
         }
@@ -169,7 +168,7 @@ const Login = ({navigation}: NativeStackScreenProps<RootParamList>) => {
           <View style={{flexDirection: 'row'}}>
             <Text style={styles.text_input}>Email</Text>
             <TextInput
-              placeholder="Enter your email"
+              placeholder={`${t('Enter your email')}`}
               placeholderTextColor={'white'}
               style={styles.textInput_email}
               onChangeText={text => setEmail(text)}
@@ -183,7 +182,7 @@ const Login = ({navigation}: NativeStackScreenProps<RootParamList>) => {
           <View style={{flexDirection: 'row'}}>
             <Text style={styles.text_input}>Password</Text>
             <TextInput
-              placeholder="Enter your password"
+              placeholder={`${t('Enter your password')}`}
               placeholderTextColor={'white'}
               style={styles.textInput_password}
               onChangeText={text => setPassword(text)}
@@ -210,13 +209,13 @@ const Login = ({navigation}: NativeStackScreenProps<RootParamList>) => {
               onPress={() => LoginHandler()}
               style={styles.button_login}>
               <Text style={{color: COLORS.White, textAlign: 'center'}}>
-                Login
+                {`${t('Login')}`}
               </Text>
             </TouchableOpacity>
 
             <View style={{flexDirection: 'row'}}>
               <Text style={{color: COLORS.White, marginTop: MARGIN.margin_10}}>
-                Don't have account ?
+                {`${t(`Don't have account?`)}`}
               </Text>
               <TouchableOpacity
                 onPress={() => navigation.navigate(APP_SCREEN.REGISTER)}>
@@ -226,7 +225,7 @@ const Login = ({navigation}: NativeStackScreenProps<RootParamList>) => {
                     marginTop: MARGIN.margin_10,
                     marginLeft: MARGIN.margin_10,
                   }}>
-                  Register
+                  {`${t('Register')}`}
                 </Text>
               </TouchableOpacity>
             </View>
@@ -236,7 +235,7 @@ const Login = ({navigation}: NativeStackScreenProps<RootParamList>) => {
                   color: 'white',
                   marginTop: MARGIN.margin_10,
                 }}>
-                Forgot password?
+                {`${t('Forgot Password')}`}
               </Text>
             </TouchableOpacity>
           </View>
