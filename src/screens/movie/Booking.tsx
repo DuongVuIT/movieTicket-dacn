@@ -209,8 +209,8 @@ const Booking = ({navigation}: NativeStackScreenProps<RootParamList>) => {
         Toast.show({
           type: 'success',
           position: 'top',
-          text1: 'Success',
-          text2: 'Buy ticket success',
+          text1: `${t('Success')}`,
+          text2: `${t('Buy ticket success')}`,
           visibilityTime: 4000,
           autoHide: true,
           topOffset: 50,
@@ -222,8 +222,8 @@ const Booking = ({navigation}: NativeStackScreenProps<RootParamList>) => {
       Toast.show({
         type: 'error',
         position: 'top',
-        text1: 'Error',
-        text2: 'Please select all information',
+        text1: `${t('Error')}`,
+        text2: `${t('Please select all information')}`,
         visibilityTime: 1000,
         autoHide: true,
         topOffset: 50,
@@ -285,7 +285,11 @@ const Booking = ({navigation}: NativeStackScreenProps<RootParamList>) => {
           />
         </View>
       </View>
-      <View style={{justifyContent: 'center', alignItems: 'center'}}>
+      <View
+        style={{
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}>
         <SelectList
           placeholder={`${t('Select mall')}`}
           boxStyles={styles.boxSelectedStyle}
@@ -555,6 +559,9 @@ const styles = StyleSheet.create({
   ticket: {
     fontFamily: FONTTFAMILY.poppins_regular,
     fontSize: FONTSIZE.size_20,
+    color: COLORS.White,
+  },
+  iconSelect: {
     color: COLORS.White,
   },
 });

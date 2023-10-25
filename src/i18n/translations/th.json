@@ -63,5 +63,9 @@
   "Email has been used, please select another email": "อีเมลถูกใช้แล้ว โปรดเลือกอีเมลอื่น",
   "The email must have the correct format": "อีเมลต้องมีรูปแบบที่ถูกต้องรวมถึง @",
   "Enter your name": "ป้อนชื่อของคุณ",
-  "Have account": "มีบัญชีแล้ว"
+  "Have account": "มีบัญชีแล้ว",
+  "Buy ticket success": "การซื้อบัตรสำเร็จ",
+  "Please select all information": "โปรดเลือกข้อมูลทั้งหมด",
+  "Success": "สำเร็จ",
+  "Error": "ข้อผิดพลาด"
 }

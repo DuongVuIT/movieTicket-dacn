@@ -63,5 +63,12 @@
   "Email has been used, please select another email": "Email đã được sử dụng, vui lòng chọn email khác",
   "The email must have the correct format": "Email phải đúng định dạng bao gồm @",
   "Enter your name": "Nhập tên của bạn",
-  "Have account": "Có tài khoản"
+  "Have account": "Có tài khoản",
+  "Buy ticket success": "Mua vé thành công",
+  "Please select all information": "Vui lòng chọn đầy đủ thông tin",
+  "Success": "Thành công",
+  "Error": "Lỗi",
+  "Unavailable": "Không khả dụng",
+  "Change Password Successfully": "Thay đổi mật khẩu thành công",
+  "Change Profile Successfully": "Thay đổi thông tin thành công"
 }

@@ -466,6 +466,7 @@ export default function MovieDetails({
                   <View style={{flexDirection: 'column'}}>
                     <Text
                       style={{
+                        marginTop: MARGIN.margin_4,
                         color: COLORS.White,
                         fontSize: FONTSIZE.size_16,
                         marginLeft: MARGIN.margin_2,
@@ -541,7 +542,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: '50%',
     alignSelf: 'center',
-    padding: 10,
+    padding: SPACING.space_10,
   },
   iconHeader: {
     marginHorizontal: SPACING.space_36,
@@ -639,8 +640,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     borderWidth: 2,
-    marginLeft: 20,
-    marginRight: 30,
+    marginLeft: MARGIN.margin_20,
+    marginRight: MARGIN.margin_30,
     paddingVertical: SPACING.space_10,
     padding: SPACING.space_20,
     marginBottom: SPACING.space_30,
@@ -660,13 +661,13 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    marginHorizontal: 20,
+    marginHorizontal: MARGIN.margin_20,
   },
   modalView: {
-    marginTop: 100,
-    borderRadius: 20,
-    padding: 10,
-    margin: 20,
+    marginTop: MARGIN.margin_30 * 3 + SPACING.space_10,
+    borderRadius: BORDERRADIUS.radius_20,
+    padding: SPACING.space_10,
+    margin: MARGIN.margin_20,
   },
   buttonClose: {
     backgroundColor: COLORS.Black,
@@ -710,6 +711,7 @@ const styles = StyleSheet.create({
     fontFamily: FONTTFAMILY.poppins_regular,
     fontSize: FONTSIZE.size_16,
     marginLeft: MARGIN.margin_2,
+    marginTop: MARGIN.margin_4,
     marginBottom: MARGIN.margin_10,
     color: COLORS.White,
   },

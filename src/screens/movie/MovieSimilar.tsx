@@ -496,8 +496,8 @@ export default function MovieSimilar({
                   Toast.show({
                     type: 'error',
                     position: 'top',
-                    text1: 'Error',
-                    text2: 'Unavailable',
+                    text1: `${t('Error')}`,
+                    text2: `${t('Unavailable')}`,
                     visibilityTime: 1000,
                     autoHide: true,
                     topOffset: 50,

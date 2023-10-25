@@ -63,5 +63,9 @@
   "Email has been used, please select another email": "이메일이 사용 중입니다. 다른 이메일을 선택하세요",
   "The email must have the correct format": "이메일은 올바른 형식을 가져야 합니다",
   "Enter your name": "이름을 입력하세요",
-  "Have account": "계정이 있습니다"
+  "Have account": "계정이 있습니다",
+  "Buy ticket success": "티켓 구매 성공",
+  "Please select all information": "모든 정보를 선택해 주십시오",
+  "Success": "성공",
+  "Error": "오류"
 }

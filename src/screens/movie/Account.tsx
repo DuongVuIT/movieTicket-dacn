@@ -91,7 +91,7 @@ export default function Account({
         Toast.show({
           type: 'success',
           text1: 'Success',
-          text2: `Change Password Successfully`,
+          text2: `${t(`Change Password Successfully`)}`,
           visibilityTime: 4000,
           topOffset: 50,
           autoHide: true,
@@ -123,7 +123,7 @@ export default function Account({
         Toast.show({
           type: 'success',
           text1: 'Success',
-          text2: `Change Password Successfully`,
+          text2: `${t(`Change Profile Successfully`)}`,
           visibilityTime: 4000,
           topOffset: 50,
           autoHide: true,

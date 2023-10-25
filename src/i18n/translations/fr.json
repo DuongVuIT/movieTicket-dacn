@@ -63,5 +63,9 @@
   "Email has been used, please select another email": "L'e-mail a été utilisé, veuillez en choisir un autre",
   "The email must have the correct format": "L'e-mail doit avoir le bon format, y compris @",
   "Enter your name": "Entrez votre nom",
-  "Have account": "Vous avez un compte"
+  "Have account": "Vous avez un compte",
+  "Buy ticket success": "Achat de billet réussi",
+  "Please select all information": "Veuillez sélectionner toutes les informations",
+  "Success": "Succès",
+  "Error": "Erreur"
 }

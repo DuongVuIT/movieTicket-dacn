@@ -63,5 +63,9 @@
   "Email has been used, please select another email": "电子邮件已使用，请选择另一个电子邮件",
   "The email must have the correct format": "电子邮件必须具有正确的格式",
   "Enter your name": "输入您的姓名",
-  "Have account": "已有帐户"
+  "Have account": "已有帐户",
+  "Buy ticket success": "购票成功",
+  "Please select all information": "请选择所有信息",
+  "Success": "成功",
+  "Error": "错误"
 }
