@@ -20,8 +20,6 @@ const {width} = Dimensions.get('window');
 const MyTicket = ({navigation}: NativeStackScreenProps<RootParamList>) => {
   const uid = useSelector((state: AuthTypes) => state?.uid);
   const idticket = useSelector((state: AuthTypes) => state?.ticketId);
-  console.log('id', idticket);
-  console.log(uid);
   const [movieData, setMovieData] = useState<any[]>();
   const isFocused = useIsFocused();
   useEffect(() => {
@@ -44,7 +42,6 @@ const MyTicket = ({navigation}: NativeStackScreenProps<RootParamList>) => {
       console.log('Erro when get data from firebase');
     }
   };
-  console.log('dataMovie', movieData);
 
   return (
     <SafeAreaView style={styles.container}>

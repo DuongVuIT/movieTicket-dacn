@@ -299,10 +299,10 @@ export default function Account({
         </View>
 
         <View>
-          <TouchableOpacity style={{flexDirection: 'row'}}>
+          <View style={{flexDirection: 'row'}}>
             <Text style={styles.textSubtitle}>{`${t('Languages')}`}</Text>
             <LanguagePicker />
-          </TouchableOpacity>
+          </View>
         </View>
       </View>
       <View>

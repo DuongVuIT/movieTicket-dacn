@@ -52,7 +52,6 @@ const Register = ({navigation}: NativeStackScreenProps<RootParamList>) => {
       });
     }
   };
-  console.log('name', name);
 
   const RegisterHandler = async () => {
     firebase
