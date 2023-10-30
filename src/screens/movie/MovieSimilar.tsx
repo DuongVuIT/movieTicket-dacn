@@ -391,6 +391,7 @@ export default function MovieSimilar({
               data={movieCastData}
               keyExtractor={(item: any) => item.id}
               horizontal
+              showsHorizontalScrollIndicator={false}
               renderItem={({item, index}) => (
                 <CastCard
                   action={() => {

@@ -82,8 +82,8 @@ const Login = ({navigation}: NativeStackScreenProps<RootParamList>) => {
           navigation.navigate(APP_SCREEN.BOTTOM_TAB);
           Toast.show({
             type: 'success',
-            text1: 'Success',
-            text2: `Welcome`,
+            text1: `${t('Success')}`,
+            text2: `${t(`Welcome`)}`,
             visibilityTime: 4000,
             topOffset: 50,
             autoHide: true,
@@ -97,6 +97,9 @@ const Login = ({navigation}: NativeStackScreenProps<RootParamList>) => {
       const errorMessage = (error as firebase.auth.Error).message;
       if (!email || !password) {
         setLoginStatus(`${t('Please enter your email and password')}`);
+        setTimeout(() => {
+          setLoginStatus('');
+        }, 3000);
       } else {
         let errorText = '';
 
@@ -113,6 +116,9 @@ const Login = ({navigation}: NativeStackScreenProps<RootParamList>) => {
 
         if (errorText) {
           setLoginStatus(errorText);
+          setTimeout(() => {
+            setLoginStatus('');
+          }, 3000);
         }
       }
     }
@@ -175,7 +181,7 @@ const Login = ({navigation}: NativeStackScreenProps<RootParamList>) => {
               value={email}
             />
           </View>
-          <Text style={{color: COLORS.Red, fontSize: FONTSIZE.size_16}}>
+          <Text style={{color: COLORS.Red, fontSize: FONTSIZE.size_14}}>
             {emailError}
           </Text>
 
@@ -185,11 +191,12 @@ const Login = ({navigation}: NativeStackScreenProps<RootParamList>) => {
               placeholder={`${t('Enter your password')}`}
               placeholderTextColor={'white'}
               style={styles.textInput_password}
+              secureTextEntry={true}
               onChangeText={text => setPassword(text)}
               value={password}
             />
           </View>
-          <Text style={{color: COLORS.Red, fontSize: FONTSIZE.size_20}}>
+          <Text style={{color: COLORS.Red, fontSize: FONTSIZE.size_14}}>
             {passwordError}
           </Text>
           <View

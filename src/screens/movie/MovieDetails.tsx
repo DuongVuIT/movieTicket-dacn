@@ -391,6 +391,7 @@ export default function MovieDetails({
               data={movieCastData}
               keyExtractor={(item: any) => item.id}
               horizontal
+              showsHorizontalScrollIndicator={false}
               renderItem={({item, index}) => (
                 <CastCard
                   action={() => {
@@ -507,8 +508,8 @@ export default function MovieDetails({
                   Toast.show({
                     type: 'error',
                     position: 'top',
-                    text1: 'Error',
-                    text2: 'Unavailable',
+                    text1: `${t('Error')}`,
+                    text2: `${t('Unavailable')}`,
                     visibilityTime: 1000,
                     autoHide: true,
                     topOffset: 50,

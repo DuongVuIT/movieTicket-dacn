@@ -107,8 +107,8 @@ export default function Ticket({
         <View style={styles.ticketFooter}>
           <View style={styles.ticketDateContainer}>
             <View style={styles.subtitleContainer}>
-              <Text style={styles.dateTitle}>{ticketUser?.date.date}</Text>
-              <Text style={styles.subtitle}>{ticketUser?.date.day}</Text>
+              <Text style={styles.dateTitle}>{ticketUser?.date?.date}</Text>
+              <Text style={styles.subtitle}>{ticketUser?.date?.day}</Text>
             </View>
 
             <View style={styles.subtitleContainer}>

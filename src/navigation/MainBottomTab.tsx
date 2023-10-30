@@ -26,7 +26,7 @@ const MainBottomTab = () => {
         },
         headerShown: false,
         tabBarLabelStyle: {
-          fontSize: FONTSIZE.size_16,
+          fontSize: FONTSIZE.size_14,
           color: COLORS.White,
         },
 

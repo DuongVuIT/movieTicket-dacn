@@ -240,16 +240,14 @@ const Booking = ({navigation}: NativeStackScreenProps<RootParamList>) => {
         <ImageBackground
           style={styles.imageBG}
           source={{uri: route.params?.BgImage}}>
-          <LinearGradient
-            colors={[COLORS.LightGreyRGBA50]}
-            style={styles.linearGradient}>
+          <View style={styles.linearGradient}>
             <View style={styles.iconHeader}>
               <IconHeader
                 name="arrow-left"
                 action={() => navigation.goBack()}
               />
             </View>
-          </LinearGradient>
+          </View>
         </ImageBackground>
       </View>
       <View style={{flexDirection: 'row', flex: 1, justifyContent: 'center'}}>

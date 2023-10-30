@@ -10,8 +10,7 @@ import {useSelector} from 'react-redux';
 const Welcome = ({navigation}: NativeStackScreenProps<RootParamList>) => {
   const [isAnimationCompleted, setIsAnimationCompleted] =
     useState<boolean>(false);
-  const uid = useSelector((store: AuthTypes) => store?.uid);
-  const userToken = useSelector((store: any) => store?.token);
+  const userToken = useSelector((store: AuthTypes) => store?.token);
   useEffect(() => {
     const checkToken = async () => {
       try {
