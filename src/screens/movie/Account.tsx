@@ -50,7 +50,7 @@ export default function Account({
   const getDataUser = async () => {
     if (userId) {
       try {
-        firebase
+        await firebase
           .database()
           .ref(`users/${userId}`)
           .on('value', snapshot => {
@@ -74,67 +74,85 @@ export default function Account({
     setModalProfile(!modalProfile);
   };
   const handlerChangePassword = async () => {
-    try {
-      if (userId) {
-        const newPass = await firebase
-          .auth()
-          .currentUser?.updatePassword(newPassword);
-        await firebase
-          .database()
-          .ref(`users/${userId}`)
-          .child('password')
-          .set(newPassword);
+    if (newPassword) {
+      try {
+        if (userId) {
+          const newPass = await firebase
+            .auth()
+            .currentUser?.updatePassword(newPassword);
+          await firebase
+            .database()
+            .ref(`users/${userId}`)
+            .child('password')
+            .set(newPassword);
 
-        console.log('Mật khẩu đã được cập nhật thành công.');
-        setNewPassword(newPass);
+          setNewPassword(newPass);
 
-        Toast.show({
-          type: 'success',
-          text1: 'Success',
-          text2: `${t(`Change Password Successfully`)}`,
-          visibilityTime: 4000,
-          topOffset: 50,
-          autoHide: true,
-        });
+          Toast.show({
+            type: 'success',
+            text1: 'Success',
+            text2: `${t(`Change Password Successfully`)}`,
+            visibilityTime: 4000,
+            topOffset: 50,
+            autoHide: true,
+          });
 
-        setModalPassword(!modalPassword);
-      } else {
-        console.log('User is not logged in.');
+          setModalPassword(!modalPassword);
+        } else {
+          console.log('User is not logged in.');
+        }
+      } catch (error) {
+        console.log(error);
       }
-    } catch (error) {
-      console.log(error);
+    } else {
+      Toast.show({
+        type: 'error',
+        text1: 'Error',
+        text2: 'Please enter your new password',
+        visibilityTime: 4000,
+        topOffset: 50,
+        autoHide: true,
+      });
     }
   };
   const handlerChangeProfile = async () => {
-    try {
-      if (userId) {
-        const userName = await firebase
-          .auth()
-          .currentUser?.updateProfile(newName);
-        await firebase
-          .database()
-          .ref(`users/${userId}`)
-          .child('displayName')
-          .set(newName);
+    if (newName) {
+      try {
+        if (userId) {
+          const userName = await firebase
+            .auth()
+            .currentUser?.updateProfile(newName);
+          await firebase
+            .database()
+            .ref(`users/${userId}`)
+            .child('displayName')
+            .set(newName);
+          setNewName(userName);
+          Toast.show({
+            type: 'success',
+            text1: 'Success',
+            text2: `${t(`Change Profile Successfully`)}`,
+            visibilityTime: 4000,
+            topOffset: 50,
+            autoHide: true,
+          });
 
-        console.log('Mật khẩu đã được cập nhật thành công.');
-        setNewName(userName);
-
-        Toast.show({
-          type: 'success',
-          text1: 'Success',
-          text2: `${t(`Change Profile Successfully`)}`,
-          visibilityTime: 4000,
-          topOffset: 50,
-          autoHide: true,
-        });
-
-        setModalProfile(!modalProfile);
-      } else {
-        console.log('User is not logged in.');
+          setModalProfile(!modalProfile);
+        } else {
+          console.log('User is not logged in.');
+        }
+      } catch (error) {
+        console.log(error);
       }
-    } catch (error) {
-      console.log(error);
+    } else {
+      Toast.show({
+        type: 'error',
+        text1: 'Error',
+        text2: 'Please enter your name',
+        visibilityTime: 4000,
+        topOffset: 50,
+        autoHide: true,
+      });
     }
   };
   const handleLogout = async () => {
@@ -310,7 +328,7 @@ export default function Account({
           <CustomIcon style={styles.iconStyle} name="info" size={30} />
           <Text style={styles.mainTitle}>{`${t('About')}`}</Text>
         </View>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate(APP_SCREEN.ABOUT)}>
           <Text style={styles.textSubtitle}>{`${t(
             'About Lottie Movie',
           )}`}</Text>

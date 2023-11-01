@@ -130,7 +130,7 @@ export default function MovieDetails({
               const data = snapshot.val();
               const dataArray = Object.values(data);
               setCommentData(dataArray);
-              console.log('data:', dataArray);
+              console.log('data:', JSON.stringify(dataArray, null, 5));
             } else {
               console.log('No data.');
             }
@@ -141,16 +141,27 @@ export default function MovieDetails({
     }
   };
   const commentUser = async () => {
-    try {
-      await firebase.database().ref(`users/comments/`).push({
-        userName: dataUser,
-        movieId: movieId,
-        comment: comment,
+    if (comment) {
+      try {
+        await firebase.database().ref(`users/comments/`).push({
+          userName: dataUser,
+          movieId: movieId,
+          comment: comment,
+        });
+        setComment('');
+        setModalComment(!modalComment);
+      } catch (error) {
+        console.log(error);
+      }
+    } else {
+      Toast.show({
+        type: 'error',
+        text1: `${t('Error')}`,
+        text2: `${t(`Please enter your comment`)}`,
+        visibilityTime: 4000,
+        topOffset: 50,
+        autoHide: true,
       });
-      setComment('');
-      setModalComment(!modalComment);
-    } catch (error) {
-      console.log(error);
     }
   };
   const getMovieCastDetails = async (movieId: number) => {
