@@ -14,6 +14,7 @@ import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
 import React, {useEffect, useRef, useState} from 'react';
 import {useTranslation} from 'react-i18next';
+import {Icon} from 'react-native-vector-icons/Icon';
 import {
   Alert,
   Animated,
