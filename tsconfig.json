@@ -56,7 +56,9 @@
       "@redux": ["./src/redux"],
       "@redux/*": ["./src/redux/*"],
       "@i18n": ["./src/i18n"],
-      "@i18n/*": ["./src/i18n/*"]
+      "@i18n/*": ["./src/i18n/*"],
+      "@context/*": ["./src/context/*"],
+      "@context": ["./src/context"]
     },
     /* A series of entries which re-map imports to lookup locations relative to the 'baseUrl'. */ // "rootDirs": [],                        /* List of root folders whose combined content represents the structure of the project at runtime. */
     // "typeRoots": [],                       /* List of folders to include type definitions from. */

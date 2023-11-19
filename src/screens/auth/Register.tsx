@@ -79,7 +79,7 @@ const Register = ({navigation}: NativeStackScreenProps<RootParamList>) => {
             .then(() => {
               return user.sendEmailVerification({
                 handleCodeInApp: true,
-                url: 'https://movieticket-bb94b.firebaseapp.com',
+                url: 'https://movieticket-ecfc5.firebaseapp.com',
               });
             })
             .then(() => {

@@ -15,7 +15,7 @@ import {
   SPACING,
 } from '@type/theme';
 import firebase from 'firebase/compat';
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {useTranslation} from 'react-i18next';
 import {
   Dimensions,
@@ -31,10 +31,12 @@ import {
 } from 'react-native';
 import Toast from 'react-native-toast-message';
 import {useDispatch, useSelector} from 'react-redux';
+import ThemeContext from '@context/ThemeContext';
 const {width} = Dimensions.get('window');
 export default function Account({
   navigation,
 }: NativeStackScreenProps<RootParamList>) {
+  const {theme, toggleTheme} = useContext(ThemeContext);
   const dispacth = useDispatch();
   const userId = useSelector((store: AuthTypes) => store?.uid);
   const [dataUser, setDataUser] = useState<any>();
@@ -72,6 +74,10 @@ export default function Account({
   };
   const handleCloseProfile = () => {
     setModalProfile(!modalProfile);
+  };
+  const handleToggleTheme = () => {
+    const newTheme = theme === 'light' ? 'dark' : 'light';
+    toggleTheme(newTheme);
   };
   const handlerChangePassword = async () => {
     if (newPassword) {
@@ -165,6 +171,114 @@ export default function Account({
     }
     navigation.navigate(APP_SCREEN.LOGIN);
   };
+  const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: theme === 'dark' ? 'black' : 'white',
+    },
+    headerContainer: {
+      flex: 1,
+    },
+    text: {
+      color: theme === 'dark' ? 'white' : 'black',
+      fontSize: FONTSIZE.size_24,
+      fontFamily: FONTTFAMILY.poppins_regular,
+      textAlign: 'center',
+      alignSelf: 'center',
+      marginTop: MARGIN.margin_40 * 2,
+    },
+
+    imagesStyles: {
+      marginTop: MARGIN.margin_10,
+      alignSelf: 'center',
+      height: 90,
+      borderRadius: 60,
+      width: 90,
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+    nameUser: {
+      marginTop: MARGIN.margin_14,
+      fontSize: FONTSIZE.size_16,
+      color: theme === 'dark' ? 'white' : 'black',
+      textAlign: 'center',
+      marginBottom: MARGIN.margin_20,
+    },
+    iconStyle: {
+      color: theme === 'dark' ? 'white' : 'black',
+      marginLeft: MARGIN.margin_20,
+    },
+    textSubtitle: {
+      fontFamily: FONTTFAMILY.poppins_regular,
+      color: theme === 'dark' ? 'white' : 'black',
+      marginTop: MARGIN.margin_6,
+      fontSize: FONTSIZE.size_16,
+      marginLeft: MARGIN.margin_30 * 3,
+    },
+    mainTitle: {
+      color: theme === 'dark' ? 'white' : 'black',
+      fontSize: FONTSIZE.size_20,
+      marginLeft: MARGIN.margin_10,
+      fontFamily: FONTTFAMILY.poppins_regular,
+    },
+    subContainer: {
+      flexDirection: 'row',
+      marginTop: 30,
+      marginLeft: 30,
+    },
+    logoutTitle: {
+      fontSize: FONTSIZE.size_20,
+      color: theme === 'dark' ? 'white' : 'black',
+      fontFamily: FONTTFAMILY.poppins_regular,
+    },
+    title: {
+      fontFamily: FONTTFAMILY.poppins_regular,
+      fontSize: 26,
+      color: theme === 'dark' ? 'white' : 'black',
+    },
+    centeredView: {
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
+      marginTop: 22,
+    },
+    modalView: {
+      backgroundColor: theme === 'dark' ? 'black' : 'white',
+      borderRadius: BORDERRADIUS.radius_20,
+      padding: SPACING.space_36,
+      alignItems: 'center',
+      shadowColor: '#000',
+      shadowOffset: {
+        width: 0,
+        height: 2,
+      },
+      shadowOpacity: 0.25,
+      shadowRadius: 4,
+      elevation: 5,
+    },
+    button: {
+      borderRadius: 20,
+      padding: 10,
+      elevation: 2,
+      paddingHorizontal: 50,
+    },
+    buttonSave: {
+      backgroundColor: theme === 'dark' ? 'white' : 'black',
+    },
+    buttonClose: {
+      backgroundColor: theme === 'dark' ? 'white' : 'black',
+    },
+    textInput: {
+      marginTop: 10,
+      padding: 10,
+      borderRadius: 25,
+      color: theme === 'dark' ? 'white' : 'black',
+      backgroundColor: theme === 'dark' ? 'black' : 'white',
+      width: width - 100,
+      fontFamily: FONTTFAMILY.poppins_regular,
+      fontSize: 18,
+    },
+  });
   return (
     <ScrollView style={styles.container}>
       <View>
@@ -210,7 +324,7 @@ export default function Account({
                     style={{
                       ...styles.title,
                       fontSize: 20,
-                      color: COLORS.White,
+                      color: theme === 'dark' ? 'black' : 'white',
                     }}>
                     {`${t('Close')}`}
                   </Text>
@@ -220,7 +334,12 @@ export default function Account({
                     handlerChangePassword();
                   }}
                   style={[styles.button, styles.buttonSave]}>
-                  <Text style={{...styles.title, fontSize: 20, color: 'white'}}>
+                  <Text
+                    style={{
+                      ...styles.title,
+                      fontSize: 20,
+                      color: theme === 'dark' ? 'black' : 'white',
+                    }}>
                     {`${t('Save')}`}
                   </Text>
                 </TouchableOpacity>
@@ -262,7 +381,7 @@ export default function Account({
                     style={{
                       ...styles.title,
                       fontSize: 20,
-                      color: COLORS.White,
+                      color: theme === 'dark' ? 'black' : 'white',
                     }}>
                     {`${t('Close')}`}
                   </Text>
@@ -272,7 +391,12 @@ export default function Account({
                     handlerChangeProfile();
                   }}
                   style={[styles.button, styles.buttonSave]}>
-                  <Text style={{...styles.title, fontSize: 20, color: 'white'}}>
+                  <Text
+                    style={{
+                      ...styles.title,
+                      fontSize: 20,
+                      color: theme === 'dark' ? 'black' : 'white',
+                    }}>
                     {`${t('Save')}`}
                   </Text>
                 </TouchableOpacity>
@@ -321,6 +445,19 @@ export default function Account({
             <Text style={styles.textSubtitle}>{`${t('Languages')}`}</Text>
             <LanguagePicker />
           </View>
+          <View style={{flexDirection: 'row'}}>
+            <Text style={styles.textSubtitle}>Theme</Text>
+            <TouchableOpacity onPress={handleToggleTheme}>
+              <Text
+                style={{
+                  color: theme === 'dark' ? 'white' : 'black',
+                  marginTop: MARGIN.margin_10,
+                  marginLeft: MARGIN.margin_10,
+                }}>
+                Change theme
+              </Text>
+            </TouchableOpacity>
+          </View>
         </View>
       </View>
       <View>
@@ -346,111 +483,3 @@ export default function Account({
     </ScrollView>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: COLORS.Black,
-  },
-  headerContainer: {
-    flex: 1,
-  },
-  text: {
-    color: COLORS.White,
-    fontSize: FONTSIZE.size_24,
-    fontFamily: FONTTFAMILY.poppins_regular,
-    textAlign: 'center',
-    alignSelf: 'center',
-    marginTop: MARGIN.margin_40 * 2,
-  },
-
-  imagesStyles: {
-    marginTop: MARGIN.margin_10,
-    alignSelf: 'center',
-    height: 90,
-    borderRadius: 60,
-    width: 90,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  nameUser: {
-    marginTop: MARGIN.margin_14,
-    fontSize: FONTSIZE.size_16,
-    color: COLORS.White,
-    textAlign: 'center',
-    marginBottom: MARGIN.margin_20,
-  },
-  iconStyle: {
-    color: COLORS.White,
-    marginLeft: MARGIN.margin_20,
-  },
-  textSubtitle: {
-    fontFamily: FONTTFAMILY.poppins_regular,
-    color: COLORS.White,
-    marginTop: MARGIN.margin_6,
-    fontSize: FONTSIZE.size_16,
-    marginLeft: MARGIN.margin_30 * 3,
-  },
-  mainTitle: {
-    color: COLORS.White,
-    fontSize: FONTSIZE.size_20,
-    marginLeft: MARGIN.margin_10,
-    fontFamily: FONTTFAMILY.poppins_regular,
-  },
-  subContainer: {
-    flexDirection: 'row',
-    marginTop: 30,
-    marginLeft: 30,
-  },
-  logoutTitle: {
-    fontSize: FONTSIZE.size_20,
-    color: COLORS.White,
-    fontFamily: FONTTFAMILY.poppins_regular,
-  },
-  title: {
-    fontFamily: FONTTFAMILY.poppins_regular,
-    fontSize: 26,
-    color: COLORS.Black,
-  },
-  centeredView: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: 22,
-  },
-  modalView: {
-    backgroundColor: COLORS.White,
-    borderRadius: BORDERRADIUS.radius_20,
-    padding: SPACING.space_36,
-    alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
-  },
-  button: {
-    borderRadius: 20,
-    padding: 10,
-    elevation: 2,
-    paddingHorizontal: 50,
-  },
-  buttonSave: {
-    backgroundColor: COLORS.Black,
-  },
-  buttonClose: {
-    backgroundColor: COLORS.Black,
-  },
-  textInput: {
-    marginTop: 10,
-    padding: 10,
-    borderRadius: 25,
-    backgroundColor: '#f7f8fb',
-    width: width - 100,
-    fontFamily: FONTTFAMILY.poppins_regular,
-    fontSize: 18,
-  },
-});

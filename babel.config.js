@@ -14,6 +14,7 @@ module.exports = {
           '@api': './src/api',
           '@redux': './src/redux',
           '@i18n': './src/i18n',
+          '@context': './src/context',
         },
         extensions: ['.js', '.jsx', '.ts', '.tsx'],
       },
