@@ -16,7 +16,8 @@ import {
 } from '@type/theme';
 import axios from 'axios';
 import firebase from 'firebase/compat';
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
+import {useTranslation} from 'react-i18next';
 import {
   FlatList,
   ImageBackground,
@@ -28,10 +29,9 @@ import {
   View,
 } from 'react-native';
 import {SelectList} from 'react-native-dropdown-select-list';
-import LinearGradient from 'react-native-linear-gradient';
 import Toast from 'react-native-toast-message';
 import {useDispatch, useSelector} from 'react-redux';
-import {useTranslation} from 'react-i18next';
+import ThemeContext from '@context/ThemeContext';
 const host = 'https://provinces.open-api.vn/api/';
 const getDate = () => {
   const date = new Date();
@@ -79,6 +79,8 @@ const generateSeat = () => {
 
 const Booking = ({navigation}: NativeStackScreenProps<RootParamList>) => {
   const route = useRoute<any>();
+  const {theme, toggleTheme} = useContext(ThemeContext);
+
   const dispatch = useDispatch();
   const [cities, setCities] = useState<[]>([]);
   const [dataUser, setData] = useState<any>();
@@ -230,6 +232,149 @@ const Booking = ({navigation}: NativeStackScreenProps<RootParamList>) => {
       });
     }
   };
+  const styles = StyleSheet.create({
+    container: {
+      display: 'flex',
+      flex: 1,
+      backgroundColor: theme === 'dark' ? 'black' : 'white',
+    },
+    loadingIcon: {
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+    scrollContainer: {
+      flex: 1,
+    },
+    iconHeader: {
+      marginHorizontal: SPACING.space_36,
+      marginTop: SPACING.space_24 * 2,
+    },
+    imageBG: {
+      width: '100%',
+      aspectRatio: 16 / 9,
+    },
+    boxSelectedStyle: {
+      marginTop: 10,
+      borderRadius: 20,
+      marginRight: 10,
+    },
+    dropdownStyle: {
+      borderRadius: 30,
+      marginRight: 10,
+    },
+    seatContainer: {
+      marginVertical: SPACING.space_20,
+    },
+    seat: {
+      gap: SPACING.space_20,
+    },
+    seatStyle: {
+      flexDirection: 'row',
+      gap: SPACING.space_20,
+      justifyContent: 'center',
+    },
+    seatIcon: {
+      fontSize: FONTSIZE.size_24,
+      color: theme === 'dark' ? 'white' : 'black',
+    },
+    seatRadio: {
+      flexDirection: 'row',
+      marginVertical: SPACING.space_20,
+      alignItems: 'center',
+      justifyContent: 'space-evenly',
+    },
+    radioContainer: {
+      flexDirection: 'row',
+      gap: SPACING.space_10,
+      alignItems: 'center',
+    },
+    radioIcon: {
+      fontSize: FONTSIZE.size_20,
+      color: theme === 'dark' ? 'white' : 'black',
+    },
+    radioText: {
+      fontFamily: FONTTFAMILY.poppins_medium,
+      fontSize: FONTSIZE.size_12,
+      color: theme === 'dark' ? 'white' : 'black',
+    },
+    contentContainerStyle: {
+      gap: SPACING.space_24,
+    },
+    dateContainer: {
+      width: SPACING.space_10 * 6,
+      height: SPACING.space_10 * 8,
+      borderRadius: SPACING.space_36,
+      backgroundColor: theme === 'dark' ? 'white' : 'black',
+      alignItems: 'center',
+      justifyContent: 'center',
+
+      marginBottom: SPACING.space_10,
+    },
+    dateText: {
+      fontFamily: FONTTFAMILY.poppins_medium,
+      fontSize: FONTSIZE.size_24,
+      color: theme === 'dark' ? 'black' : 'white',
+    },
+    dayText: {
+      fontFamily: FONTTFAMILY.poppins_regular,
+      fontSize: FONTSIZE.size_14,
+      color: theme === 'dark' ? 'black' : 'white',
+    },
+    timeContainer: {
+      paddingVertical: SPACING.space_10,
+      borderWidth: 1,
+      borderColor: COLORS.WhiteRGBA50,
+      paddingHorizontal: SPACING.space_20,
+      borderRadius: BORDERRADIUS.radius_24,
+      backgroundColor: theme === 'dark' ? 'white' : 'black',
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    timeText: {
+      fontFamily: FONTTFAMILY.poppins_regular,
+      fontSize: FONTSIZE.size_14,
+      color: theme === 'dark' ? 'black' : 'white',
+    },
+    buttonpriceContainer: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      paddingHorizontal: SPACING.space_24,
+      paddingBottom: SPACING.space_24,
+    },
+    priceContainer: {
+      alignItems: 'center',
+    },
+    totalPrice: {
+      marginTop: SPACING.space_10,
+      fontFamily: FONTTFAMILY.poppins_regular,
+      fontSize: FONTSIZE.size_20,
+      color: theme === 'dark' ? 'white' : 'black',
+    },
+    price: {
+      fontFamily: FONTTFAMILY.poppins_regular,
+      fontSize: FONTSIZE.size_20,
+      color: theme === 'dark' ? 'white' : 'black',
+    },
+    linearGradient: {
+      height: '100%',
+    },
+    ticketContainer: {
+      borderRadius: BORDERRADIUS.radius_24,
+      paddingHorizontal: SPACING.space_22,
+      paddingVertical: SPACING.space_10,
+      backgroundColor: theme === 'dark' ? 'white' : 'black',
+    },
+    ticket: {
+      fontFamily: FONTTFAMILY.poppins_regular,
+      fontSize: FONTSIZE.size_20,
+      color: theme === 'dark' ? 'black' : 'white',
+    },
+    iconSelect: {
+      color: theme === 'dark' ? 'white' : 'black',
+    },
+  });
   return (
     <ScrollView
       style={styles.container}
@@ -254,11 +399,14 @@ const Booking = ({navigation}: NativeStackScreenProps<RootParamList>) => {
         <View>
           <SelectList
             placeholder={`${t('Select city')}`}
-            inputStyles={{color: 'white'}}
+            inputStyles={{color: theme === 'dark' ? 'white' : 'black'}}
             dropdownShown={false}
             boxStyles={styles.boxSelectedStyle}
             dropdownStyles={styles.dropdownStyle}
-            dropdownTextStyles={{fontSize: 14, color: 'white'}}
+            dropdownTextStyles={{
+              fontSize: 14,
+              color: theme === 'dark' ? 'white' : 'black',
+            }}
             setSelected={(val: any) => handleCityChange(val)}
             data={cities.map((item: any) => ({
               value: item.name,
@@ -270,9 +418,12 @@ const Booking = ({navigation}: NativeStackScreenProps<RootParamList>) => {
           <SelectList
             placeholder={`${t('Select district')}`}
             boxStyles={styles.boxSelectedStyle}
-            inputStyles={{color: 'white'}}
+            inputStyles={{color: theme === 'dark' ? 'white' : 'black'}}
             dropdownStyles={styles.dropdownStyle}
-            dropdownTextStyles={{fontSize: 14, color: 'white'}}
+            dropdownTextStyles={{
+              fontSize: 14,
+              color: theme === 'dark' ? 'white' : 'black',
+            }}
             setSelected={(val: any) => setSelectedDistrict(val)}
             onSelect={() => handleDistrictChange}
             data={districts.map((item: any) => ({
@@ -292,9 +443,12 @@ const Booking = ({navigation}: NativeStackScreenProps<RootParamList>) => {
           placeholder={`${t('Select mall')}`}
           boxStyles={styles.boxSelectedStyle}
           dropdownStyles={styles.dropdownStyle}
-          dropdownTextStyles={{fontSize: 14, color: 'white'}}
+          dropdownTextStyles={{
+            fontSize: 14,
+            color: theme === 'dark' ? 'white' : 'black',
+          }}
           setSelected={(val: any) => setSelectedMall(val)}
-          inputStyles={{color: 'white'}}
+          inputStyles={{color: theme === 'dark' ? 'white' : 'black'}}
           data={mall.map((item: any) => ({
             value: item.Name,
             key: item.idMall,
@@ -355,6 +509,7 @@ const Booking = ({navigation}: NativeStackScreenProps<RootParamList>) => {
           data={dateArray}
           keyExtractor={item => item.date}
           horizontal
+          showsHorizontalScrollIndicator={false}
           bounces={false}
           contentContainerStyle={styles.contentContainerStyle}
           renderItem={({item}) => {
@@ -385,6 +540,7 @@ const Booking = ({navigation}: NativeStackScreenProps<RootParamList>) => {
           keyExtractor={item => item}
           horizontal
           bounces={false}
+          showsHorizontalScrollIndicator={false}
           contentContainerStyle={styles.contentContainerStyle}
           renderItem={({item}) => {
             const isSelected = item === selectedTime;
@@ -419,148 +575,4 @@ const Booking = ({navigation}: NativeStackScreenProps<RootParamList>) => {
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    display: 'flex',
-    flex: 1,
-    backgroundColor: COLORS.Black,
-  },
-  loadingIcon: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  scrollContainer: {
-    flex: 1,
-  },
-  iconHeader: {
-    marginHorizontal: SPACING.space_36,
-    marginTop: SPACING.space_24 * 2,
-  },
-  imageBG: {
-    width: '100%',
-    aspectRatio: 16 / 9,
-  },
-  linearGradient: {
-    height: '100%',
-  },
-
-  boxSelectedStyle: {
-    marginTop: 10,
-    borderRadius: 20,
-    marginRight: 10,
-  },
-  dropdownStyle: {
-    borderRadius: 30,
-    marginRight: 10,
-  },
-  seatContainer: {
-    marginVertical: SPACING.space_20,
-  },
-  seat: {
-    gap: SPACING.space_20,
-  },
-  seatStyle: {
-    flexDirection: 'row',
-    gap: SPACING.space_20,
-    justifyContent: 'center',
-  },
-  seatIcon: {
-    fontSize: FONTSIZE.size_24,
-    color: COLORS.White,
-  },
-  seatRadio: {
-    flexDirection: 'row',
-    marginVertical: SPACING.space_20,
-    alignItems: 'center',
-    justifyContent: 'space-evenly',
-  },
-  radioContainer: {
-    flexDirection: 'row',
-    gap: SPACING.space_10,
-    alignItems: 'center',
-  },
-  radioIcon: {
-    fontSize: FONTSIZE.size_20,
-    color: COLORS.White,
-  },
-  radioText: {
-    fontFamily: FONTTFAMILY.poppins_medium,
-    fontSize: FONTSIZE.size_12,
-    color: COLORS.White,
-  },
-  contentContainerStyle: {
-    gap: SPACING.space_24,
-  },
-  dateContainer: {
-    width: SPACING.space_10 * 6,
-    height: SPACING.space_10 * 8,
-    borderRadius: SPACING.space_36,
-    backgroundColor: COLORS.Black,
-    alignItems: 'center',
-    justifyContent: 'center',
-
-    marginBottom: SPACING.space_10,
-  },
-  dateText: {
-    fontFamily: FONTTFAMILY.poppins_medium,
-    fontSize: FONTSIZE.size_24,
-    color: COLORS.White,
-  },
-  dayText: {
-    fontFamily: FONTTFAMILY.poppins_regular,
-    fontSize: FONTSIZE.size_14,
-    color: COLORS.White,
-  },
-  timeContainer: {
-    paddingVertical: SPACING.space_10,
-    borderWidth: 1,
-    borderColor: COLORS.WhiteRGBA50,
-    paddingHorizontal: SPACING.space_20,
-    borderRadius: BORDERRADIUS.radius_24,
-    backgroundColor: COLORS.Black,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  timeText: {
-    fontFamily: FONTTFAMILY.poppins_regular,
-    fontSize: FONTSIZE.size_14,
-    color: COLORS.White,
-  },
-  buttonpriceContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingHorizontal: SPACING.space_24,
-    paddingBottom: SPACING.space_24,
-  },
-  priceContainer: {
-    alignItems: 'center',
-  },
-  totalPrice: {
-    marginTop: SPACING.space_10,
-    fontFamily: FONTTFAMILY.poppins_regular,
-    fontSize: FONTSIZE.size_20,
-    color: COLORS.White,
-  },
-  price: {
-    fontFamily: FONTTFAMILY.poppins_regular,
-    fontSize: FONTSIZE.size_20,
-    color: COLORS.White,
-  },
-  ticketContainer: {
-    borderRadius: BORDERRADIUS.radius_24,
-    paddingHorizontal: SPACING.space_22,
-    paddingVertical: SPACING.space_10,
-    backgroundColor: COLORS.Orange,
-  },
-  ticket: {
-    fontFamily: FONTTFAMILY.poppins_regular,
-    fontSize: FONTSIZE.size_20,
-    color: COLORS.White,
-  },
-  iconSelect: {
-    color: COLORS.White,
-  },
-});
 export default Booking;

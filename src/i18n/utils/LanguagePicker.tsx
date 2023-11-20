@@ -1,3 +1,13 @@
+import ThemeContext from '@context/ThemeContext';
+import {
+  BORDERRADIUS,
+  FONTSIZE,
+  FONTTFAMILY,
+  MARGIN,
+  SPACING,
+} from '@type/theme';
+import React, {useContext, useState} from 'react';
+import {useTranslation} from 'react-i18next';
 import {
   Modal,
   Pressable,
@@ -6,17 +16,6 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import {useTranslation} from 'react-i18next';
-import React, {useContext, useState} from 'react';
-import {
-  BORDERRADIUS,
-  COLORS,
-  FONTSIZE,
-  FONTTFAMILY,
-  MARGIN,
-  SPACING,
-} from '@type/theme';
-import ThemeContext from '@context/ThemeContext';
 
 const LanguagePicker = () => {
   const {theme, toggleTheme} = useContext(ThemeContext);

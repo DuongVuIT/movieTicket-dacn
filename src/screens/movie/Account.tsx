@@ -187,7 +187,6 @@ export default function Account({
       alignSelf: 'center',
       marginTop: MARGIN.margin_40 * 2,
     },
-
     imagesStyles: {
       marginTop: MARGIN.margin_10,
       alignSelf: 'center',
