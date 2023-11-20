@@ -10,6 +10,7 @@ import CustomIcon from '@components/CustomIcon';
 import CustomTitle from '@components/CustomTitle';
 import IconHeader from '@components/IconHeader';
 import SubCardMovie from '@components/SubCardMovie';
+import ThemeContext from '@context/ThemeContext';
 import {useIsFocused, useRoute} from '@react-navigation/native';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {AuthTypes} from '@redux/reducers/authReducer';
@@ -23,7 +24,7 @@ import {
   SPACING,
 } from '@type/theme';
 import firebase from 'firebase/compat';
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useCallback, useContext, useEffect, useState} from 'react';
 import {useTranslation} from 'react-i18next';
 import {
   ActivityIndicator,
@@ -48,6 +49,7 @@ const {width} = Dimensions.get('window');
 export default function MovieDetails({
   navigation,
 }: NativeStackScreenProps<RootParamList>) {
+  const {theme, toggleTheme} = useContext(ThemeContext);
   const [movieData, setMovieData] = useState<any>();
   const [movieCastData, setMovieCastData] = useState<any>();
   const [similarData, setSimilar] = useState<any>();
@@ -204,6 +206,198 @@ export default function MovieDetails({
     })();
     getMovieSimilar(data?.movieId);
   }, [isFocused]);
+  const styles = StyleSheet.create({
+    container: {
+      display: 'flex',
+      flex: 1,
+      backgroundColor: theme === 'dark' ? 'black' : 'white',
+    },
+    loadingIcon: {
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+    scrollContainer: {
+      flex: 1,
+    },
+    button: {
+      position: 'absolute',
+      top: '50%',
+      alignSelf: 'center',
+      padding: SPACING.space_10,
+    },
+    iconHeader: {
+      marginHorizontal: SPACING.space_36,
+      marginTop: SPACING.space_24 * 2,
+    },
+    imageBG: {
+      width: '100%',
+      aspectRatio: 16 / 9,
+    },
+    title: {
+      fontFamily: FONTTFAMILY.poppins_regular,
+      fontSize: 26,
+      color: theme === 'dark' ? 'black' : 'white',
+    },
+    images: {
+      width: '60%',
+      position: 'absolute',
+      aspectRatio: 200 / 300,
+      alignSelf: 'center',
+      bottom: 0,
+      borderRadius: BORDERRADIUS.radius_20,
+    },
+    clockIcon: {
+      fontSize: FONTSIZE.size_20,
+      color: COLORS.White,
+      alignSelf: 'center',
+      right: SPACING.space_6,
+    },
+    time: {
+      fontSize: FONTSIZE.size_16,
+      color: theme === 'dark' ? 'white' : 'black',
+      marginLeft: SPACING.space_6,
+    },
+    time_realease: {
+      top: SPACING.space_10,
+      display: 'flex',
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    original_title: {
+      fontFamily: FONTTFAMILY.poppins_regular,
+      fontSize: FONTSIZE.size_18,
+      color: theme === 'dark' ? 'white' : 'black',
+      textAlign: 'center',
+      top: SPACING.space_14,
+    },
+    genreContainer: {
+      top: SPACING.space_20,
+      flexDirection: 'row',
+      gap: SPACING.space_8,
+      justifyContent: 'center',
+    },
+    genreBox: {
+      borderColor: theme === 'dark' ? 'white' : 'black',
+      borderWidth: 1,
+      paddingVertical: SPACING.space_4,
+      paddingHorizontal: SPACING.space_10,
+      borderRadius: BORDERRADIUS.radius_26,
+    },
+    genres: {
+      fontFamily: FONTTFAMILY.poppins_regular,
+      fontSize: FONTSIZE.size_10 + 1,
+      color: theme === 'dark' ? 'white' : 'black',
+    },
+    tagline: {
+      color: theme === 'dark' ? 'white' : 'black',
+      textAlign: 'center',
+      top: SPACING.space_14 * 2,
+      fontSize: FONTSIZE.size_16,
+    },
+    overviewContainer: {
+      marginHorizontal: SPACING.space_24,
+      marginTop: SPACING.space_14 * 3,
+    },
+    rateContainer: {
+      flexDirection: 'row',
+      alignItems: 'center',
+    },
+    starIcon: {
+      fontSize: FONTSIZE.size_14,
+      color: COLORS.Yellow,
+    },
+    overview: {
+      marginTop: SPACING.space_10,
+      fontFamily: FONTTFAMILY.poppins_regular,
+      fontSize: FONTSIZE.size_14,
+      color: theme === 'dark' ? 'white' : 'black',
+      textAlign: 'justify',
+    },
+    contentContainer: {
+      gap: SPACING.space_36,
+    },
+    buttonContainer: {
+      justifyContent: 'center',
+      alignItems: 'center',
+      borderWidth: 2,
+      marginLeft: MARGIN.margin_20,
+      marginRight: MARGIN.margin_30,
+      paddingVertical: SPACING.space_10,
+      padding: SPACING.space_20,
+      marginBottom: SPACING.space_30,
+      borderRadius: BORDERRADIUS.radius_20,
+      backgroundColor: theme === 'dark' ? 'white' : 'black',
+    },
+    buttonText: {
+      fontSize: FONTSIZE.size_16,
+      fontFamily: FONTTFAMILY.poppins_regular,
+      color: theme === 'dark' ? 'black' : 'white',
+    },
+
+    buttonSave: {
+      backgroundColor: COLORS.Black,
+    },
+    centeredView: {
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
+      marginHorizontal: MARGIN.margin_20,
+    },
+    modalView: {
+      marginTop: MARGIN.margin_30 * 3 + SPACING.space_10,
+      borderRadius: BORDERRADIUS.radius_20,
+      padding: SPACING.space_10,
+      margin: MARGIN.margin_20,
+    },
+    buttonClose: {
+      backgroundColor: COLORS.Black,
+    },
+    textInput: {
+      marginTop: MARGIN.margin_10,
+      padding: SPACING.space_10,
+      borderRadius: 25,
+      backgroundColor: '#f7f8fb',
+      width: width - 100,
+      fontFamily: FONTTFAMILY.poppins_regular,
+      fontSize: 18,
+    },
+    viewCentered: {
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
+      marginTop: MARGIN.margin_22,
+    },
+    modal: {
+      backgroundColor: COLORS.White,
+      borderRadius: BORDERRADIUS.radius_20,
+      padding: SPACING.space_36,
+      alignItems: 'center',
+      shadowColor: '#000',
+      shadowOffset: {
+        width: 0,
+        height: 2,
+      },
+      shadowOpacity: 0.25,
+      shadowRadius: 4,
+      elevation: 5,
+    },
+    buttonModal: {
+      borderRadius: 20,
+      padding: 10,
+      elevation: 2,
+      paddingHorizontal: 50,
+    },
+    comments: {
+      fontFamily: FONTTFAMILY.poppins_regular,
+      fontSize: FONTSIZE.size_16,
+      marginLeft: MARGIN.margin_2,
+      marginTop: MARGIN.margin_4,
+      marginBottom: MARGIN.margin_10,
+      color: theme === 'dark' ? 'white' : 'black',
+    },
+  });
   if (!similarData && !movieData && !movieCastData && !trailerUrl) {
     return (
       <ScrollView
@@ -452,7 +646,7 @@ export default function MovieDetails({
         <View>
           <Text
             style={{
-              color: COLORS.White,
+              color: theme === 'dark' ? 'white' : 'black',
               fontSize: FONTSIZE.size_18,
               fontFamily: FONTTFAMILY.poppins_semibold,
               marginLeft: MARGIN.margin_20 * 2,
@@ -479,7 +673,7 @@ export default function MovieDetails({
                     <Text
                       style={{
                         marginTop: MARGIN.margin_4,
-                        color: COLORS.White,
+                        color: theme === 'dark' ? 'white' : 'black',
                         fontSize: FONTSIZE.size_16,
                         marginLeft: MARGIN.margin_2,
                         fontFamily: FONTTFAMILY.poppins_regular,
@@ -535,196 +729,3 @@ export default function MovieDetails({
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    display: 'flex',
-    flex: 1,
-    backgroundColor: COLORS.GrayRGBA,
-  },
-  loadingIcon: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  scrollContainer: {
-    flex: 1,
-  },
-  button: {
-    position: 'absolute',
-    top: '50%',
-    alignSelf: 'center',
-    padding: SPACING.space_10,
-  },
-  iconHeader: {
-    marginHorizontal: SPACING.space_36,
-    marginTop: SPACING.space_24 * 2,
-  },
-  imageBG: {
-    width: '100%',
-    aspectRatio: 16 / 9,
-  },
-  title: {
-    fontFamily: FONTTFAMILY.poppins_regular,
-    fontSize: 26,
-    color: COLORS.Black,
-  },
-  images: {
-    width: '60%',
-    position: 'absolute',
-    aspectRatio: 200 / 300,
-    alignSelf: 'center',
-    bottom: 0,
-    borderRadius: BORDERRADIUS.radius_20,
-  },
-  clockIcon: {
-    fontSize: FONTSIZE.size_20,
-    color: COLORS.White,
-    alignSelf: 'center',
-    right: SPACING.space_6,
-  },
-  time: {
-    fontSize: FONTSIZE.size_16,
-    color: COLORS.White,
-    marginLeft: SPACING.space_6,
-  },
-  time_realease: {
-    top: SPACING.space_10,
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  original_title: {
-    fontFamily: FONTTFAMILY.poppins_regular,
-    fontSize: FONTSIZE.size_18,
-    color: COLORS.White,
-    textAlign: 'center',
-    top: SPACING.space_14,
-  },
-  genreContainer: {
-    top: SPACING.space_20,
-    flexDirection: 'row',
-    gap: SPACING.space_8,
-    justifyContent: 'center',
-  },
-  genreBox: {
-    borderColor: COLORS.WhiteRGBA50,
-    borderWidth: 1,
-    paddingVertical: SPACING.space_4,
-    paddingHorizontal: SPACING.space_10,
-    borderRadius: BORDERRADIUS.radius_26,
-  },
-  genres: {
-    fontFamily: FONTTFAMILY.poppins_regular,
-    fontSize: FONTSIZE.size_10 + 1,
-    color: COLORS.WhiteRGBA75,
-  },
-  tagline: {
-    color: COLORS.White,
-    textAlign: 'center',
-    top: SPACING.space_14 * 2,
-    fontSize: FONTSIZE.size_16,
-  },
-  overviewContainer: {
-    marginHorizontal: SPACING.space_24,
-    marginTop: SPACING.space_14 * 3,
-  },
-  rateContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  starIcon: {
-    fontSize: FONTSIZE.size_14,
-    color: COLORS.Yellow,
-  },
-  overview: {
-    marginTop: SPACING.space_10,
-    fontFamily: FONTTFAMILY.poppins_regular,
-    fontSize: FONTSIZE.size_14,
-    color: COLORS.White,
-    textAlign: 'justify',
-  },
-  contentContainer: {
-    gap: SPACING.space_36,
-  },
-  buttonContainer: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderWidth: 2,
-    marginLeft: MARGIN.margin_20,
-    marginRight: MARGIN.margin_30,
-    paddingVertical: SPACING.space_10,
-    padding: SPACING.space_20,
-    marginBottom: SPACING.space_30,
-    borderRadius: BORDERRADIUS.radius_20,
-    backgroundColor: COLORS.Black,
-  },
-  buttonText: {
-    fontSize: FONTSIZE.size_16,
-    fontFamily: FONTTFAMILY.poppins_regular,
-    color: COLORS.White,
-  },
-
-  buttonSave: {
-    backgroundColor: COLORS.Black,
-  },
-  centeredView: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginHorizontal: MARGIN.margin_20,
-  },
-  modalView: {
-    marginTop: MARGIN.margin_30 * 3 + SPACING.space_10,
-    borderRadius: BORDERRADIUS.radius_20,
-    padding: SPACING.space_10,
-    margin: MARGIN.margin_20,
-  },
-  buttonClose: {
-    backgroundColor: COLORS.Black,
-  },
-  textInput: {
-    marginTop: MARGIN.margin_10,
-    padding: SPACING.space_10,
-    borderRadius: 25,
-    backgroundColor: '#f7f8fb',
-    width: width - 100,
-    fontFamily: FONTTFAMILY.poppins_regular,
-    fontSize: 18,
-  },
-  viewCentered: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: MARGIN.margin_22,
-  },
-  modal: {
-    backgroundColor: COLORS.White,
-    borderRadius: BORDERRADIUS.radius_20,
-    padding: SPACING.space_36,
-    alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
-  },
-  buttonModal: {
-    borderRadius: 20,
-    padding: 10,
-    elevation: 2,
-    paddingHorizontal: 50,
-  },
-  comments: {
-    fontFamily: FONTTFAMILY.poppins_regular,
-    fontSize: FONTSIZE.size_16,
-    marginLeft: MARGIN.margin_2,
-    marginTop: MARGIN.margin_4,
-    marginBottom: MARGIN.margin_10,
-    color: COLORS.White,
-  },
-});

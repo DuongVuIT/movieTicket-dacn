@@ -2,12 +2,12 @@ import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
 
 const firebaseConfig = {
-  apiKey: 'AIzaSyDvVMhy-hME5v2CToUycvpA-8X5e8ubkls',
-  authDomain: 'movieticket-bb94b.firebaseapp.com',
-  projectId: 'movieticket-bb94b',
-  storageBucket: 'movieticket-bb94b.appspot.com',
-  messagingSenderId: '898118438010',
-  appId: '1:898118438010:web:e25db2f3ac508caab17fc3',
+  apiKey: 'AIzaSyCPpy6PYeVNix3Y9c0Ls5SwLXGlL5DzUa4',
+  authDomain: 'movieticket-ecfc5.firebaseapp.com',
+  projectId: 'movieticket-ecfc5',
+  storageBucket: 'movieticket-ecfc5.appspot.com',
+  messagingSenderId: '1007448895236',
+  appId: '1:1007448895236:web:73df0d94c46ec2fa59ea51',
 };
 firebase.initializeApp(firebaseConfig);
 export default firebase;

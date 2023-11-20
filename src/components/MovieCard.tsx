@@ -1,4 +1,4 @@
-import {FONTSIZE, MARGIN} from '@type/theme';
+import {COLORS, FONTSIZE, MARGIN} from '@type/theme';
 import React from 'react';
 import {Image, StyleSheet, Text, View} from 'react-native';
 
@@ -45,10 +45,12 @@ const styles = StyleSheet.create({
   },
   boxContainer: {
     flexDirection: 'row',
-    backgroundColor: 'black',
+    backgroundColor: COLORS.Black,
     height: 200,
     width: '98%',
     borderRadius: 20,
+    borderColor: COLORS.Gray,
+    borderWidth: 1,
     alignSelf: 'center',
     marginTop: MARGIN.margin_28,
   },

@@ -5,9 +5,10 @@ import {
   FONTTFAMILY,
   SPACING,
 } from '@type/theme';
-import React from 'react';
+import React, {useContext} from 'react';
 import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import CustomIcon from './CustomIcon';
+import ThemeContext from '@context/ThemeContext';
 
 const genres: any = {
   28: 'Action',
@@ -34,6 +35,66 @@ const genres: any = {
 };
 
 const CardMovie = (props: any) => {
+  const {theme, toggleTheme} = useContext(ThemeContext);
+  const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+    },
+    cardImage: {
+      aspectRatio: 2 / 3,
+      borderRadius: BORDERRADIUS.radius_20,
+    },
+    textTitle: {
+      fontFamily: FONTTFAMILY.poppins_medium,
+      fontSize: FONTSIZE.size_24,
+      color: theme === 'dark' ? 'white' : 'black',
+      textAlign: 'center',
+      paddingVertical: SPACING.space_10,
+    },
+    rateContainer: {
+      flexDirection: 'row',
+      gap: SPACING.space_10,
+      alignItems: 'center',
+      justifyContent: 'center',
+      marginTop: SPACING.space_10,
+    },
+    iconStyle: {
+      fontSize: FONTSIZE.size_20,
+      color: COLORS.Yellow,
+    },
+    voteText: {
+      fontFamily: FONTTFAMILY.poppins_medium,
+      fontSize: FONTSIZE.size_14,
+      color: theme === 'dark' ? 'white' : 'black',
+      textAlign: 'center',
+    },
+    release: {
+      fontFamily: FONTTFAMILY.poppins_medium,
+      fontSize: FONTSIZE.size_14,
+      color: theme === 'dark' ? 'white' : 'black',
+      textAlign: 'center',
+    },
+    genreBox: {
+      borderColor: theme === 'dark' ? 'white' : 'black',
+      borderWidth: 1,
+      paddingVertical: SPACING.space_4,
+      paddingHorizontal: SPACING.space_10,
+      borderRadius: BORDERRADIUS.radius_26,
+    },
+    genreText: {
+      fontFamily: FONTTFAMILY.poppins_regular,
+      fontSize: FONTSIZE.size_14,
+      color: theme === 'dark' ? 'white' : 'black',
+    },
+    genreContainer: {
+      flex: 1,
+      flexDirection: 'row',
+      gap: SPACING.space_20,
+      flexWrap: 'wrap',
+      justifyContent: 'center',
+    },
+  });
+
   return (
     <TouchableOpacity onPress={() => props.cardMovieFunction()}>
       <View style={[styles.container, {maxWidth: props.cardWidth}]}>
@@ -66,64 +127,5 @@ const CardMovie = (props: any) => {
     </TouchableOpacity>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  cardImage: {
-    aspectRatio: 2 / 3,
-    borderRadius: BORDERRADIUS.radius_20,
-  },
-  textTitle: {
-    fontFamily: FONTTFAMILY.poppins_medium,
-    fontSize: FONTSIZE.size_24,
-    color: COLORS.White,
-    textAlign: 'center',
-    paddingVertical: SPACING.space_10,
-  },
-  rateContainer: {
-    flexDirection: 'row',
-    gap: SPACING.space_10,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginTop: SPACING.space_10,
-  },
-  iconStyle: {
-    fontSize: FONTSIZE.size_20,
-    color: COLORS.Yellow,
-  },
-  voteText: {
-    fontFamily: FONTTFAMILY.poppins_medium,
-    fontSize: FONTSIZE.size_14,
-    color: COLORS.White,
-    textAlign: 'center',
-  },
-  release: {
-    fontFamily: FONTTFAMILY.poppins_medium,
-    fontSize: FONTSIZE.size_14,
-    color: COLORS.White,
-    textAlign: 'center',
-  },
-  genreBox: {
-    borderColor: COLORS.WhiteRGBA50,
-    borderWidth: 1,
-    paddingVertical: SPACING.space_4,
-    paddingHorizontal: SPACING.space_10,
-    borderRadius: BORDERRADIUS.radius_26,
-  },
-  genreText: {
-    fontFamily: FONTTFAMILY.poppins_regular,
-    fontSize: FONTSIZE.size_14,
-    color: COLORS.WhiteRGBA75,
-  },
-  genreContainer: {
-    flex: 1,
-    flexDirection: 'row',
-    gap: SPACING.space_20,
-    flexWrap: 'wrap',
-    justifyContent: 'center',
-  },
-});
 
 export default CardMovie;

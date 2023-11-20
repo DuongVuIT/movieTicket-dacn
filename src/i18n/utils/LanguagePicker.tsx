@@ -7,7 +7,7 @@ import {
   View,
 } from 'react-native';
 import {useTranslation} from 'react-i18next';
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
 import {
   BORDERRADIUS,
   COLORS,
@@ -16,8 +16,10 @@ import {
   MARGIN,
   SPACING,
 } from '@type/theme';
+import ThemeContext from '@context/ThemeContext';
 
 const LanguagePicker = () => {
+  const {theme, toggleTheme} = useContext(ThemeContext);
   const [modalVisible, setModalVisible] = useState<boolean>(false);
   const {i18n} = useTranslation();
   interface languagesType {
@@ -60,6 +62,36 @@ const LanguagePicker = () => {
       <Text style={styles.textStyle}>{label}</Text>
     </Pressable>
   );
+  const styles = StyleSheet.create({
+    centeredView: {
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+    modalView: {
+      backgroundColor: theme === 'dark' ? 'white' : 'black',
+      borderRadius: BORDERRADIUS.radius_20 * 2,
+      padding: SPACING.space_10,
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+    button: {
+      borderRadius: BORDERRADIUS.radius_10,
+      padding: SPACING.space_10,
+      marginLeft: MARGIN.margin_10,
+      color: theme === 'dark' ? 'black' : 'white',
+    },
+    buttonOpen: {
+      backgroundColor: theme === 'dark' ? 'white' : 'black',
+    },
+    textStyle: {
+      color: theme === 'dark' ? 'black' : 'white',
+      fontSize: FONTSIZE.size_14,
+      fontFamily: FONTTFAMILY.poppins_regular,
+      textAlign: 'center',
+    },
+  });
+
   return (
     <View>
       <Modal
@@ -85,33 +117,5 @@ const LanguagePicker = () => {
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  centeredView: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  modalView: {
-    backgroundColor: 'white',
-    borderRadius: BORDERRADIUS.radius_20 * 2,
-    padding: SPACING.space_10,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  button: {
-    borderRadius: BORDERRADIUS.radius_10,
-    padding: SPACING.space_10,
-    marginLeft: MARGIN.margin_10,
-  },
-  buttonOpen: {
-    backgroundColor: COLORS.White,
-  },
-  textStyle: {
-    fontSize: FONTSIZE.size_14,
-    fontFamily: FONTTFAMILY.poppins_regular,
-    textAlign: 'center',
-  },
-});
 
 export default LanguagePicker;

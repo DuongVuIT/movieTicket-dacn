@@ -11,11 +11,12 @@ import CustomHeader from '@components/CustomHeader';
 import CustomTitle from '@components/CustomTitle';
 import InputHeader from '@components/InputHeader';
 import SubCardMovie from '@components/SubCardMovie';
+import ThemeContext from '@context/ThemeContext';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {APP_SCREEN, RootParamList} from '@type/navigation';
 import {COLORS, SPACING} from '@type/theme';
 import 'firebase/compat/auth';
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {useTranslation} from 'react-i18next';
 import {
   ActivityIndicator,
@@ -32,6 +33,8 @@ export default function Movie({
   navigation,
 }: NativeStackScreenProps<RootParamList>) {
   const {t} = useTranslation();
+  const {theme, toggleTheme} = useContext(ThemeContext);
+
   const [nowPlayingMovieList, setNowPlayingMovieList] = useState<any>();
   const [popularMovieList, setPopularMovieList] = useState<any>();
   const [topRatedMovieList, setTopRatedMovieList] = useState<any>();
@@ -107,6 +110,27 @@ export default function Movie({
   const searchMovieFunction = () => {
     navigation.navigate(APP_SCREEN.SEARCH);
   };
+  const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+    },
+    scollContainer: {
+      backgroundColor: theme === 'dark' ? 'black' : 'white',
+    },
+    loadingIcon: {
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+    inputHeaderContainer: {
+      marginHorizontal: SPACING.space_36,
+      marginTop: SPACING.space_28,
+    },
+    contentContainer: {
+      gap: SPACING.space_36,
+    },
+  });
+
   if (
     !nowPlayingMovieList &&
     !popularMovieList &&
@@ -288,24 +312,3 @@ export default function Movie({
     </ScrollView>
   );
 }
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: COLORS.GrayRGBA,
-  },
-  scollContainer: {
-    backgroundColor: COLORS.GrayRGBA,
-  },
-  loadingIcon: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  inputHeaderContainer: {
-    marginHorizontal: SPACING.space_36,
-    marginTop: SPACING.space_28,
-  },
-  contentContainer: {
-    gap: SPACING.space_36,
-  },
-});

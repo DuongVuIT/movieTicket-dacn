@@ -1,5 +1,5 @@
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import React from 'react';
+import React, {useContext} from 'react';
 import CustomIcon from './CustomIcon';
 import {
   BORDERRADIUS,
@@ -8,8 +8,43 @@ import {
   FONTTFAMILY,
   SPACING,
 } from '@type/theme';
+import ThemeContext from '@context/ThemeContext';
 
 const IconHeader = (props: any) => {
+  const {theme, toggleTheme} = useContext(ThemeContext);
+  const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+      display: 'flex',
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'center',
+      marginTop: SPACING.space_10,
+    },
+    iconStyle: {
+      color: theme === 'dark' ? 'black' : 'white',
+      fontSize: FONTSIZE.size_24,
+    },
+    headerText: {
+      flex: 1,
+      fontFamily: FONTTFAMILY.poppins_medium,
+      fontSize: FONTSIZE.size_20,
+      textAlign: 'center',
+      color: theme === 'dark' ? 'white' : 'black',
+    },
+    emptyContainer: {
+      height: SPACING.space_20 * 2,
+      width: SPACING.space_20 * 2,
+    },
+    icon: {
+      height: SPACING.space_20 * 2,
+      width: SPACING.space_20 * 2,
+      alignItems: 'center',
+      justifyContent: 'center',
+      borderRadius: BORDERRADIUS.radius_20,
+      backgroundColor: theme === 'dark' ? 'white' : 'black',
+    },
+  });
   return (
     <View style={styles.container}>
       <TouchableOpacity style={styles.icon} onPress={() => props.action()}>
@@ -21,37 +56,4 @@ const IconHeader = (props: any) => {
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginTop: SPACING.space_10,
-  },
-  iconStyle: {
-    color: COLORS.Black,
-    fontSize: FONTSIZE.size_24,
-  },
-  headerText: {
-    flex: 1,
-    fontFamily: FONTTFAMILY.poppins_medium,
-    fontSize: FONTSIZE.size_20,
-    textAlign: 'center',
-    color: COLORS.White,
-  },
-  emptyContainer: {
-    height: SPACING.space_20 * 2,
-    width: SPACING.space_20 * 2,
-  },
-  icon: {
-    height: SPACING.space_20 * 2,
-    width: SPACING.space_20 * 2,
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderRadius: BORDERRADIUS.radius_20,
-    backgroundColor: COLORS.White,
-  },
-});
 export default IconHeader;

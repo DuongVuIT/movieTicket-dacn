@@ -1,6 +1,7 @@
 import {baseImagePath, castCredits, castPeoples} from '@api/apiCall';
 import IconHeader from '@components/IconHeader';
 import SubCardMovie from '@components/SubCardMovie';
+import ThemeContext from '@context/ThemeContext';
 import {useRoute} from '@react-navigation/native';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {APP_SCREEN, RootParamList} from '@type/navigation';
@@ -12,7 +13,7 @@ import {
   MARGIN,
   SPACING,
 } from '@type/theme';
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {useTranslation} from 'react-i18next';
 import {
   ActivityIndicator,
@@ -27,6 +28,7 @@ import {
 const {width} = Dimensions.get('window');
 
 const CastDetails = ({navigation}: NativeStackScreenProps<RootParamList>) => {
+  const {theme, toggleTheme} = useContext(ThemeContext);
   const [peopleDetails, setPeopleDetails] = useState<any>();
   const [castMovieList, setCastmovie] = useState<any>();
   const route = useRoute<any>();
@@ -64,6 +66,99 @@ const CastDetails = ({navigation}: NativeStackScreenProps<RootParamList>) => {
       setCastmovie(castDataMovie?.cast);
     })();
   }, []);
+  const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: theme === 'dark' ? 'black' : 'white',
+    },
+    loadingIcon: {
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+
+    iconHeader: {
+      marginHorizontal: SPACING.space_36,
+      marginTop: SPACING.space_24 * 2,
+    },
+    images: {
+      width: '80%',
+      aspectRatio: 1 / 1,
+      borderRadius: BORDERRADIUS.radius_32 * 4,
+      alignSelf: 'center',
+    },
+    scrollContainer: {
+      flex: 1,
+    },
+    nameCast: {
+      marginTop: MARGIN.margin_20,
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+    nameStyles: {
+      fontFamily: FONTTFAMILY.poppins_regular,
+      fontSize: FONTSIZE.size_24,
+      color: theme === 'dark' ? 'white' : 'black',
+    },
+    place: {
+      fontFamily: FONTTFAMILY.poppins_regular,
+      fontSize: FONTSIZE.size_20,
+      color: theme === 'dark' ? 'white' : 'black',
+    },
+    infoContainer: {
+      flex: 1,
+      marginTop: MARGIN.margin_20,
+      flexDirection: 'row',
+      borderWidth: 2,
+      alignSelf: 'center',
+      width: '95%',
+      padding: SPACING.space_10,
+      borderRadius: BORDERRADIUS.radius_20 * 3,
+    },
+    textTitle: {
+      justifyContent: 'center',
+      alignItems: 'center',
+      textAlign: 'center',
+      color: theme === 'dark' ? 'white' : 'black',
+      marginLeft: 2,
+      fontSize: 14,
+    },
+    textContent: {
+      justifyContent: 'center',
+      alignItems: 'center',
+      textAlign: 'center',
+      color: theme === 'dark' ? 'white' : 'black',
+      marginTop: 10,
+      fontFamily: FONTTFAMILY.poppins_regular,
+      fontSize: 14,
+    },
+    borderWidth: {flex: 1, borderRightWidth: 2},
+    borderWidthLast: {
+      flex: 1,
+    },
+    biographyContainer: {
+      flex: 1,
+      marginTop: SPACING.space_20,
+      marginLeft: SPACING.space_10,
+      marginRight: SPACING.space_10,
+    },
+    textBiography: {
+      flex: 1,
+      marginTop: SPACING.space_10,
+      alignItems: 'center',
+      textAlign: 'justify',
+      color: theme === 'dark' ? 'white' : 'black',
+    },
+    movies: {
+      color: theme === 'dark' ? 'white' : 'black',
+      fontFamily: FONTTFAMILY.poppins_regular,
+      fontSize: FONTSIZE.size_20,
+      marginTop: SPACING.space_20,
+      marginLeft: SPACING.space_10,
+      marginRight: SPACING.space_10,
+      marginBottom: SPACING.space_10,
+    },
+  });
   if (!peopleDetails && !peopleDetails && !castMovieList) {
     return (
       <ScrollView
@@ -165,98 +260,5 @@ const CastDetails = ({navigation}: NativeStackScreenProps<RootParamList>) => {
     </View>
   );
 };
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: COLORS.GrayRGBA,
-  },
-  loadingIcon: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-
-  iconHeader: {
-    marginHorizontal: SPACING.space_36,
-    marginTop: SPACING.space_24 * 2,
-  },
-  images: {
-    width: '80%',
-    aspectRatio: 1 / 1,
-    borderRadius: BORDERRADIUS.radius_32 * 4,
-    alignSelf: 'center',
-  },
-  scrollContainer: {
-    flex: 1,
-  },
-  nameCast: {
-    marginTop: MARGIN.margin_20,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  nameStyles: {
-    fontFamily: FONTTFAMILY.poppins_regular,
-    fontSize: FONTSIZE.size_24,
-    color: COLORS.White,
-  },
-  place: {
-    fontFamily: FONTTFAMILY.poppins_regular,
-    fontSize: FONTSIZE.size_20,
-    color: COLORS.White,
-  },
-  infoContainer: {
-    flex: 1,
-    marginTop: MARGIN.margin_20,
-    flexDirection: 'row',
-    borderWidth: 2,
-    alignSelf: 'center',
-    width: '95%',
-    padding: SPACING.space_10,
-    borderRadius: BORDERRADIUS.radius_20 * 3,
-  },
-  textTitle: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    textAlign: 'center',
-    color: COLORS.White,
-    marginLeft: 2,
-    fontSize: 14,
-  },
-  textContent: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    textAlign: 'center',
-    color: COLORS.White,
-    marginTop: 10,
-    fontFamily: FONTTFAMILY.poppins_regular,
-    fontSize: 14,
-  },
-  borderWidth: {flex: 1, borderRightWidth: 2},
-  borderWidthLast: {
-    flex: 1,
-  },
-  biographyContainer: {
-    flex: 1,
-    marginTop: SPACING.space_20,
-    marginLeft: SPACING.space_10,
-    marginRight: SPACING.space_10,
-  },
-  textBiography: {
-    flex: 1,
-    marginTop: SPACING.space_10,
-    alignItems: 'center',
-    textAlign: 'justify',
-    color: COLORS.White,
-  },
-  movies: {
-    color: COLORS.White,
-    fontFamily: FONTTFAMILY.poppins_regular,
-    fontSize: FONTSIZE.size_20,
-    marginTop: SPACING.space_20,
-    marginLeft: SPACING.space_10,
-    marginRight: SPACING.space_10,
-    marginBottom: SPACING.space_10,
-  },
-});
 
 export default CastDetails;
