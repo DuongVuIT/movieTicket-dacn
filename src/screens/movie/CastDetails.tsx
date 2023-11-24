@@ -111,6 +111,7 @@ const CastDetails = ({navigation}: NativeStackScreenProps<RootParamList>) => {
       flexDirection: 'row',
       borderWidth: 2,
       alignSelf: 'center',
+      borderColor: theme === 'dark' ? 'white' : 'black',
       width: '95%',
       padding: SPACING.space_10,
       borderRadius: BORDERRADIUS.radius_20 * 3,
@@ -132,7 +133,11 @@ const CastDetails = ({navigation}: NativeStackScreenProps<RootParamList>) => {
       fontFamily: FONTTFAMILY.poppins_regular,
       fontSize: 14,
     },
-    borderWidth: {flex: 1, borderRightWidth: 2},
+    borderWidth: {
+      flex: 1,
+      borderRightWidth: 2,
+      borderColor: theme === 'dark' ? 'white' : 'black',
+    },
     borderWidthLast: {
       flex: 1,
     },
