@@ -7,6 +7,7 @@ import {PersistGate} from 'redux-persist/integration/react';
 import MainStack from './src/navigation/MainStack';
 import {persistor, store} from '@redux/store/store';
 import {ThemeProvider} from '@context/ThemeContext';
+import {StripeProvider} from '@stripe/stripe-react-native';
 function App() {
   const firebaseConfig = {
     apiKey: 'AIzaSyCPpy6PYeVNix3Y9c0Ls5SwLXGlL5DzUa4',
@@ -20,14 +21,16 @@ function App() {
     firebase.initializeApp(firebaseConfig);
   }
   return (
-    <ThemeProvider>
-      <Provider store={store}>
-        <PersistGate loading={null} persistor={persistor}>
-          <MainStack />
-        </PersistGate>
-        <Toast />
-      </Provider>
-    </ThemeProvider>
+    <StripeProvider publishableKey="pk_test_51OGlgLDc7mRy60skpnyRYgZzifhGsgF3r8WKN1M3XlFFLn1kNB0FtbbxuL0nQB93icUJCeU91ckfRRvq6Dutzirj00A5lmdrGG">
+      <ThemeProvider>
+        <Provider store={store}>
+          <PersistGate loading={null} persistor={persistor}>
+            <MainStack />
+          </PersistGate>
+          <Toast />
+        </Provider>
+      </ThemeProvider>
+    </StripeProvider>
   );
 }
 

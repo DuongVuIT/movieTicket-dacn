@@ -32,6 +32,7 @@ import {SelectList} from 'react-native-dropdown-select-list';
 import Toast from 'react-native-toast-message';
 import {useDispatch, useSelector} from 'react-redux';
 import ThemeContext from '@context/ThemeContext';
+import {useStripe} from '@stripe/stripe-react-native';
 const host = 'https://provinces.open-api.vn/api/';
 const getDate = () => {
   const date = new Date();
@@ -87,7 +88,7 @@ const Booking = ({navigation}: NativeStackScreenProps<RootParamList>) => {
   const [districts, setDistricts] = useState<[]>([]);
   const [seatArray, setSeatArray] = useState<any[][]>(generateSeat());
   const [selectedSeatArray, setSelectedSeatArray] = useState<any>([]);
-  const [price, setPrice] = useState<number>();
+  const [price, setPrice] = useState<any>();
   const [selectedDate, setSelectedDate] = useState<any>();
   const [selectedCity, setSelectedCity] = useState<any>();
   const [selectedDistrict, setSelectedDistrict] = useState<any>();
@@ -125,7 +126,6 @@ const Booking = ({navigation}: NativeStackScreenProps<RootParamList>) => {
       console.error(error);
     }
   };
-
   const handleCityChange = (itemValue: any) => {
     callApiDistrict(host + 'p/' + itemValue + '?depth=2');
     const selectCityById: any = cities.find(
@@ -176,6 +176,7 @@ const Booking = ({navigation}: NativeStackScreenProps<RootParamList>) => {
       setSeatArray(seatArray);
     }
   };
+  const stripe = useStripe();
   const bookSeat = async () => {
     const ticketImage = route?.params?.PosterImage;
     const movieName = route?.params?.MovieName;
@@ -205,7 +206,27 @@ const Booking = ({navigation}: NativeStackScreenProps<RootParamList>) => {
         const newTicketRef = await ticketsRef.push(ticketData);
         const newTicketID: any = newTicketRef?.key;
         dispatch(saveTicket(newTicketID));
-
+        const response = await fetch('http://localhost:8000/payment', {
+          method: 'POST',
+          body: JSON.stringify({
+            amount: Math.floor(price * 1000),
+          }),
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+        const data = await response.json();
+        console.log(data);
+        if (!response.ok) return alert(data.message);
+        const clientSecret = data.clientSecret;
+        const initSheet = await (stripe as any).initPaymentSheet({
+          paymentIntentClientSecret: clientSecret,
+        });
+        if (initSheet.error) return alert(initSheet.error.message);
+        const presentSheet = await (stripe as any).presentPaymentSheet({
+          clientSecret,
+        });
+        if (presentSheet.error) return alert(presentSheet.error.message);
         navigation.navigate(APP_SCREEN.TICKET);
 
         Toast.show({

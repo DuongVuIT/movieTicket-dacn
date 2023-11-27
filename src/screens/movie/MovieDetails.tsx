@@ -43,6 +43,7 @@ import {
   View,
 } from 'react-native';
 import Toast from 'react-native-toast-message';
+import dateFormat from 'dateformat';
 import YoutubePlayer from 'react-native-youtube-iframe';
 import {useSelector} from 'react-redux';
 const {width} = Dimensions.get('window');
@@ -145,11 +146,16 @@ export default function MovieDetails({
   const commentUser = async () => {
     if (comment) {
       try {
-        await firebase.database().ref(`users/comments/`).push({
-          userName: dataUser,
-          movieId: movieId,
-          comment: comment,
-        });
+        const currentTime = Date.now();
+        await firebase
+          .database()
+          .ref(`users/comments/`)
+          .push({
+            userName: dataUser,
+            movieId: movieId,
+            comment: comment,
+            time: dateFormat(currentTime, 'dddd, mmmm dS, yyyy, h:MM:ss TT'),
+          });
         setComment('');
         setModalComment(!modalComment);
       } catch (error) {
