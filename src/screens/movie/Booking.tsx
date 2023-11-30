@@ -4,7 +4,7 @@ import IconHeader from '@components/IconHeader';
 import {useRoute} from '@react-navigation/native';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {APP_SCREEN, RootParamList} from '@type/navigation';
-
+import dateFormat from 'dateformat';
 import {saveTicket} from '@redux/actions/authActions';
 import {AuthTypes} from '@redux/reducers/authReducer';
 import {
@@ -81,7 +81,7 @@ const generateSeat = () => {
 const Booking = ({navigation}: NativeStackScreenProps<RootParamList>) => {
   const route = useRoute<any>();
   const {theme, toggleTheme} = useContext(ThemeContext);
-
+  const stripe = useStripe();
   const dispatch = useDispatch();
   const [cities, setCities] = useState<[]>([]);
   const [dataUser, setData] = useState<any>();
@@ -176,10 +176,11 @@ const Booking = ({navigation}: NativeStackScreenProps<RootParamList>) => {
       setSeatArray(seatArray);
     }
   };
-  const stripe = useStripe();
+
   const bookSeat = async () => {
     const ticketImage = route?.params?.PosterImage;
     const movieName = route?.params?.MovieName;
+    const currentTime = Date.now();
     if (
       selectedSeatArray.length !== 0 &&
       !!selectedTime &&
@@ -201,6 +202,10 @@ const Booking = ({navigation}: NativeStackScreenProps<RootParamList>) => {
           districts: selectedDistrict,
           image: ticketImage,
           mall: selectedMall,
+          checkoutAt: dateFormat(
+            currentTime,
+            'dddd, mmmm dS, yyyy, h:MM:ss TT',
+          ),
         };
         const ticketsRef = firebase.database().ref(`users/${userUID}/tickets`);
         const newTicketRef = await ticketsRef.push(ticketData);
@@ -210,6 +215,7 @@ const Booking = ({navigation}: NativeStackScreenProps<RootParamList>) => {
           method: 'POST',
           body: JSON.stringify({
             amount: Math.floor(price * 1000),
+            Customer: dataUser,
           }),
           headers: {
             'Content-Type': 'application/json',

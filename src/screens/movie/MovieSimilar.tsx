@@ -43,8 +43,10 @@ import {
   View,
 } from 'react-native';
 import Toast from 'react-native-toast-message';
+import dateFormat from 'dateformat';
 import YoutubePlayer from 'react-native-youtube-iframe';
 import {useSelector} from 'react-redux';
+import Seperator from '@components/Seperator';
 const {width} = Dimensions.get('window');
 export default function MovieSimilar({
   navigation,
@@ -132,7 +134,7 @@ export default function MovieSimilar({
               const data = snapshot.val();
               const dataArray = Object.values(data);
               setCommentData(dataArray);
-              console.log('data:', dataArray);
+              console.log('data of movie:', JSON.stringify(dataArray, null, 5));
             } else {
               console.log('No data.');
             }
@@ -143,16 +145,32 @@ export default function MovieSimilar({
     }
   };
   const commentUser = async () => {
-    try {
-      await firebase.database().ref(`users/comments/`).push({
-        userName: dataUser,
-        movieId: movieId,
-        comment: comment,
+    if (comment) {
+      try {
+        const currentTime = Date.now();
+        await firebase
+          .database()
+          .ref(`users/comments/`)
+          .push({
+            userName: dataUser,
+            movieId: movieId,
+            comment: comment,
+            time: dateFormat(currentTime, 'dddd, mmmm dS, yyyy, h:MM:ss TT'),
+          });
+        setComment('');
+        setModalComment(!modalComment);
+      } catch (error) {
+        console.log(error);
+      }
+    } else {
+      Toast.show({
+        type: 'error',
+        text1: `${t('Error')}`,
+        text2: `${t(`Please enter your comment`)}`,
+        visibilityTime: 4000,
+        topOffset: 50,
+        autoHide: true,
       });
-      setComment('');
-      setModalComment(!modalComment);
-    } catch (error) {
-      console.log(error);
     }
   };
   const getMovieCastDetails = async (movieId: number) => {
@@ -213,7 +231,7 @@ export default function MovieSimilar({
       position: 'absolute',
       top: '50%',
       alignSelf: 'center',
-      padding: 10,
+      padding: SPACING.space_10,
     },
     iconHeader: {
       marginHorizontal: SPACING.space_36,
@@ -226,7 +244,7 @@ export default function MovieSimilar({
     title: {
       fontFamily: FONTTFAMILY.poppins_regular,
       fontSize: 26,
-      color: theme === 'dark' ? 'black' : 'white',
+      color: COLORS.Black,
     },
     images: {
       width: '60%',
@@ -311,13 +329,13 @@ export default function MovieSimilar({
       justifyContent: 'center',
       alignItems: 'center',
       borderWidth: 2,
-      marginLeft: 20,
-      marginRight: 30,
+      marginLeft: MARGIN.margin_20,
+      marginRight: MARGIN.margin_30,
       paddingVertical: SPACING.space_10,
       padding: SPACING.space_20,
       marginBottom: SPACING.space_30,
       borderRadius: BORDERRADIUS.radius_20,
-      backgroundColor: COLORS.Black,
+      backgroundColor: theme === 'dark' ? 'white' : 'black',
     },
     buttonText: {
       fontSize: FONTSIZE.size_16,
@@ -332,13 +350,13 @@ export default function MovieSimilar({
       flex: 1,
       justifyContent: 'center',
       alignItems: 'center',
-      marginHorizontal: 20,
+      marginHorizontal: MARGIN.margin_20,
     },
     modalView: {
-      marginTop: 100,
-      borderRadius: 20,
-      padding: 10,
-      margin: 20,
+      marginTop: MARGIN.margin_30 * 3 + SPACING.space_10,
+      borderRadius: BORDERRADIUS.radius_20,
+      padding: SPACING.space_10,
+      margin: MARGIN.margin_20,
     },
     buttonClose: {
       backgroundColor: COLORS.Black,
@@ -381,9 +399,15 @@ export default function MovieSimilar({
     comments: {
       fontFamily: FONTTFAMILY.poppins_regular,
       fontSize: FONTSIZE.size_16,
-      marginLeft: MARGIN.margin_20,
-      marginBottom: MARGIN.margin_10,
+      marginLeft: MARGIN.margin_2,
+      marginTop: MARGIN.margin_4,
+      marginBottom: MARGIN.margin_8,
       color: theme === 'dark' ? 'white' : 'black',
+    },
+    timeComment: {
+      fontSize: FONTSIZE.size_14,
+      color: theme === 'dark' ? 'white' : 'black',
+      marginBottom: MARGIN.margin_10,
     },
   });
   if (!similarData && !movieData && !movieCastData && !trailerUrl) {
@@ -634,7 +658,7 @@ export default function MovieSimilar({
         <View>
           <Text
             style={{
-              color: COLORS.White,
+              color: theme === 'dark' ? 'white' : 'black',
               fontSize: FONTSIZE.size_18,
               fontFamily: FONTTFAMILY.poppins_semibold,
               marginLeft: MARGIN.margin_20 * 2,
@@ -647,18 +671,35 @@ export default function MovieSimilar({
             commentData
               .filter((item: any) => item.movieId === movieId)
               .map((item: any, index: any) => (
-                <View key={index.toString()}>
-                  <Text
+                <View
+                  style={{flexDirection: 'row', width: '85%', maxWidth: '90%'}}
+                  key={index.toString()}>
+                  <Image
                     style={{
-                      color: COLORS.White,
-                      fontSize: FONTSIZE.size_16,
-                      marginLeft: 20 * 2,
-                      fontFamily: FONTTFAMILY.poppins_regular,
-                      textAlign: 'justify',
-                    }}>
-                    {item.userName.toUpperCase()}
-                  </Text>
-                  <Text style={styles.comments}>{item.comment}</Text>
+                      marginTop: MARGIN.margin_14,
+                      marginBottom: MARGIN.margin_10,
+                      marginLeft: MARGIN.margin_4,
+                    }}
+                    source={require('@assets/image/avatar1.png')}
+                  />
+                  <View style={{flexDirection: 'column'}}>
+                    <Text
+                      style={{
+                        marginTop: MARGIN.margin_4,
+                        color: theme === 'dark' ? 'white' : 'black',
+                        fontSize: FONTSIZE.size_16,
+                        marginLeft: MARGIN.margin_2,
+                        fontFamily: FONTTFAMILY.poppins_regular,
+                      }}>
+                      {item.userName.toUpperCase()}
+                    </Text>
+                    <Text style={styles.comments}>{item.comment}</Text>
+                    <Text style={styles.timeComment}>{item.time}</Text>
+                    <Seperator
+                      width="100%"
+                      style={{marginTop: 2, marginBottom: 10}}
+                    />
+                  </View>
                 </View>
               ))}
         </View>

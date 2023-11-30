@@ -36,6 +36,7 @@ export default function Movie({
   const {theme, toggleTheme} = useContext(ThemeContext);
 
   const [nowPlayingMovieList, setNowPlayingMovieList] = useState<any>();
+
   const [popularMovieList, setPopularMovieList] = useState<any>();
   const [topRatedMovieList, setTopRatedMovieList] = useState<any>();
   const [upCommingMovieList, setUpCommingMovieList] = useState<any>();

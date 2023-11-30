@@ -46,6 +46,7 @@ import Toast from 'react-native-toast-message';
 import dateFormat from 'dateformat';
 import YoutubePlayer from 'react-native-youtube-iframe';
 import {useSelector} from 'react-redux';
+import Seperator from '@components/Seperator';
 const {width} = Dimensions.get('window');
 export default function MovieDetails({
   navigation,
@@ -133,7 +134,7 @@ export default function MovieDetails({
               const data = snapshot.val();
               const dataArray = Object.values(data);
               setCommentData(dataArray);
-              console.log('data:', JSON.stringify(dataArray, null, 5));
+              console.log('data of movie:', JSON.stringify(dataArray, null, 5));
             } else {
               console.log('No data.');
             }
@@ -243,7 +244,7 @@ export default function MovieDetails({
     title: {
       fontFamily: FONTTFAMILY.poppins_regular,
       fontSize: 26,
-      color: theme === 'dark' ? 'black' : 'white',
+      color: COLORS.Black,
     },
     images: {
       width: '60%',
@@ -400,8 +401,13 @@ export default function MovieDetails({
       fontSize: FONTSIZE.size_16,
       marginLeft: MARGIN.margin_2,
       marginTop: MARGIN.margin_4,
-      marginBottom: MARGIN.margin_10,
+      marginBottom: MARGIN.margin_8,
       color: theme === 'dark' ? 'white' : 'black',
+    },
+    timeComment: {
+      fontSize: FONTSIZE.size_14,
+      color: theme === 'dark' ? 'white' : 'black',
+      marginBottom: MARGIN.margin_10,
     },
   });
   if (!similarData && !movieData && !movieCastData && !trailerUrl) {
@@ -670,12 +676,15 @@ export default function MovieDetails({
                   key={index.toString()}>
                   <Image
                     style={{
+                      marginTop: MARGIN.margin_14,
                       marginBottom: MARGIN.margin_10,
                       marginLeft: MARGIN.margin_4,
                     }}
                     source={require('@assets/image/avatar1.png')}
                   />
-                  <View style={{flexDirection: 'column'}}>
+                  <View
+                    key={item.id?.toString()}
+                    style={{flexDirection: 'column'}}>
                     <Text
                       style={{
                         marginTop: MARGIN.margin_4,
@@ -687,6 +696,11 @@ export default function MovieDetails({
                       {item.userName.toUpperCase()}
                     </Text>
                     <Text style={styles.comments}>{item.comment}</Text>
+                    <Text style={styles.timeComment}>{item.time}</Text>
+                    <Seperator
+                      width="100%"
+                      style={{marginTop: 2, marginBottom: 10}}
+                    />
                   </View>
                 </View>
               ))}

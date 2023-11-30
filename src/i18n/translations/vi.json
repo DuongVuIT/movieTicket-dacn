@@ -17,12 +17,12 @@
   "Now Playing": "Đang chiếu",
   "Trending": "Xu hướng",
   "Popular": "Phổ biến",
-  "Upcoming": "Sắp chiếu",
+  "Up comming": "Sắp chiếu",
   "Top Rated": "Xếp hạng cao",
   "Top Cast": "Diễn viên hàng đầu",
   "Movie Similar": "Phim tương tự",
   "Reviews": "Đánh giá",
-  "Comment": "Bình luận",
+  "Comment": "Đánh giá",
   "Booking": "Đặt vé",
   "Write your reviews here": "Viết đánh giá của bạn ở đây",
   "Close": "Đóng",
@@ -41,7 +41,7 @@
   "Known For": "Nổi tiếng với",
   "Popularity": "Độ phổ biến",
   "Biography": "Tiểu sử",
-  "Place": "Nơi",
+  "Place": "Địa điểm",
   "Seats": "Ghế",
   "Change your name": "Đổi tên của bạn",
   "Change your password": "Đổi mật khẩu của bạn",
@@ -83,5 +83,6 @@
   "Western": "Miền Tây",
   "Animation": "Hoạt hình",
   "Change theme": "Thay đổi chủ đề",
-  "Theme": "Chủ đề"
+  "Theme": "Chủ đề",
+  "Know For": "Được biết là"
 }

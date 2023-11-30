@@ -445,7 +445,7 @@ export default function Account({
             <LanguagePicker />
           </View>
           <View style={{flexDirection: 'row'}}>
-            <Text style={styles.textSubtitle}>Theme</Text>
+            <Text style={styles.textSubtitle}>{`${t('Theme')}`}</Text>
             <TouchableOpacity onPress={handleToggleTheme}>
               <Text
                 style={{
@@ -453,7 +453,7 @@ export default function Account({
                   marginTop: MARGIN.margin_10,
                   marginLeft: MARGIN.margin_10,
                 }}>
-                Change theme
+                {`${t('Change theme')}`}
               </Text>
             </TouchableOpacity>
           </View>
