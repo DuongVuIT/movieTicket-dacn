@@ -50,6 +50,7 @@ export default function Movie({
       console.log(error);
     }
   };
+
   const getPopularMovieList = async () => {
     try {
       let response = await fetch(popular);

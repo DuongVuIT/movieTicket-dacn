@@ -1,10 +1,8 @@
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import React from 'react';
-
 import Account from '@screens/movie/Account';
 import Search from '@screens/movie/Search';
 import Ticket from '@screens/movie/Ticket';
-
 import Movie from '@screens/movie/Movie';
 import {APP_SCREEN} from '@type/navigation';
 import {COLORS, FONTSIZE, PERCENT} from '@type/theme';

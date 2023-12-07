@@ -1,14 +1,15 @@
 import CustomIcon from '@components/CustomIcon';
+import ThemeContext from '@context/ThemeContext';
+import '@i18n/config/i18.config';
 import LanguagePicker from '@i18n/utils/LanguagePicker';
 import {useIsFocused} from '@react-navigation/native';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {removeToken} from '@redux/actions/authActions';
 import {AuthTypes} from '@redux/reducers/authReducer';
-import '@i18n/config/i18.config';
 import {APP_SCREEN, RootParamList} from '@type/navigation';
+
 import {
   BORDERRADIUS,
-  COLORS,
   FONTSIZE,
   FONTTFAMILY,
   MARGIN,
@@ -18,20 +19,21 @@ import firebase from 'firebase/compat';
 import React, {useContext, useEffect, useState} from 'react';
 import {useTranslation} from 'react-i18next';
 import {
+  Alert,
   Dimensions,
   Image,
   Modal,
+  ScrollView,
   StyleSheet,
   Text,
   TextInput,
   TouchableOpacity,
   TouchableWithoutFeedback,
   View,
-  ScrollView,
 } from 'react-native';
 import Toast from 'react-native-toast-message';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 import {useDispatch, useSelector} from 'react-redux';
-import ThemeContext from '@context/ThemeContext';
 const {width} = Dimensions.get('window');
 export default function Account({
   navigation,
@@ -43,6 +45,9 @@ export default function Account({
   const [modalPassword, setModalPassword] = useState<boolean>(false);
   const [modalProfile, setModalProfile] = useState<boolean>(false);
   const [newName, setNewName] = useState<any>();
+  const [image, setImage] = useState<any>();
+  const [uploading, setUploading] = useState(false);
+  const [imageURLs, setImageURLs] = useState<any>([]);
   const [newPassword, setNewPassword] = useState<any>();
   const isFocused = useIsFocused();
   useEffect(() => {
@@ -79,6 +84,7 @@ export default function Account({
     const newTheme = theme === 'light' ? 'dark' : 'light';
     toggleTheme(newTheme);
   };
+
   const handlerChangePassword = async () => {
     if (newPassword) {
       try {
@@ -447,14 +453,21 @@ export default function Account({
           <View style={{flexDirection: 'row'}}>
             <Text style={styles.textSubtitle}>{`${t('Theme')}`}</Text>
             <TouchableOpacity onPress={handleToggleTheme}>
-              <Text
-                style={{
-                  color: theme === 'dark' ? 'white' : 'black',
-                  marginTop: MARGIN.margin_10,
-                  marginLeft: MARGIN.margin_10,
-                }}>
-                {`${t('Change theme')}`}
-              </Text>
+              {theme === 'dark' ? (
+                <Icon
+                  style={{marginTop: 5, marginLeft: 5}}
+                  name="dark-mode"
+                  size={25}
+                  color={'white'}
+                />
+              ) : (
+                <Icon
+                  style={{marginTop: 5, marginLeft: 5}}
+                  name="light-mode"
+                  size={25}
+                  color={'black'}
+                />
+              )}
             </TouchableOpacity>
           </View>
         </View>

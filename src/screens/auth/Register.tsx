@@ -59,9 +59,7 @@ const Register = ({navigation}: NativeStackScreenProps<RootParamList>) => {
       .createUserWithEmailAndPassword(email, password)
       .then(async userCredential => {
         const user = userCredential?.user;
-        setTimeout(() => {
-          navigation.navigate(APP_SCREEN.LOGIN);
-        }, 3000);
+
         if (user) {
           return user
             .updateProfile({
@@ -84,6 +82,7 @@ const Register = ({navigation}: NativeStackScreenProps<RootParamList>) => {
             })
             .then(() => {
               alert(`${t('Verification email sent')}`);
+              navigation.navigate(APP_SCREEN.LOGIN);
             });
         }
       })
@@ -234,6 +233,7 @@ const Register = ({navigation}: NativeStackScreenProps<RootParamList>) => {
               alignItems: 'center',
             }}>
             <TouchableOpacity
+              testID={'register'}
               onPress={RegisterHandler}
               style={styles.buttonRegister}>
               <Text style={{color: COLORS.White, textAlign: 'center'}}>

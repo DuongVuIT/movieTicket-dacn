@@ -1,6 +1,7 @@
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
-
+import 'firebase/compat';
+import 'firebase/compat/storage';
 const firebaseConfig = {
   apiKey: 'AIzaSyCPpy6PYeVNix3Y9c0Ls5SwLXGlL5DzUa4',
   authDomain: 'movieticket-ecfc5.firebaseapp.com',

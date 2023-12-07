@@ -91,7 +91,6 @@ export default function MovieDetails({
       }
     }
   };
-
   useEffect(() => {
     getInfo();
     getComments();
@@ -358,6 +357,7 @@ export default function MovieDetails({
       padding: SPACING.space_10,
       margin: MARGIN.margin_20,
     },
+
     buttonClose: {
       backgroundColor: COLORS.Black,
     },

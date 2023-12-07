@@ -4,7 +4,7 @@ import SubCardMovie from '@components/SubCardMovie';
 import ThemeContext from '@context/ThemeContext';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {APP_SCREEN, RootParamList} from '@type/navigation';
-import {COLORS, SPACING} from '@type/theme';
+import {SPACING} from '@type/theme';
 import React, {useContext, useState} from 'react';
 import {Dimensions, FlatList, StyleSheet, View} from 'react-native';
 const {width} = Dimensions.get('screen');

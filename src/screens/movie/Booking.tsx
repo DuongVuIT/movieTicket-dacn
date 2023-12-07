@@ -215,7 +215,7 @@ const Booking = ({navigation}: NativeStackScreenProps<RootParamList>) => {
           method: 'POST',
           body: JSON.stringify({
             amount: Math.floor(price * 1000),
-            Customer: dataUser,
+            // Customer: dataUser,
           }),
           headers: {
             'Content-Type': 'application/json',

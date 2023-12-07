@@ -1,5 +1,6 @@
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
+
 import * as React from 'react';
 import Toast from 'react-native-toast-message';
 import {Provider} from 'react-redux';
