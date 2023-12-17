@@ -14,7 +14,6 @@ import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
 import React, {useEffect, useRef, useState} from 'react';
 import {useTranslation} from 'react-i18next';
-import {Icon} from 'react-native-vector-icons/Icon';
 import {
   Alert,
   Animated,
@@ -73,6 +72,7 @@ const Login = ({navigation}: NativeStackScreenProps<RootParamList>) => {
       const dataFirebase = await firebase
         .auth()
         .signInWithEmailAndPassword(email, password);
+      console.log(dataFirebase);
       const dataUser = await dataFirebase.user;
       if (dataUser) {
         if (dataUser.emailVerified) {

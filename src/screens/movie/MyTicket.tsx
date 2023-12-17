@@ -5,7 +5,7 @@ import {useIsFocused} from '@react-navigation/native';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {AuthTypes} from '@redux/reducers/authReducer';
 import {RootParamList} from '@type/navigation';
-import {COLORS, SPACING} from '@type/theme';
+import {SPACING} from '@type/theme';
 import firebase from 'firebase/compat';
 import React, {useContext, useEffect, useState} from 'react';
 import {

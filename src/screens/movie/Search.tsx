@@ -13,7 +13,7 @@ export default function Search({
   navigation,
 }: NativeStackScreenProps<RootParamList>) {
   const [searchList, setSearchList] = useState([]);
-  const {theme, toggleTheme} = useContext(ThemeContext);
+  const {theme} = useContext(ThemeContext);
   const searchMovieFunction = async (name: string) => {
     try {
       let response = await fetch(searchMovies(name));

@@ -29,7 +29,7 @@ import {useSelector} from 'react-redux';
 export default function Ticket({
   navigation,
 }: NativeStackScreenProps<RootParamList>) {
-  const {theme, toggleTheme} = useContext(ThemeContext);
+  const {theme} = useContext(ThemeContext);
   const isFocused = useIsFocused();
   const {t} = useTranslation();
   const [ticketUser, setTicketUser] = useState<any>();

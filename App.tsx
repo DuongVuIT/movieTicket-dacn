@@ -11,12 +11,12 @@ import {ThemeProvider} from '@context/ThemeContext';
 import {StripeProvider} from '@stripe/stripe-react-native';
 function App() {
   const firebaseConfig = {
-    apiKey: 'AIzaSyCPpy6PYeVNix3Y9c0Ls5SwLXGlL5DzUa4',
-    authDomain: 'movieticket-ecfc5.firebaseapp.com',
-    projectId: 'movieticket-ecfc5',
-    storageBucket: 'movieticket-ecfc5.appspot.com',
-    messagingSenderId: '1007448895236',
-    appId: '1:1007448895236:web:73df0d94c46ec2fa59ea51',
+    apiKey: 'AIzaSyBW88X-VvkKGnJR_lIU0xWhpTDzETCoY9w',
+    authDomain: 'movieticket-81018.firebaseapp.com',
+    projectId: 'movieticket-81018',
+    storageBucket: 'movieticket-81018.appspot.com',
+    messagingSenderId: '916918626102',
+    appId: '1:916918626102:web:394870dc99baadf5d0f597',
   };
   if (firebase.apps.length === 0) {
     firebase.initializeApp(firebaseConfig);
